@@ -19,16 +19,20 @@ struct ContentView: View {
     var body: some View {
         var onlinePoems = Poem()
         List {
+            
             ForEach(poems) { poem in
                 Text(poem.title ?? "No title")
             }
+           
             .onDelete(perform: deleteItems)
+            
         }
         .onAppear(perform: {
-            WebPoemsHelper().getJsonFile(link: "link"){ (result) in
+            WebPoemsHelper().getJsonFile(link: "https://github.com/TemaSysoev/Poems2/blob/main/Shared/data.json"){ (result) in
                 switch result {
                 case .success(let data):
                     onlinePoems = WebPoemsHelper().parseJsonFile(data: data)
+                    print(onlinePoems.title)
                 case .failure(let error):
                     print(error)
                 }
