@@ -12,17 +12,28 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Poem.title, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
-
+    private var poems: FetchedResults<Poem>
+   
     var body: some View {
+        var onlinePoems = Poem()
         List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+            ForEach(poems) { poem in
+                Text(poem.title ?? "No title")
             }
             .onDelete(perform: deleteItems)
         }
+        .onAppear(perform: {
+            WebPoemsHelper().getJsonFile(link: "link"){ (result) in
+                switch result {
+                case .success(let data):
+                    onlinePoems = WebPoemsHelper().parseJsonFile(data: data)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        })
         .toolbar {
             #if os(iOS)
             EditButton()
@@ -36,9 +47,9 @@ struct ContentView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
+            let newItem = Poem(context: viewContext)
+            newItem.title = "No title"
+            newItem.text = ""
             do {
                 try viewContext.save()
             } catch {
@@ -52,7 +63,7 @@ struct ContentView: View {
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
+            offsets.map { poems[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
