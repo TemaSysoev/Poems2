@@ -74,7 +74,7 @@ struct ListOfPoems: View {
                     if let url = URL(string: urlString) {
                         if let data = try? Data(contentsOf: url) {
                             
-                            onlinePoems = WebPoemsHelper().parse(json: data)
+                            onlinePoems = WebPoemsHelper().parse(json: data, source: urlString)
                             offline = false
                         }else{
                             offline = true
