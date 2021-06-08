@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E0A0DC28266EBA7700F4F4AD /* Microphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC27266EBA7700F4F4AD /* Microphone.swift */; };
+		E0A0DC29266EBA7700F4F4AD /* Microphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC27266EBA7700F4F4AD /* Microphone.swift */; };
+		E0A0DC2E266ED0FC00F4F4AD /* PoemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */; };
+		E0A0DC2F266ED0FC00F4F4AD /* PoemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */; };
 		E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA99266ABBE2000059CB /* Poems2.xcdatamodeld */; };
 		E0FCDAB0266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA99266ABBE2000059CB /* Poems2.xcdatamodeld */; };
 		E0FCDAB1266ABBE4000059CB /* Poems2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA9B266ABBE2000059CB /* Poems2App.swift */; };
@@ -21,9 +25,12 @@
 		E0FCDAC3266ABFA0000059CB /* GetPoems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDAC1266ABFA0000059CB /* GetPoems.swift */; };
 		E0FCDAC5266AC87D000059CB /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = E0FCDAC4266AC87D000059CB /* data.json */; };
 		E0FCDAC6266AC87D000059CB /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = E0FCDAC4266AC87D000059CB /* data.json */; };
+		E0FCDACA266AD48A000059CB /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0FCDAC9266AD48A000059CB /* NetworkExtension.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E0A0DC27266EBA7700F4F4AD /* Microphone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Microphone.swift; sourceTree = "<group>"; };
+		E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoemView.swift; sourceTree = "<group>"; };
 		E0FCDA9A266ABBE2000059CB /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		E0FCDA9B266ABBE2000059CB /* Poems2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poems2App.swift; sourceTree = "<group>"; };
 		E0FCDA9C266ABBE2000059CB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -36,6 +43,8 @@
 		E0FCDAAE266ABBE4000059CB /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		E0FCDAC1266ABFA0000059CB /* GetPoems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoems.swift; sourceTree = "<group>"; };
 		E0FCDAC4266AC87D000059CB /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		E0FCDAC7266AD48A000059CB /* Poems2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Poems2.entitlements; sourceTree = "<group>"; };
+		E0FCDAC9266AD48A000059CB /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.5.sdk/System/Library/Frameworks/NetworkExtension.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0FCDACA266AD48A000059CB /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,10 +69,12 @@
 		E0FCDA93266ABBE1000059CB = {
 			isa = PBXGroup;
 			children = (
+				E0FCDAC7266AD48A000059CB /* Poems2.entitlements */,
 				E0FCDA98266ABBE2000059CB /* Shared */,
 				E0FCDAA5266ABBE4000059CB /* iOS */,
 				E0FCDAAC266ABBE4000059CB /* macOS */,
 				E0FCDAA4266ABBE4000059CB /* Products */,
+				E0FCDAC8266AD48A000059CB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +83,8 @@
 			children = (
 				E0FCDA9B266ABBE2000059CB /* Poems2App.swift */,
 				E0FCDA9C266ABBE2000059CB /* ContentView.swift */,
+				E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */,
+				E0A0DC27266EBA7700F4F4AD /* Microphone.swift */,
 				E0FCDAC4266AC87D000059CB /* data.json */,
 				E0FCDAC1266ABFA0000059CB /* GetPoems.swift */,
 				E0FCDA9D266ABBE2000059CB /* Persistence.swift */,
@@ -104,6 +118,14 @@
 				E0FCDAAE266ABBE4000059CB /* macOS.entitlements */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		E0FCDAC8266AD48A000059CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E0FCDAC9266AD48A000059CB /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,7 +172,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					E0FCDAA2266ABBE4000059CB = {
 						CreatedOnToolsVersion = 12.5;
@@ -206,10 +228,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */,
+				E0A0DC2E266ED0FC00F4F4AD /* PoemView.swift in Sources */,
 				E0FCDAB5266ABBE4000059CB /* Persistence.swift in Sources */,
 				E0FCDAB1266ABBE4000059CB /* Poems2App.swift in Sources */,
 				E0FCDAB3266ABBE4000059CB /* ContentView.swift in Sources */,
 				E0FCDAC2266ABFA0000059CB /* GetPoems.swift in Sources */,
+				E0A0DC28266EBA7700F4F4AD /* Microphone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,10 +242,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0FCDAB0266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */,
+				E0A0DC2F266ED0FC00F4F4AD /* PoemView.swift in Sources */,
 				E0FCDAB6266ABBE4000059CB /* Persistence.swift in Sources */,
 				E0FCDAB2266ABBE4000059CB /* Poems2App.swift in Sources */,
 				E0FCDAB4266ABBE4000059CB /* ContentView.swift in Sources */,
 				E0FCDAC3266ABFA0000059CB /* GetPoems.swift in Sources */,
+				E0A0DC29266EBA7700F4F4AD /* Microphone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +370,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
@@ -366,6 +393,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
@@ -390,6 +418,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
@@ -414,6 +443,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = K52EJNPD2V;

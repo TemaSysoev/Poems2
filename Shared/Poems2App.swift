@@ -13,7 +13,7 @@ struct Poems2App: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListOfPoems()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

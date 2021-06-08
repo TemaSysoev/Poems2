@@ -8,35 +8,54 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct WebPoem{
+    let author: String
+    let title: String
+    let text: String
+    let language: String
+}
+struct ListOfPoems: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Poem.title, ascending: true)],
         animation: .default)
     private var poems: FetchedResults<Poem>
-   
+    @State private var onlinePoems = WebPoemsHelper().getPoemsFromJson(site: "https://www.poemist.com/api/v1/randompoems")
+    @State private var offline = false
     var body: some View {
-        var onlinePoems = Poem()
+       //var onlinePoems = Poem()
+        
+        NavigationView{
+      
         List {
-            
-            ForEach(poems) { poem in
-                Text(poem.title ?? "No title")
+           
+            ForEach(0..<onlinePoems.count) { index in
+                NavigationLink(
+                    destination: PoemView(language: onlinePoems[index].language, author: onlinePoems[index].author, title: onlinePoems[index].title, inputText: onlinePoems[index].text, complete: false),
+                    label: {
+                    VStack{
+                        Text(onlinePoems[index].title)
+                        Text(onlinePoems[index].author)
+                    }
+                        
+                    })
+                
             }
            
             .onDelete(perform: deleteItems)
             
         }
+        .listStyle(SidebarListStyle())
+            PoemView(language: "", author: "", title: "", inputText: "", complete: false)
+        }
+        .navigationViewStyle(DoubleColumnNavigationViewStyle())
+        
         .onAppear(perform: {
-            WebPoemsHelper().getJsonFile(link: "https://github.com/TemaSysoev/Poems2/blob/main/Shared/data.json"){ (result) in
-                switch result {
-                case .success(let data):
-                    onlinePoems = WebPoemsHelper().parseJsonFile(data: data)
-                    print(onlinePoems.title)
-                case .failure(let error):
-                    print(error)
-                }
-            }
+           
+            onlinePoems = WebPoemsHelper().getPoemsFromJson(site: "https://www.poemist.com/api/v1/randompoems")
+            onlinePoems += WebPoemsHelper().getPoemsFromJson(site: "https://github.com/TemaSysoev/Poems2/blob/main/Shared/data.json")
+            
         })
         .toolbar {
             #if os(iOS)
@@ -46,6 +65,29 @@ struct ContentView: View {
             Button(action: addItem) {
                 Label("Add Item", systemImage: "plus")
             }
+            if offline{
+                Text("Offline")
+            }
+            Button(action: {
+                let urlString = "https://www.poemist.com/api/v1/randompoems"
+
+                    if let url = URL(string: urlString) {
+                        if let data = try? Data(contentsOf: url) {
+                            
+                            onlinePoems = WebPoemsHelper().parse(json: data)
+                            offline = false
+                        }else{
+                            offline = true
+                            print("data error")
+                        }
+                    }else{
+                        offline = true
+                        print("url error")
+                    }
+                }, label: {
+                    
+                Text("Update")
+            })
         }
     }
 
@@ -90,6 +132,6 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ListOfPoems().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
