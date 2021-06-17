@@ -14,6 +14,18 @@ struct PoemistPoems: Codable {
     let url: String
     let poet: Poet
 }
+
+struct PoetryPoems: Codable{
+    let results: PoetryResults
+}
+struct PoetryResults: Codable{
+    let result: PoetryResult
+}
+struct PoetryResult: Codable{
+    let title: String
+    let poet: String
+    let text: String
+}
 struct LocalPoems: Codable {
     let title: String
     let text: String
@@ -25,6 +37,9 @@ struct Poet: Codable{
     let url:String
 }
 
+enum gettingPoemsError: Error {
+    case emptyPoemsList
+}
 struct WebPoemsHelper{
     
     func parse(json: Data, source: String) -> [WebPoem]{
@@ -38,7 +53,7 @@ struct WebPoemsHelper{
                 let poems = jsonPoems
                 
                 for index in 0..<poems.count{
-                    let poem = WebPoem(author: poems[index].poet.name, title: poems[index].title, text: poems[index].content, language: "English")
+                    let poem = WebPoem(id: poems[index].poet.name, author: poems[index].poet.name, title: poems[index].title, text: poems[index].content, language: "English")
                     
                     result.append(poem)
                     
@@ -54,7 +69,7 @@ struct WebPoemsHelper{
                 let poems = jsonPoems
                 
                 for index in 0..<poems.count{
-                    let poem = WebPoem(author: poems[index].author, title: poems[index].title, text: poems[index].text, language: poems[index].language)
+                    let poem = WebPoem(id: poems[index].author, author: poems[index].author, title: poems[index].title, text: poems[index].text, language: poems[index].language)
                     
                     result.append(poem)
                     
@@ -70,24 +85,41 @@ struct WebPoemsHelper{
         }
         return result
     }
-    
-    func getPoemsFromJson(site: String) -> [WebPoem]{
-        var result = [WebPoem]()
-        
-        
-        if let url = URL(string: site) {
-            
-            if let data = try? Data(contentsOf: url) {
+    func getPoems() async throws -> [WebPoem]{
+        var onlinePoems = [WebPoem]()
+     
+            do {
+                var loadedPoems = [WebPoem]()
+                let url = URL(string: "https://www.poemist.com/api/v1/randompoems")
+                let (data, _) = try await URLSession.shared.data(from: url!)
+             
                 
-                result = WebPoemsHelper().parse(json: data, source: recognizeSource(url: site))
-            }else{
-                print("data error")
+                let poems = try JSONDecoder().decode([PoemistPoems].self, from: data)
+                
+                guard poems.count > 0 else {
+                    throw gettingPoemsError.emptyPoemsList
+                }
+                for index in 0..<poems.count{
+                    let poem = WebPoem(id: poems[index].poet.name, author: poems[index].poet.name, title: poems[index].title, text: poems[index].content, language: "English")
+                    
+                    loadedPoems.append(poem)
+                    
+                    
+                }
+                onlinePoems = loadedPoems
+               
+              
+            } catch {
+                print("error")
             }
-        }
-        return result
+        
+       
+        return onlinePoems
     }
+    
+    
     func recognizeSource(url: String) -> String{
-        var sourceName = ""
+        var sourceName = "Local"
         if url.contains("poemist"){
             sourceName = "Poemist"
         }

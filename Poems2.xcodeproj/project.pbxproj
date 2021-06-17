@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E0A0DC28266EBA7700F4F4AD /* Microphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC27266EBA7700F4F4AD /* Microphone.swift */; };
-		E0A0DC29266EBA7700F4F4AD /* Microphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC27266EBA7700F4F4AD /* Microphone.swift */; };
+		E00CCC01267B817800E34ECE /* CompareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CCC00267B817800E34ECE /* CompareHelper.swift */; };
+		E05ED79B266F96D4004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
+		E05ED79C266F96D5004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
+		E081B0F6267B7B21007BBFE2 /* Microphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E081B0F5267B7B1D007BBFE2 /* Microphone.swift */; };
+		E081B0F8267B7B63007BBFE2 /* ListenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E081B0F7267B7B63007BBFE2 /* ListenView.swift */; };
 		E0A0DC2E266ED0FC00F4F4AD /* PoemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */; };
 		E0A0DC2F266ED0FC00F4F4AD /* PoemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */; };
 		E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA99266ABBE2000059CB /* Poems2.xcdatamodeld */; };
@@ -29,7 +32,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E0A0DC27266EBA7700F4F4AD /* Microphone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Microphone.swift; sourceTree = "<group>"; };
+		E00CCC00267B817800E34ECE /* CompareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareHelper.swift; sourceTree = "<group>"; };
+		E081B0F5267B7B1D007BBFE2 /* Microphone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Microphone.swift; sourceTree = "<group>"; };
+		E081B0F7267B7B63007BBFE2 /* ListenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenView.swift; sourceTree = "<group>"; };
+		E09797CF266F9598005F8C01 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoemView.swift; sourceTree = "<group>"; };
 		E0FCDA9A266ABBE2000059CB /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		E0FCDA9B266ABBE2000059CB /* Poems2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poems2App.swift; sourceTree = "<group>"; };
@@ -81,10 +87,10 @@
 		E0FCDA98266ABBE2000059CB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				E09797CF266F9598005F8C01 /* NavigationView.swift */,
 				E0FCDA9B266ABBE2000059CB /* Poems2App.swift */,
 				E0FCDA9C266ABBE2000059CB /* ContentView.swift */,
 				E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */,
-				E0A0DC27266EBA7700F4F4AD /* Microphone.swift */,
 				E0FCDAC4266AC87D000059CB /* data.json */,
 				E0FCDAC1266ABFA0000059CB /* GetPoems.swift */,
 				E0FCDA9D266ABBE2000059CB /* Persistence.swift */,
@@ -107,6 +113,9 @@
 			isa = PBXGroup;
 			children = (
 				E0FCDAA6266ABBE4000059CB /* Info.plist */,
+				E081B0F5267B7B1D007BBFE2 /* Microphone.swift */,
+				E00CCC00267B817800E34ECE /* CompareHelper.swift */,
+				E081B0F7267B7B63007BBFE2 /* ListenView.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -229,11 +238,14 @@
 			files = (
 				E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */,
 				E0A0DC2E266ED0FC00F4F4AD /* PoemView.swift in Sources */,
+				E081B0F6267B7B21007BBFE2 /* Microphone.swift in Sources */,
+				E05ED79B266F96D4004FE1F1 /* NavigationView.swift in Sources */,
 				E0FCDAB5266ABBE4000059CB /* Persistence.swift in Sources */,
 				E0FCDAB1266ABBE4000059CB /* Poems2App.swift in Sources */,
 				E0FCDAB3266ABBE4000059CB /* ContentView.swift in Sources */,
+				E00CCC01267B817800E34ECE /* CompareHelper.swift in Sources */,
+				E081B0F8267B7B63007BBFE2 /* ListenView.swift in Sources */,
 				E0FCDAC2266ABFA0000059CB /* GetPoems.swift in Sources */,
-				E0A0DC28266EBA7700F4F4AD /* Microphone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,11 +255,11 @@
 			files = (
 				E0FCDAB0266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */,
 				E0A0DC2F266ED0FC00F4F4AD /* PoemView.swift in Sources */,
+				E05ED79C266F96D5004FE1F1 /* NavigationView.swift in Sources */,
 				E0FCDAB6266ABBE4000059CB /* Persistence.swift in Sources */,
 				E0FCDAB2266ABBE4000059CB /* Poems2App.swift in Sources */,
 				E0FCDAB4266ABBE4000059CB /* ContentView.swift in Sources */,
 				E0FCDAC3266ABFA0000059CB /* GetPoems.swift in Sources */,
-				E0A0DC29266EBA7700F4F4AD /* Microphone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +387,7 @@
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -398,7 +410,7 @@
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -429,7 +441,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems2;
 				SDKROOT = macosx;
@@ -454,7 +466,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems2;
 				SDKROOT = macosx;

@@ -30,7 +30,7 @@ struct PoemView: View {
     @State var misOut = ""
     @State var debug = false
     
-    @State var help = true
+    @State var showListenView = false
     @State var showSettings = false
     @State var addNew = false
     
@@ -46,36 +46,24 @@ struct PoemView: View {
   
    
     var body: some View {
-        
+        VStack{
+            #if os(iOS)
+            Text(author)
+                .font(.system(.footnote))
+                .foregroundColor(Color.accentColor)
+            #endif
         ScrollViewReader { proxy in
             ScrollView(.vertical, showsIndicators: false){
-                
+               
+               
                 ForEach(0..<fourLines.count, id: \.self){ index in
-                    if index != paragraphStep {
-                        Button(action: {
-                            paragraphStep = index
-                        }, label: {
-                            Text(fourLines[index])
-                                .font(.system(.title2, design: .serif))
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .foregroundColor(.gray)
-                                .multilineTextAlignment(.center)
-                            
-                        })
-                        .buttonStyle(BorderlessButtonStyle())
+                    
                         
-                        .id("\(index)")
-                    }else{
-                        Button(action: {
-                            help.toggle()
-                        }, label: {
-                            Text(fourLines[paragraphStep])
+                            Text(fourLines[index])
                                 
-                                .id("current")
+                                .id("\(index)")
                                 .multilineTextAlignment(.center)
                                 .font(.system(.title2, design: .serif))
-                                .frame(maxWidth: .infinity)
                                 .padding()
                                 .foregroundColor(Color.primary)
                                 .onChange(of: inputText, perform: { value in
@@ -84,24 +72,47 @@ struct PoemView: View {
                                 .onAppear{
                                     fourLineParse()
                                 }
-                        })
-                        .buttonStyle(BorderlessButtonStyle())
-                    }
+                      
+                       
+                    
                 }
+                Text("~")
+                    .font(.system(.largeTitle, design: .serif))
+                    .foregroundColor(Color.accentColor)
+                    
             }
             
             .frame(maxWidth: .infinity)
-            .onAppear(perform: {
-                proxy.scrollTo("current")
-            })
-            .onChange(of: paragraphStep, perform: { value in
-                proxy.scrollTo("current")
-            })
             
-            .animation(.spring())
+            
+           // .animation(.spring())
             .foregroundColor(.black)
             
         }
+        #if os(iOS)
+            Button(action: {
+                    showListenView = true
+                
+            }, label: {Text("Listen")})
+                .buttonStyle(.bordered)
+                .tint(Color.accentColor)
+                .controlSize(.large)
+                .sheet(isPresented: $showListenView){
+                    ListenView(language: language, author: author, title: title, inputText: inputText)
+              }
+               
+        #endif
+        }
+        #if os(iOS)
+        .navigationBarTitle("\(title)", displayMode: .inline)
+        #endif
+        
+        #if os(macOS)
+        //.textSelection(.enabled)
+        .navigationTitle("\(title)")
+        .navigationSubtitle("\(author)")
+        #endif
+        
     }
     func fourLineParse() {
         var tmpLines = inputText.components(separatedBy: .newlines)
@@ -165,6 +176,6 @@ struct PoemView: View {
 
 struct PoemView_Previews: PreviewProvider {
     static var previews: some View {
-        PoemView(language: "RUS", author: "", title: "", inputText: "", complete:false)
+        PoemView(language: "RUS", author: "Пушкин А.С.", title: "Письмо Татьяны к Онегину", inputText: "Я к вам пишу – чего же боле?\nЧто я могу еще сказать?\nТеперь, я знаю, в вашей воле\nМеня презреньем наказать.\nНо вы, к моей несчастной доле\nХоть каплю жалости храня,\nВы не оставите меня.\nСначала я молчать хотела;\nПоверьте: моего стыда\nВы не узнали б никогда,\nКогда б надежду я имела\nХоть редко, хоть в неделю раз\nВ деревне нашей видеть вас,\nЧтоб только слышать ваши речи,\nВам слово молвить, и потом\nВсе думать, думать об одном\nИ день и ночь до новой встречи.\nНо, говорят, вы нелюдим;\nВ глуши, в деревне всё вам скучно,\nА мы… ничем мы не блестим,\nХоть вам и рады простодушно.\nЗачем вы посетили нас?\nВ глуши забытого селенья\nЯ никогда не знала б вас,\nНе знала б горького мученья.\nДуши неопытной волненья\nСмирив со временем (как знать?),\nПо сердцу я нашла бы друга,\nБыла бы верная супруга\nИ добродетельная мать.\nДругой!.. Нет, никому на свете\nНе отдала бы сердца я!\nТо в вышнем суждено совете…\nТо воля неба: я твоя;\nВся жизнь моя была залогом\nСвиданья верного с тобой;\nЯ знаю, ты мне послан богом,\nДо гроба ты хранитель мой…\nТы в сновиденьях мне являлся,\nНезримый, ты мне был уж мил,\nТвой чудный взгляд меня томил,\nВ душе твой голос раздавался\nДавно… нет, это был не сон!\nТы чуть вошел, я вмиг узнала,\nВся обомлела, запылала\nИ в мыслях молвила: вот он!\nНе правда ль? Я тебя слыхала:\nТы говорил со мной в тиши,\nКогда я бедным помогала\nИли молитвой услаждала\nТоску волнуемой души?\nИ в это самое мгновенье\nНе ты ли, милое виденье,\nВ прозрачной темноте мелькнул,\nПриникнул тихо к изголовью?\nНе ты ль, с отрадой и любовью,\nСлова надежды мне шепнул?\nКто ты, мой ангел ли хранитель,\nИли коварный искуситель:\nМои сомненья разреши.\nБыть может, это все пустое,\nОбман неопытной души!\nИ суждено совсем иное…\nНо так и быть! Судьбу мою\nОтныне я тебе вручаю,\nПеред тобою слезы лью,\nТвоей защиты умоляю…\nВообрази: я здесь одна,\nНикто меня не понимает,\nРассудок мой изнемогает,\nИ молча гибнуть я должна.\nЯ жду тебя: единым взором\nНадежды сердца оживи\nИль сон тяжелый перерви,\nУвы, заслуженным укором!\nКончаю! Страшно перечесть…\nСтыдом и страхом замираю…\nНо мне порукой ваша честь,\nИ смело ей себя вверяю…", complete:false)
     }
 }

@@ -13,8 +13,8 @@ struct Poems2App: App {
 
     var body: some Scene {
         WindowGroup {
-            ListOfPoems()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            TripleColumnsView()
+                //.environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
