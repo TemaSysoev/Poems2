@@ -8,46 +8,61 @@
 import SwiftUI
 
 struct TripleColumnsView: View {
+    @State private var searchText = ""
     var body: some View {
         NavigationView{
       
         List {
             NavigationLink(
-                destination: PoemsListView(source: "Local"),
+                destination: {PoemsListView(source: "local")
+                #if os(iOS)
+                .navigationBarTitle("Local", displayMode: .automatic)
+                #endif
+                #if os(macOS)
+                .navigationTitle("My library")
+                #endif
+            },
                 label: {
                 VStack{
                     Label("My library", systemImage: "book")
                 }
                     
                 })
-            Section(header: Text("Online")){
-           
-                NavigationLink(
-                    destination: PoemsListView(source: "Poemist"),
-                    label: {
-                    VStack{
-                        
-                        Label("Poemist", systemImage: "globe")
-                       
-                    }
-                        
-                    })
-                NavigationLink(
-                    destination: PoemsListView(source: "Poetry"),
-                    label: {
-                    VStack{
-                        
-                        Label("Poetry", systemImage: "globe")
-                       
-                    }
-                        
-                    })
-            
-            
-            }
+            NavigationLink(
+                destination: {PoemsListView(source: "online")
+                    #if os(iOS)
+                    .navigationBarTitle("Online", displayMode: .automatic)
+                    #endif
+                    #if os(macOS)
+                    .navigationTitle("Online")
+                    #endif
+            },
+                label: {
+                VStack{
+                    
+                    Label("Online", systemImage: "globe")
+                   
+                }
+                    
+                })
+       
+            NavigationLink(
+                destination: Text("Settings"),
+                label: {
+                VStack{
+                    
+                    Label("Settings", systemImage: "gear")
+                   
+                }
+                    
+                })
         }
+       
         #if os(iOS)
         .navigationBarTitle("Poems 2", displayMode: .automatic)
+        #endif
+        #if os(macOS)
+        .navigationTitle("Poems")
         #endif
         .listStyle(.sidebar)
             PoemsListView(source: "Local")

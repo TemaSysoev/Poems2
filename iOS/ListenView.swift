@@ -18,7 +18,7 @@ struct ListenView: View {
     private func normalizeSoundLevel(level: Float) -> CGFloat {
         let level = max(0.1, CGFloat(level) + 20) / 2 // between 0.1 and 25
         
-        return CGFloat(level * (10)) // scaled to max at 300 (our height of our bar)
+        return CGFloat(level * (15)) // scaled to max at 300 (our height of our bar)
     }
     @State var language: String
     @State var author: String
@@ -53,6 +53,7 @@ struct ListenView: View {
     
     @State var selectedLanguage = "Rus"
     var body: some View {
+        ZStack() {
       VStack{
           
           Spacer()
@@ -61,7 +62,7 @@ struct ListenView: View {
                   Text(getFirstAndEndWord(s: fourLines[paragraphStep])[0] + " ... ")
                       .font(.system(.largeTitle, design: .serif))
                       
-                      .foregroundColor(Color(UIColor.label))
+                      .foregroundColor(Color.primary)
                       .onChange(of: inputText, perform: { value in
                           fourLineParse()
                       })
@@ -75,7 +76,7 @@ struct ListenView: View {
                       .frame(maxWidth: .infinity)
                       .padding()
                       .animation(.easeIn)
-                      .foregroundColor(Color(UIColor.label))
+                      .foregroundColor(Color.primary)
                       .multilineTextAlignment(.center)
                       .onChange(of: inputText, perform: { value in
                           fourLineParse()
@@ -116,7 +117,7 @@ struct ListenView: View {
                       }
                   }, label: {
                       Text("Я сказал всё правильно")
-                          .foregroundColor(Color(UIColor.systemRed))
+                          .foregroundColor(Color.red)
                   })
                   .buttonStyle(BorderlessButtonStyle())
               default:
@@ -135,11 +136,11 @@ struct ListenView: View {
                           
                           Circle()
                               
-                              .foregroundColor(Color(UIColor.systemRed).opacity(0.3))
+                              .foregroundColor(Color.red.opacity(0.3))
                               .frame(width: 50, height: 50)
                           
                           Image(systemName: "arrow.uturn.backward")
-                              .foregroundColor(Color(UIColor.systemRed))
+                              .foregroundColor(Color.red)
                               .imageScale(.large)
                           
                           
@@ -148,17 +149,7 @@ struct ListenView: View {
                   .buttonStyle(BorderlessButtonStyle())
                   .accessibility(label: Text("Заново это четверостишие"))
                   
-                  Spacer()
-                  /*
-                  ZStack() {
-                      ForEach(mic.soundSamples, id: \.self) { level in
-                          BarView(value: self.normalizeSoundLevel(level: level), color: statusColor)
-                              .frame(height: 50)
-                          
-                      }
-                  }*/
-                  Spacer()
-                  
+                 
                   
                   Button(action: {
                       if paragraphStep < fourLines.count-1{
@@ -179,11 +170,11 @@ struct ListenView: View {
                           
                           Circle()
                               
-                              .foregroundColor(Color(UIColor.systemGreen).opacity(0.3))
+                              .foregroundColor(Color.green.opacity(0.3))
                               .frame(width: 50, height: 50)
                           
                           Image(systemName: "arrow.right")
-                              .foregroundColor(Color(UIColor.systemGreen))
+                              .foregroundColor(Color.green)
                               .imageScale(.large)
                           
                           
@@ -200,7 +191,7 @@ struct ListenView: View {
                       debug = true
                   }, label: {
                       Text("Debug")
-                          .foregroundColor(Color(UIColor.systemRed))
+                          .foregroundColor(Color.red)
                   })
                   .buttonStyle(BorderlessButtonStyle())
               }
@@ -254,6 +245,12 @@ struct ListenView: View {
           })
           
       }
+            /*ForEach(mic.soundSamples, id: \.self) { level in
+                BarView(value: self.normalizeSoundLevel(level: level), color: statusColor)
+                    .frame(height: 300)
+                
+            }*/
+        }
     }
     
     func fourLineParse() {
@@ -388,14 +385,12 @@ struct BarView: View {
     var body: some View {
         
         Circle()
-            .fill(LinearGradient(gradient: Gradient(colors: [color.opacity(0.0), color.opacity(0.1)]),
-                                 startPoint: .top,
-                                 endPoint: .bottom))
+            .fill(RadialGradient(gradient: Gradient(colors: [color.opacity(0.0), color.opacity(0.1)]), center: .center, startRadius: 0, endRadius: 300))
             .frame(width: value*1.5, height: value*1.5)
-            .rotationEffect(.degrees(Double(arc4random_uniform(UInt32(180)))))
+            //.rotationEffect(.degrees(Double(arc4random_uniform(UInt32(180)))))
             .offset(x: CGFloat(arc4random_uniform(UInt32(15))), y: CGFloat(arc4random_uniform(UInt32(15))))
             .blur(radius: 3.0)
-        //.animation(.spring())
+        .animation(.spring())
         
         
     }

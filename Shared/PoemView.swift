@@ -36,83 +36,141 @@ struct PoemView: View {
     
     @State var slicedText = ""
     
-   
+    
     @State var showingSheet = false
     
     @State var selectedLanguage = "Rus"
     
-   
+    
     @State var price = String()
-  
-   
+    
+    @State private var bookmarkedPoems = [LocalPoems]()
+    
     var body: some View {
         VStack{
-            #if os(iOS)
+#if os(iOS)
             Text(author)
                 .font(.system(.footnote))
                 .foregroundColor(Color.accentColor)
-            #endif
-        ScrollViewReader { proxy in
-            ScrollView(.vertical, showsIndicators: false){
-               
-               
-                ForEach(0..<fourLines.count, id: \.self){ index in
+#endif
+            ScrollViewReader { proxy in
+                ScrollView(.vertical, showsIndicators: false){
                     
+                    
+                    ForEach(0..<fourLines.count, id: \.self){ index in
                         
-                            Text(fourLines[index])
-                                
-                                .id("\(index)")
-                                .multilineTextAlignment(.center)
-                                .font(.system(.title2, design: .serif))
-                                .padding()
-                                .foregroundColor(Color.primary)
-                                .onChange(of: inputText, perform: { value in
-                                    fourLineParse()
-                                })
-                                .onAppear{
-                                    fourLineParse()
-                                }
-                      
-                       
+                        
+                        Text(fourLines[index])
+                        
+                            .id("\(index)")
+                            .multilineTextAlignment(.center)
+                            .font(.system(.title2, design: .serif))
+                            .padding()
+                            .foregroundColor(Color.primary)
+                            .onChange(of: inputText, perform: { value in
+                                fourLineParse()
+                            })
+                            .onAppear{
+                                fourLineParse()
+                            }
+                        
+                        
+                        
+                    }
+                    
                     
                 }
-                Text("~")
-                    .font(.system(.largeTitle, design: .serif))
-                    .foregroundColor(Color.accentColor)
-                    
-            }
-            
-            .frame(maxWidth: .infinity)
-            
-            
-           // .animation(.spring())
-            .foregroundColor(.black)
-            
-        }
-        #if os(iOS)
-            Button(action: {
-                    showListenView = true
                 
-            }, label: {Text("Listen")})
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.black)
+                
+            }
+#if os(iOS)
+            Button(action: {
+                showListenView = true
+                
+            }, label: {
+                Text("Listen")
+                    .frame(maxWidth: .infinity)
+                    
+                
+            })
                 .buttonStyle(.bordered)
                 .tint(Color.accentColor)
                 .controlSize(.large)
+                .padding()
                 .sheet(isPresented: $showListenView){
                     ListenView(language: language, author: author, title: title, inputText: inputText)
-              }
-               
-        #endif
+                        
+                }
+            
+#endif
         }
-        #if os(iOS)
+        .toolbar{
+            Button(action: {
+                
+               var bookmarked = loadBookmarked()
+                bookmarked.append(title)
+            saveBookmarked(s: bookmarked)
+                
+                    
+                
+                
+                
+            }, label: {
+                if loadBookmarked().contains(title){
+                    Image(systemName: "bookmark.fill")
+                        .symbolRenderingMode(.multicolor)
+                }else{
+                    Image(systemName: "bookmark")
+                }
+            })
+        }
+#if os(iOS)
         .navigationBarTitle("\(title)", displayMode: .inline)
-        #endif
+#endif
         
-        #if os(macOS)
+#if os(macOS)
         //.textSelection(.enabled)
         .navigationTitle("\(title)")
         .navigationSubtitle("\(author)")
-        #endif
+#endif
         
+    }
+    
+    static func stringify(json: Any, prettyPrinted: Bool = false) -> String {
+        var options: JSONSerialization.WritingOptions = []
+        if prettyPrinted {
+          options = JSONSerialization.WritingOptions.prettyPrinted
+        }
+
+        do {
+          let data = try JSONSerialization.data(withJSONObject: json, options: options)
+          if let string = String(data: data, encoding: String.Encoding.utf8) {
+            return string
+          }
+        } catch {
+          print(error)
+        }
+
+        return ""
+    }
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    func readLocalFile(forName name: String) -> Data? {
+        do {
+            if let bundlePath = Bundle.main.path(forResource: name,
+                                                 ofType: "json"),
+               let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
+                return jsonData
+            }
+        } catch {
+            print(error)
+        }
+        
+        return nil
     }
     func fourLineParse() {
         var tmpLines = inputText.components(separatedBy: .newlines)

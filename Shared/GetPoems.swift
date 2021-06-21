@@ -15,16 +15,12 @@ struct PoemistPoems: Codable {
     let poet: Poet
 }
 
-struct PoetryPoems: Codable{
-    let results: PoetryResults
-}
-struct PoetryResults: Codable{
-    let result: PoetryResult
-}
-struct PoetryResult: Codable{
+
+struct PoetryDB: Codable{
     let title: String
-    let poet: String
-    let text: String
+    let author: String
+    let lines: [String]
+    let linecount: String
 }
 struct LocalPoems: Codable {
     let title: String
@@ -40,6 +36,8 @@ struct Poet: Codable{
 enum gettingPoemsError: Error {
     case emptyPoemsList
 }
+
+
 struct WebPoemsHelper{
     
     func parse(json: Data, source: String) -> [WebPoem]{
@@ -53,7 +51,7 @@ struct WebPoemsHelper{
                 let poems = jsonPoems
                 
                 for index in 0..<poems.count{
-                    let poem = WebPoem(id: poems[index].poet.name, author: poems[index].poet.name, title: poems[index].title, text: poems[index].content, language: "English")
+                    let poem = WebPoem(id: poems[index].poet.name, author: poems[index].poet.name, title: poems[index].title, text: poems[index].content, language: "English", source: "poemist")
                     
                     result.append(poem)
                     
@@ -69,7 +67,7 @@ struct WebPoemsHelper{
                 let poems = jsonPoems
                 
                 for index in 0..<poems.count{
-                    let poem = WebPoem(id: poems[index].author, author: poems[index].author, title: poems[index].title, text: poems[index].text, language: poems[index].language)
+                    let poem = WebPoem(id: poems[index].author, author: poems[index].author, title: poems[index].title, text: poems[index].text, language: poems[index].language, source: "local")
                     
                     result.append(poem)
                     
@@ -100,7 +98,7 @@ struct WebPoemsHelper{
                     throw gettingPoemsError.emptyPoemsList
                 }
                 for index in 0..<poems.count{
-                    let poem = WebPoem(id: poems[index].poet.name, author: poems[index].poet.name, title: poems[index].title, text: poems[index].content, language: "English")
+                    let poem = WebPoem(id: poems[index].poet.name, author: poems[index].poet.name, title: poems[index].title, text: poems[index].content, language: "English", source: "poemist")
                     
                     loadedPoems.append(poem)
                     

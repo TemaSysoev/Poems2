@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E0048297267CA8AF0074426C /* iOS in Resources */ = {isa = PBXBuildFile; fileRef = E0048296267CA8AF0074426C /* iOS */; };
 		E00CCC01267B817800E34ECE /* CompareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CCC00267B817800E34ECE /* CompareHelper.swift */; };
 		E05ED79B266F96D4004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
 		E05ED79C266F96D5004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
@@ -26,12 +27,12 @@
 		E0FCDAB8266ABBE4000059CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0FCDA9E266ABBE4000059CB /* Assets.xcassets */; };
 		E0FCDAC2266ABFA0000059CB /* GetPoems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDAC1266ABFA0000059CB /* GetPoems.swift */; };
 		E0FCDAC3266ABFA0000059CB /* GetPoems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDAC1266ABFA0000059CB /* GetPoems.swift */; };
-		E0FCDAC5266AC87D000059CB /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = E0FCDAC4266AC87D000059CB /* data.json */; };
-		E0FCDAC6266AC87D000059CB /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = E0FCDAC4266AC87D000059CB /* data.json */; };
 		E0FCDACA266AD48A000059CB /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0FCDAC9266AD48A000059CB /* NetworkExtension.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E0048295267C92E30074426C /* macOS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = macOS; sourceTree = "<group>"; };
+		E0048296267CA8AF0074426C /* iOS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iOS; sourceTree = "<group>"; };
 		E00CCC00267B817800E34ECE /* CompareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareHelper.swift; sourceTree = "<group>"; };
 		E081B0F5267B7B1D007BBFE2 /* Microphone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Microphone.swift; sourceTree = "<group>"; };
 		E081B0F7267B7B63007BBFE2 /* ListenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenView.swift; sourceTree = "<group>"; };
@@ -46,9 +47,7 @@
 		E0FCDAA6266ABBE4000059CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0FCDAAB266ABBE4000059CB /* Poems2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poems2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0FCDAAD266ABBE4000059CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E0FCDAAE266ABBE4000059CB /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		E0FCDAC1266ABFA0000059CB /* GetPoems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoems.swift; sourceTree = "<group>"; };
-		E0FCDAC4266AC87D000059CB /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		E0FCDAC7266AD48A000059CB /* Poems2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Poems2.entitlements; sourceTree = "<group>"; };
 		E0FCDAC9266AD48A000059CB /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.5.sdk/System/Library/Frameworks/NetworkExtension.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -91,7 +90,6 @@
 				E0FCDA9B266ABBE2000059CB /* Poems2App.swift */,
 				E0FCDA9C266ABBE2000059CB /* ContentView.swift */,
 				E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */,
-				E0FCDAC4266AC87D000059CB /* data.json */,
 				E0FCDAC1266ABFA0000059CB /* GetPoems.swift */,
 				E0FCDA9D266ABBE2000059CB /* Persistence.swift */,
 				E0FCDA9E266ABBE4000059CB /* Assets.xcassets */,
@@ -116,6 +114,7 @@
 				E081B0F5267B7B1D007BBFE2 /* Microphone.swift */,
 				E00CCC00267B817800E34ECE /* CompareHelper.swift */,
 				E081B0F7267B7B63007BBFE2 /* ListenView.swift */,
+				E0048296267CA8AF0074426C /* iOS */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -124,7 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				E0FCDAAD266ABBE4000059CB /* Info.plist */,
-				E0FCDAAE266ABBE4000059CB /* macOS.entitlements */,
+				E0048295267C92E30074426C /* macOS */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -215,8 +214,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0048297267CA8AF0074426C /* iOS in Resources */,
 				E0FCDAB7266ABBE4000059CB /* Assets.xcassets in Resources */,
-				E0FCDAC5266AC87D000059CB /* data.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,7 +224,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0FCDAB8266ABBE4000059CB /* Assets.xcassets in Resources */,
-				E0FCDAC6266AC87D000059CB /* data.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +382,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -407,6 +406,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
