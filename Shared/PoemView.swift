@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct PoemView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var language: String
     @State var author: String
     @State var title: String
     @State var inputText: String
     @State var complete: Bool
+    
     @State var selectedIndex = Int()
     @State var fourLines = ["""
     """]
@@ -44,115 +46,226 @@ struct PoemView: View {
     
     @State var price = String()
     
-    @State private var bookmarkedPoems = [LocalPoems]()
+    @State private var showReadingSettings = false
+    public var fontSize: Int
+    public var fontName: String
+    public var linesOnPage: Int
+    public var backgroundImageName: String
+    var listOfFonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
+    var listOfFontSizes = [12, 18, 24]
+    var listOfLinesOnPage = [2, 3, 4]
+    
+    @State public var offset = CGSize(width: 0, height: 0)
+    @State var transp = false
+    @State var drag = false
+    @State private var currentPage = 1
+    @State private var nextPage = 2
+   
     
     var body: some View {
-        VStack{
-#if os(iOS)
-            Text(author)
-                .font(.system(.footnote))
-                .foregroundColor(Color.accentColor)
-#endif
-            ScrollViewReader { proxy in
-                ScrollView(.vertical, showsIndicators: false){
-                    
-                    
-                    ForEach(0..<fourLines.count, id: \.self){ index in
+        ZStack(alignment: .center){
+            Image(backgroundImageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.bottom)
+               // .brightness(colorScheme == .dark ? -0.2 : 1.0)
+                .contrast(colorScheme == .dark ? -1.0 : 1.0)
+           
+        VStack(alignment: .center){
+            
+            Spacer()
+            ZStack(alignment: .center){
+               
+                       
+                           
+                            VStack{
+                                ForEach(0..<fourLines.count, id: \.self){ index in
+                                    
+                                    if (index / linesOnPage < (currentPage + 1)) && (index/linesOnPage >= currentPage) {
+                                        
+                                        Text(fourLines[index])
+                                            .textSelection(.enabled)
+                                            .id("\(index)")
+                                            .multilineTextAlignment(.center)
+                                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                                        
+                                        
+                                            .padding()
+                                            .foregroundColor(Color.primary)
+                                            .onChange(of: inputText, perform: { value in
+                                                fourLineParse()
+                                            })
+                                            .onAppear{
+                                                fourLineParse()
+                                            }
+                                        
+                                    }
+                                }
+                            }
+                            .frame(minWidth: 300, idealWidth: 330, maxWidth: 400, minHeight: 500, idealHeight: 560, maxHeight: 560, alignment: .center)
+                        .background(Color("BackgroundColor"))
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .padding()
+                        .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 2)
+                
+                
                         
                         
-                        Text(fourLines[index])
-                        
-                            .id("\(index)")
-                            .multilineTextAlignment(.center)
-                            .font(.system(.title2, design: .serif))
-                            .padding()
-                            .foregroundColor(Color.primary)
-                            .onChange(of: inputText, perform: { value in
-                                fourLineParse()
-                            })
-                            .onAppear{
-                                fourLineParse()
+                            VStack{
+                                ForEach(0..<fourLines.count, id: \.self){ index in
+                                    
+                                    if (index / linesOnPage < currentPage) && (index/linesOnPage >= currentPage - 1) {
+                                        
+                                        Text(fourLines[index])
+                                        
+                                            .id("\(index)")
+                                            .textSelection(.enabled)
+                                            .multilineTextAlignment(.center)
+                                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                                        
+                                            
+                                            .padding()
+                                            .foregroundColor(Color.primary)
+                                            .onChange(of: inputText, perform: { value in
+                                                fourLineParse()
+                                            })
+                                            .onAppear{
+                                                fourLineParse()
+                                            }
+                                        
+                                    }
+                                }
                             }
                         
+                            .frame(minWidth: 300, idealWidth: 330, maxWidth: 400, minHeight: 500, idealHeight: 560, maxHeight: 560, alignment: .center)
+                            .background(Color("BackgroundColor"))
+                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                            .padding()
+                            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 2)
+                        .offset(x: self.offset.width, y: 0)
+                        .rotation3DEffect(.degrees(Double((self.offset.height)/3000)), axis: (x: 1, y: 0, z: 0))
+                        .opacity(Double(10000.0/abs(self.offset.width*self.offset.height)))
+                        .rotationEffect(.degrees(Double(90*self.offset.width)/3000))
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    self.drag = true
+                                    self.offset = gesture.translation
+                                    if (abs(self.offset.height) > 100) || (abs(self.offset.width) > 100){
+                                        self.transp = true
+                                    }else{
+                                        self.transp = false
+                                    }
+                                }
+                            
+                                .onEnded { _ in
+                                    self.drag = false
+                                    if (abs(self.offset.height) > 100) || (abs(self.offset.width) > 100){
+                                        
+#if os(iOS)
+                                        let impactMed = UIImpactFeedbackGenerator(style: .light)
+                                        impactMed.impactOccurred()
+#endif
+                                        if currentPage < fourLines.count / linesOnPage + 1{
+                                            currentPage += 1
+                                            nextPage += 1
+                                        }else{
+                                            currentPage = 1
+                                            nextPage = 2
+                                        }
+                                        
+                                        self.transp = false
+                                        self.offset = .zero
+                                        
+                                        
+                                    } else {
+                                        self.transp = false
+                                        self.offset = .zero
+                                    }
+                                    
+                                    
+                                }
+                        )
                         
                         
-                    }
+                        
                     
-                    
-                }
-                
-                .frame(maxWidth: .infinity)
-                .foregroundColor(.black)
-                
             }
-#if os(iOS)
-            Button(action: {
-                showListenView = true
-                
-            }, label: {
-                Text("Listen")
-                    .frame(maxWidth: .infinity)
-                    
-                
-            })
-                .buttonStyle(.bordered)
-                .tint(Color.accentColor)
-                .controlSize(.large)
-                .padding()
-                .sheet(isPresented: $showListenView){
-                    ListenView(language: language, author: author, title: title, inputText: inputText)
-                        
-                }
             
-#endif
-        }
-        .toolbar{
-            Button(action: {
-                
-               var bookmarked = loadBookmarked()
-                bookmarked.append(title)
-            saveBookmarked(s: bookmarked)
-                
-                    
-                
-                
-                
-            }, label: {
-                if loadBookmarked().contains(title){
-                    Image(systemName: "bookmark.fill")
-                        .symbolRenderingMode(.multicolor)
-                }else{
-                    Image(systemName: "bookmark")
-                }
-            })
-        }
+            .frame(maxWidth: .infinity)
+            HStack{
 #if os(iOS)
-        .navigationBarTitle("\(title)", displayMode: .inline)
+                Button(action: {
+                    showListenView = true
+                    
+                }, label: {
+                    Image(systemName: "mic.fill")
+                    
+                    
+                })
+                    .padding()
+                    .tint(Color.accentColor)
+                
+                
+                
+                    .sheet(isPresented: $showListenView){
+                        ListenView(language: language, author: author, title: title, inputText: inputText)
+
+                    }
 #endif
+                Button(action: {
+                    currentPage -= 1
+                    nextPage -= 1
+                }, label: {
+                    Image(systemName: "chevron.left")
+                    
+                })
+                    .buttonStyle(.borderless)
+                    .disabled(!(currentPage > 1))
+                    .padding(7)
+                Text("Page \(currentPage) of \(fourLines.count / linesOnPage + 1)")
+                   
+                Button(action: {
+                    currentPage += 1
+                    nextPage += 1
+                }, label: {
+                    Image(systemName: "chevron.right")
+                    
+                })
+                    .buttonStyle(.borderless)
+                    .disabled(!(currentPage < fourLines.count / linesOnPage + 1))
+                    .padding(7)
+            }
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .padding()
+            Spacer()
+
+        }
         
-#if os(macOS)
-        //.textSelection(.enabled)
-        .navigationTitle("\(title)")
-        .navigationSubtitle("\(author)")
-#endif
+            
+    }
+        
+        
+        
         
     }
     
     static func stringify(json: Any, prettyPrinted: Bool = false) -> String {
         var options: JSONSerialization.WritingOptions = []
         if prettyPrinted {
-          options = JSONSerialization.WritingOptions.prettyPrinted
+            options = JSONSerialization.WritingOptions.prettyPrinted
         }
-
+        
         do {
-          let data = try JSONSerialization.data(withJSONObject: json, options: options)
-          if let string = String(data: data, encoding: String.Encoding.utf8) {
-            return string
-          }
+            let data = try JSONSerialization.data(withJSONObject: json, options: options)
+            if let string = String(data: data, encoding: String.Encoding.utf8) {
+                return string
+            }
         } catch {
-          print(error)
+            print(error)
         }
-
+        
         return ""
     }
     func getDocumentsDirectory() -> URL {
@@ -234,6 +347,6 @@ struct PoemView: View {
 
 struct PoemView_Previews: PreviewProvider {
     static var previews: some View {
-        PoemView(language: "RUS", author: "Пушкин А.С.", title: "Письмо Татьяны к Онегину", inputText: "Я к вам пишу – чего же боле?\nЧто я могу еще сказать?\nТеперь, я знаю, в вашей воле\nМеня презреньем наказать.\nНо вы, к моей несчастной доле\nХоть каплю жалости храня,\nВы не оставите меня.\nСначала я молчать хотела;\nПоверьте: моего стыда\nВы не узнали б никогда,\nКогда б надежду я имела\nХоть редко, хоть в неделю раз\nВ деревне нашей видеть вас,\nЧтоб только слышать ваши речи,\nВам слово молвить, и потом\nВсе думать, думать об одном\nИ день и ночь до новой встречи.\nНо, говорят, вы нелюдим;\nВ глуши, в деревне всё вам скучно,\nА мы… ничем мы не блестим,\nХоть вам и рады простодушно.\nЗачем вы посетили нас?\nВ глуши забытого селенья\nЯ никогда не знала б вас,\nНе знала б горького мученья.\nДуши неопытной волненья\nСмирив со временем (как знать?),\nПо сердцу я нашла бы друга,\nБыла бы верная супруга\nИ добродетельная мать.\nДругой!.. Нет, никому на свете\nНе отдала бы сердца я!\nТо в вышнем суждено совете…\nТо воля неба: я твоя;\nВся жизнь моя была залогом\nСвиданья верного с тобой;\nЯ знаю, ты мне послан богом,\nДо гроба ты хранитель мой…\nТы в сновиденьях мне являлся,\nНезримый, ты мне был уж мил,\nТвой чудный взгляд меня томил,\nВ душе твой голос раздавался\nДавно… нет, это был не сон!\nТы чуть вошел, я вмиг узнала,\nВся обомлела, запылала\nИ в мыслях молвила: вот он!\nНе правда ль? Я тебя слыхала:\nТы говорил со мной в тиши,\nКогда я бедным помогала\nИли молитвой услаждала\nТоску волнуемой души?\nИ в это самое мгновенье\nНе ты ли, милое виденье,\nВ прозрачной темноте мелькнул,\nПриникнул тихо к изголовью?\nНе ты ль, с отрадой и любовью,\nСлова надежды мне шепнул?\nКто ты, мой ангел ли хранитель,\nИли коварный искуситель:\nМои сомненья разреши.\nБыть может, это все пустое,\nОбман неопытной души!\nИ суждено совсем иное…\nНо так и быть! Судьбу мою\nОтныне я тебе вручаю,\nПеред тобою слезы лью,\nТвоей защиты умоляю…\nВообрази: я здесь одна,\nНикто меня не понимает,\nРассудок мой изнемогает,\nИ молча гибнуть я должна.\nЯ жду тебя: единым взором\nНадежды сердца оживи\nИль сон тяжелый перерви,\nУвы, заслуженным укором!\nКончаю! Страшно перечесть…\nСтыдом и страхом замираю…\nНо мне порукой ваша честь,\nИ смело ей себя вверяю…", complete:false)
+        PoemView(language: "RUS", author: "Пушкин А.С.", title: "Письмо Татьяны к Онегину", inputText: "Я к вам пишу – чего же боле?\nЧто я могу еще сказать?\nТеперь, я знаю, в вашей воле\nМеня ", complete:false, fontSize: 18, fontName: "Systemn", linesOnPage: 3, backgroundImageName: "pattern1")
     }
 }

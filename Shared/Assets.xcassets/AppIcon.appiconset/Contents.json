@@ -109,61 +109,61 @@
       "size" : "1024x1024"
     },
     {
-      "filename" : "Poems2MacIcon-16.png",
+      "filename" : "StihiIconMac-16.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "Poems2MacIcon-32.png",
+      "filename" : "StihiIconMac-32.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "Poems2MacIcon-33.png",
+      "filename" : "StihiIconMac-33.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "Poems2MacIcon-64.png",
+      "filename" : "StihiIconMac-64.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
-      "filename" : "Poems2MacIcon-128.png",
+      "filename" : "StihiIconMac-128.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "Poems2MacIcon-256.png",
+      "filename" : "StihiIconMac-256.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "Poems2MacIcon-257.png",
+      "filename" : "StihiIconMac-258.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "Poems2MacIcon-512.png",
+      "filename" : "StihiIconMac-513.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "Poems2MacIcon-513.png",
+      "filename" : "StihiIconMac-512.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "Poems2MacIcon-1024.png",
+      "filename" : "StihiIconMac-1024.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

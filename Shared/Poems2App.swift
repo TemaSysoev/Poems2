@@ -9,11 +9,16 @@ import SwiftUI
 
 @main
 struct Poems2App: App {
+    
     let persistenceController = PersistenceController.shared
-
+    
+    
     var body: some Scene {
+       
         WindowGroup {
-            TripleColumnsView()
+            ColumnsView()
+                
+                
                 //.environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

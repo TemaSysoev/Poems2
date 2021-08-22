@@ -12,11 +12,11 @@ struct ListenView: View {
     
     
     @ObservedObject var speechRec = SpeechRec()
-    @ObservedObject private var mic = MicrophoneMonitor(numberOfSamples: 15)
+    @ObservedObject private var mic = MicrophoneMonitor(numberOfSamples: 100)
     @Environment(\.presentationMode) var presentationMode
     
     private func normalizeSoundLevel(level: Float) -> CGFloat {
-        let level = max(0.1, CGFloat(level) + 20) / 2 // between 0.1 and 25
+        let level = max(0.01, CGFloat(level) + 20) // between 0.1 and 25
         
         return CGFloat(level * (15)) // scaled to max at 300 (our height of our bar)
     }
@@ -54,12 +54,14 @@ struct ListenView: View {
     @State var selectedLanguage = "Rus"
     var body: some View {
         ZStack() {
+         
+                                        
       VStack{
           
           Spacer()
           Button(action: {}, label: {
-              if slicedText == ""{
-                  Text(getFirstAndEndWord(s: fourLines[paragraphStep])[0] + " ... ")
+              if true{
+                  Text(getFirstAndEndWord(s: fourLines[paragraphStep])[0] + " ... " + getFirstAndEndWord(s: fourLines[paragraphStep])[1])
                       .font(.system(.largeTitle, design: .serif))
                       
                       .foregroundColor(Color.primary)
@@ -93,36 +95,12 @@ struct ListenView: View {
           
           .buttonStyle(BorderlessButtonStyle())
           .padding()
-          
+          .onAppear{
+              self.speechRec.start()
+          }
           Spacer()
           VStack {
-              switch checkAnswer{
-              case "Все верно":
-                  Text("Все верно")
-              case "Слушаю...":
-                  Text("")
-              case "Ошибка":
-                  Button(action: {
-                      if paragraphStep < fourLines.count-1{
-                          paragraphStep += 1
-                          self.speechRec.stop()
-                          debugText = ""
-                          userText = " "
-                          self.speechRec.start()
-                      }else{
-                          
-                          complete = "true"
-                          
-                          
-                      }
-                  }, label: {
-                      Text("Я сказал всё правильно")
-                          .foregroundColor(Color.red)
-                  })
-                  .buttonStyle(BorderlessButtonStyle())
-              default:
-                  Text("Wrong key \(checkAnswer)")
-              }
+              
               HStack{
                   
                   Button(action: {
@@ -149,7 +127,51 @@ struct ListenView: View {
                   .buttonStyle(BorderlessButtonStyle())
                   .accessibility(label: Text("Заново это четверостишие"))
                   
-                 
+                  ZStack{
+                      Circle()
+                          .trim(from: 0.0, to: 0.8)
+                          .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                          .foregroundColor(statusColor.opacity(0.3))
+                          .frame(width: 180, height: 180)
+
+                          .rotationEffect(Angle(degrees: 126))
+                      Circle()
+                          .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*0.8)
+                          .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                          .foregroundColor(statusColor)
+                          .frame(width: 180, height: 180)
+                          .rotationEffect(Angle(degrees: 126))
+                          .animation(.spring())
+                      
+                      switch checkAnswer{
+                      case "Все верно":
+                          Text("Good job!")
+                      case "Слушаю...":
+                          Text("Listening...")
+                      case "Ошибка":
+                          Button(action: {
+                              if paragraphStep < fourLines.count-1{
+                                  paragraphStep += 1
+                                  self.speechRec.stop()
+                                  debugText = ""
+                                  userText = " "
+                                  self.speechRec.start()
+                              }else{
+                                  
+                                  complete = "true"
+                                  
+                                  
+                              }
+                          }, label: {
+                              Text("Skip")
+                                  .foregroundColor(Color.red)
+                          })
+                          .buttonStyle(BorderlessButtonStyle())
+                      default:
+                          Text("Wrong key \(checkAnswer)")
+                      }
+                  }
+                  .padding()
                   
                   Button(action: {
                       if paragraphStep < fourLines.count-1{
@@ -196,6 +218,7 @@ struct ListenView: View {
                   .buttonStyle(BorderlessButtonStyle())
               }
               if debug {
+                
                   Text(c1out)
                   Text(c2out)
                   Text(misOut)
@@ -214,6 +237,7 @@ struct ListenView: View {
                           checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
                           c1out = Check(language: language).simplify(userText)
                           c2out = Check(language: language).simplify(fourLines[paragraphStep])
+                          misOut = "\(misL(s1: c1out, s2: c2out))"
                           statusColor = UIOutput().getColor(checkAnswer)
                           
                       })
@@ -231,6 +255,13 @@ struct ListenView: View {
           .onChange(of: speechRec.recognizedText, perform: { value in
               userText = speechRec.recognizedText
               checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
+              if checkAnswer == "Все верно"{
+                  paragraphStep += 1
+                  self.speechRec.stop()
+                  debugText = ""
+                  userText = " "
+                  self.speechRec.start()
+              }
               slicedText = UIOutput().slice(s1: userText, s2: fourLines[paragraphStep])
               if userText.contains("заново") {
                   if userText.contains("весь стих"){
@@ -245,11 +276,10 @@ struct ListenView: View {
           })
           
       }
-            /*ForEach(mic.soundSamples, id: \.self) { level in
-                BarView(value: self.normalizeSoundLevel(level: level), color: statusColor)
-                    .frame(height: 300)
-                
-            }*/
+      .frame(maxWidth: .infinity)
+
+            
+            
         }
     }
     
@@ -318,7 +348,7 @@ struct ListenView: View {
 class SpeechRec: ObservableObject {
     @Published private(set) var recognizedText = ""
     
-    var speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ru-RU"))
+    var speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-us"))
     var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     var recognitionTask: SFSpeechRecognitionTask?
     let audioEngine = AVAudioEngine()
@@ -385,12 +415,12 @@ struct BarView: View {
     var body: some View {
         
         Circle()
-            .fill(RadialGradient(gradient: Gradient(colors: [color.opacity(0.0), color.opacity(0.1)]), center: .center, startRadius: 0, endRadius: 300))
-            .frame(width: value*1.5, height: value*1.5)
+            .fill(RadialGradient(gradient: Gradient(colors: [color.opacity(1.0), color.opacity(1.0)]), center: .center, startRadius: 0, endRadius: 300))
+            .frame(width: value*7, height: value*7)
             //.rotationEffect(.degrees(Double(arc4random_uniform(UInt32(180)))))
-            .offset(x: CGFloat(arc4random_uniform(UInt32(15))), y: CGFloat(arc4random_uniform(UInt32(15))))
-            .blur(radius: 3.0)
-        .animation(.spring())
+            .offset(x: CGFloat(arc4random_uniform(UInt32(100))) - 50, y: CGFloat(arc4random_uniform(UInt32(100)))-50)
+           // .blur(radius: 3.0)
+        //.animation(.spring())
         
         
     }
