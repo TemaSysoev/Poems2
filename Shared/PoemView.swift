@@ -84,7 +84,7 @@ struct PoemView: View {
                                     if (index / linesOnPage < (currentPage + 1)) && (index/linesOnPage >= currentPage) {
                                         
                                         Text(fourLines[index])
-                                            .textSelection(.enabled)
+                                            
                                             .id("\(index)")
                                             .multilineTextAlignment(.center)
                                             .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
@@ -112,6 +112,7 @@ struct PoemView: View {
                         
                         
                             VStack{
+                                
                                 ForEach(0..<fourLines.count, id: \.self){ index in
                                     
                                     if (index / linesOnPage < currentPage) && (index/linesOnPage >= currentPage - 1) {
@@ -119,7 +120,7 @@ struct PoemView: View {
                                         Text(fourLines[index])
                                         
                                             .id("\(index)")
-                                            .textSelection(.enabled)
+                                           
                                             .multilineTextAlignment(.center)
                                             .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
                                         
@@ -137,7 +138,7 @@ struct PoemView: View {
                                 }
                             }
                         
-                            .frame(minWidth: 300, idealWidth: 330, maxWidth: 400, minHeight: 500, idealHeight: 560, maxHeight: 560, alignment: .center)
+                            .frame(minWidth: 300, idealWidth: 330, maxWidth: 400, minHeight: 375, idealHeight: 560, maxHeight: 560, alignment: .center)
                             .background(Color("BackgroundColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding()

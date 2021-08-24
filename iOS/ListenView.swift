@@ -52,6 +52,7 @@ struct ListenView: View {
     @State var showingSheet = false
     
     @State var selectedLanguage = "Rus"
+    @State var showPrompt = false
     var body: some View {
         ZStack() {
          
@@ -59,8 +60,21 @@ struct ListenView: View {
       VStack{
           
           Spacer()
-          Button(action: {}, label: {
-              if true{
+          Button(action: {
+              showPrompt.toggle()
+          }, label: {
+              if showPrompt{
+                  Text(fourLines[paragraphStep])
+                      .font(.system(.title, design: .serif))
+                      
+                      .foregroundColor(Color.primary)
+                      .onChange(of: inputText, perform: { value in
+                          fourLineParse()
+                      })
+                      .onAppear{
+                          fourLineParse()
+                      }
+              }else{
                   Text(getFirstAndEndWord(s: fourLines[paragraphStep])[0] + " ... " + getFirstAndEndWord(s: fourLines[paragraphStep])[1])
                       .font(.system(.largeTitle, design: .serif))
                       
@@ -71,21 +85,7 @@ struct ListenView: View {
                       .onAppear{
                           fourLineParse()
                       }
-              }else{
-                  
-                  Text(slicedText)
-                      .font(.system(.largeTitle, design: .serif))
-                      .frame(maxWidth: .infinity)
-                      .padding()
-                      .animation(.easeIn)
-                      .foregroundColor(Color.primary)
-                      .multilineTextAlignment(.center)
-                      .onChange(of: inputText, perform: { value in
-                          fourLineParse()
-                      })
-                      .onAppear{
-                          fourLineParse()
-                      }
+                 
               }
               
               

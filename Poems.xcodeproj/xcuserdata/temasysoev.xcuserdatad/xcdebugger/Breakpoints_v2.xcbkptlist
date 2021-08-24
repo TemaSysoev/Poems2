@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "623"
             endingLineNumber = "623"
-            landmarkName = "searchOnlinePoems(search:)"
+            landmarkName = "getBookmarkedPoems()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -64,8 +64,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "769"
             endingLineNumber = "769"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "searchOnlinePoems(search:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -80,7 +80,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "622"
             endingLineNumber = "622"
-            landmarkName = "searchOnlinePoems(search:)"
+            landmarkName = "getBookmarkedPoems()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -96,7 +96,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "621"
             endingLineNumber = "621"
-            landmarkName = "searchOnlinePoems(search:)"
+            landmarkName = "getBookmarkedPoems()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
