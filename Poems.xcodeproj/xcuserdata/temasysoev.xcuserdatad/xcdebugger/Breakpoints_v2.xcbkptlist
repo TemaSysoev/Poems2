@@ -46,8 +46,8 @@
             filePath = "Shared/NavigationView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "623"
-            endingLineNumber = "623"
+            startingLineNumber = "625"
+            endingLineNumber = "625"
             landmarkName = "getBookmarkedPoems()"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "Shared/NavigationView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "769"
-            endingLineNumber = "769"
+            startingLineNumber = "771"
+            endingLineNumber = "771"
             landmarkName = "searchOnlinePoems(search:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "Shared/NavigationView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "622"
-            endingLineNumber = "622"
+            startingLineNumber = "624"
+            endingLineNumber = "624"
             landmarkName = "getBookmarkedPoems()"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Shared/NavigationView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "621"
-            endingLineNumber = "621"
+            startingLineNumber = "623"
+            endingLineNumber = "623"
             landmarkName = "getBookmarkedPoems()"
             landmarkType = "7">
          </BreakpointContent>

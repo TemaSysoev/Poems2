@@ -386,7 +386,9 @@ struct ColumnsView: View {
                         Image(systemName: "bolt.horizontal.circle")
                     }
                 }
-                
+#if os(macOS)
+.frame(minWidth: 200)
+#endif
                 
 #if os(iOS)
                 .navigationBarTitle(Text("Poems"))
@@ -397,7 +399,7 @@ struct ColumnsView: View {
                 
                 // .listRowSeparator(.hidden)
                 .searchable(text: $searchText){
-                    Text("Shakespeare").searchCompletion("Shakespeare")
+                   
                 }
                 .onSubmit(of: .search) {
                     let searchTextForURL = searchText.replacingOccurrences(of: " ", with: "%20")
@@ -545,17 +547,17 @@ struct ColumnsView: View {
             
             
         }
+        
         .accentColor(mainColor)
         .navigationViewStyle(.columns)
-        .onAppear(perform: {
-            //defaults.set(["When%20daisies%20pied,%20and%20violets%20blue"], forKey: "booked")
+        .task{
             async{
                 getOnlinePoems()
                 getBookmarkedPoems()
             }
             state = .loaded
             
-        })
+        }
         
     }
     func getOnlinePoems(){
@@ -566,7 +568,7 @@ struct ColumnsView: View {
                 state = LoadingStats.loading
                 
                 
-                let url = URL(string: "https://poetrydb.org/random/30")
+                let url = URL(string: "https://poetrydb.org/random/10")
                 let (data, _) = try await URLSession.shared.data(from: url!)
                 
                 
