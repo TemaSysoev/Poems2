@@ -32,7 +32,7 @@ struct PoemView: View {
     @State var misOut = ""
     @State var debug = false
     
-    @State var showListenView = false
+    @State var showLearnView = false
     @State var showSettings = false
     @State var addNew = false
     
@@ -194,26 +194,43 @@ struct PoemView: View {
             }
             
             .frame(maxWidth: .infinity)
-            HStack{
-#if os(iOS)
+            VStack{
                 Button(action: {
-                    showListenView = true
+                    showLearnView = true
                     
                 }, label: {
-                    Image(systemName: "mic.fill")
                     
+                    Text("Learn")
+                        .frame(maxWidth: 110)
                     
                 })
-                    .padding()
-                    .tint(Color.accentColor)
+                    .padding(.all, 5)
+                    .buttonStyle(.bordered)
+                    .controlSize(.regular)
+
+                   
                 
                 
-                
-                    .sheet(isPresented: $showListenView){
-                        ListenView(language: language, author: author, title: title, inputText: inputText)
+                    .sheet(isPresented: $showLearnView){
+                        VStack{
+                        LearnView(language: language, author: author, title: title, inputText: inputText)
+                            #if os(macOS)
+                            Button(role: .cancel, action: {
+                                showLearnView = false
+                                
+                            }, label: {
+                                Text("Close")
+                                
+                            })
+                                .padding(.bottom)
+                            #endif
+                        }
 
                     }
-#endif
+            HStack{
+
+               
+
                 Button(action: {
                     currentPage -= 1
                     nextPage -= 1
@@ -237,9 +254,10 @@ struct PoemView: View {
                     .disabled(!(currentPage < fourLines.count / linesOnPage + 1))
                     .padding(7)
             }
+            }
             .background(.thinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 14))
-            .padding()
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            
             Spacer()
 
         }
@@ -348,6 +366,6 @@ struct PoemView: View {
 
 struct PoemView_Previews: PreviewProvider {
     static var previews: some View {
-        PoemView(language: "RUS", author: "Пушкин А.С.", title: "Письмо Татьяны к Онегину", inputText: "Я к вам пишу – чего же боле?\nЧто я могу еще сказать?\nТеперь, я знаю, в вашей воле\nМеня ", complete:false, fontSize: 18, fontName: "Systemn", linesOnPage: 3, backgroundImageName: "pattern1")
+        PoemView(language: "RUS", author: "Пушкин А.С.", title: "Письмо Татьяны к Онегину", inputText: "Я к вам пишу – чего же боле?\nЧто я могу еще сказать?\nТеперь, я знаю, в вашей воле\nМеня ", complete:false, fontSize: 18, fontName: "System", linesOnPage: 3, backgroundImageName: "pattern1")
     }
 }

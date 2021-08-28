@@ -30,6 +30,8 @@
 		E0A0DC2F266ED0FC00F4F4AD /* PoemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */; };
 		E0ACEE4826B49280003DF5BB /* pattern9.png in Resources */ = {isa = PBXBuildFile; fileRef = E0ACEE4726B49280003DF5BB /* pattern9.png */; };
 		E0ACEE4926B49280003DF5BB /* pattern9.png in Resources */ = {isa = PBXBuildFile; fileRef = E0ACEE4726B49280003DF5BB /* pattern9.png */; };
+		E0D1050926DA61010037CE6C /* ListenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E081B0F7267B7B63007BBFE2 /* ListenView.swift */; };
+		E0D1050A26DA617A0037CE6C /* CompareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CCC00267B817800E34ECE /* CompareHelper.swift */; };
 		E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA99266ABBE2000059CB /* Poems2.xcdatamodeld */; };
 		E0FCDAB0266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA99266ABBE2000059CB /* Poems2.xcdatamodeld */; };
 		E0FCDAB1266ABBE4000059CB /* Poems2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA9B266ABBE2000059CB /* Poems2App.swift */; };
@@ -115,6 +117,9 @@
 				E0FCDAC1266ABFA0000059CB /* GetPoems.swift */,
 				E0FCDA9D266ABBE2000059CB /* Persistence.swift */,
 				E025041C26BACAC200B07936 /* ContentView.swift */,
+				E081B0F7267B7B63007BBFE2 /* ListenView.swift */,
+				E081B0F5267B7B1D007BBFE2 /* Microphone.swift */,
+				E00CCC00267B817800E34ECE /* CompareHelper.swift */,
 				E0FCDA9E266ABBE4000059CB /* Assets.xcassets */,
 				E030BBCE26ACD276009C103D /* pattern1.jpg */,
 				E06F840A26B2E72B00C217F6 /* Pattern 01.jpg */,
@@ -138,9 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				E0FCDAA6266ABBE4000059CB /* Info.plist */,
-				E081B0F5267B7B1D007BBFE2 /* Microphone.swift */,
-				E00CCC00267B817800E34ECE /* CompareHelper.swift */,
-				E081B0F7267B7B63007BBFE2 /* ListenView.swift */,
 				E0048296267CA8AF0074426C /* iOS */,
 			);
 			path = iOS;
@@ -296,6 +298,8 @@
 				E06F840626B2D5EF00C217F6 /* Themes.swift in Sources */,
 				E025041E26BACAC200B07936 /* ContentView.swift in Sources */,
 				E0FCDAB6266ABBE4000059CB /* Persistence.swift in Sources */,
+				E0D1050A26DA617A0037CE6C /* CompareHelper.swift in Sources */,
+				E0D1050926DA61010037CE6C /* ListenView.swift in Sources */,
 				E0FCDAB2266ABBE4000059CB /* Poems2App.swift in Sources */,
 				E0FCDAC3266ABFA0000059CB /* GetPoems.swift in Sources */,
 			);
@@ -422,7 +426,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -446,7 +450,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -473,7 +477,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -499,7 +503,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;

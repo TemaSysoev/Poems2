@@ -446,7 +446,7 @@ struct ColumnsView: View {
                     .edgesIgnoringSafeArea(.bottom)
                     .contrast(colorScheme == .dark ? -1.0 : 1.0)
                 VStack{
-                    
+                    Spacer()
                     
                     
                     VStack{
