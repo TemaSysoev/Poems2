@@ -8,6 +8,7 @@
 import SwiftUI
 import Speech
 
+
 struct LearnView: View {
     
 #if os(iOS)
@@ -57,6 +58,7 @@ struct LearnView: View {
     @State var showPrompt = false
     @State var learningModes = ["Writing", "Speaking"]
     @State var learningMode = "Writing"
+   
     
     var body: some View {
         ZStack() {
@@ -64,6 +66,7 @@ struct LearnView: View {
             
             VStack{
                 #if os(iOS)
+                
                 Picker(selection: $learningMode, label: Text("Learning mode")){
                     ForEach(learningModes, id: \.self) {
                         Text($0)
@@ -75,6 +78,7 @@ struct LearnView: View {
                 .labelsHidden()
                 .pickerStyle(.segmented)
                 #endif
+                
                 Spacer()
                 Button(action: {
                     showPrompt.toggle()
@@ -126,6 +130,11 @@ struct LearnView: View {
                             statusColor = UIOutput().getColor(checkAnswer)
                         })
                         .padding()
+                }else {
+                    if !userAllowedMicrophone{
+                        Text("Please allow access to microphone in Settings -> Poems 2")
+                            .foregroundColor(.red)
+                    }
                 }
                 VStack {
                     
