@@ -29,6 +29,7 @@ struct LearnView: View {
     @State var selectedIndex = Int()
     @State var fourLines = ["""
     """]
+    @State var fourLinesForWordsParse = [String]()
     @State var checkAnswer = "Слушаю..."
     @State var typedText = ""
     @State var paragraphStep = 0
@@ -56,299 +57,367 @@ struct LearnView: View {
     @State var selectedLanguage = "Rus"
     
     @State var showPrompt = false
-    @State var learningModes = ["Writing", "Speaking"]
+    let iOSLearningModes = [ "Writing", "Words", "Speaking"]
+    let macOSLearningModes = [ "Writing", "Words"]
     @State var learningMode = "Writing"
-   
+    let columns = [
+        GridItem(.adaptive(minimum: 100))
+        ]
     
     var body: some View {
-        ZStack() {
+        
+        
+        
+        VStack{
+#if os(iOS)
             
-            
-            VStack{
-                #if os(iOS)
-                
-                Picker(selection: $learningMode, label: Text("Learning mode")){
-                    ForEach(learningModes, id: \.self) {
-                        Text($0)
-                        
-                    }
+            Picker(selection: $learningMode, label: Text("Learning mode")){
+                ForEach(iOSLearningModes, id: \.self) {
+                    Text($0)
                     
                 }
+                
+            }
+            .padding()
+            .labelsHidden()
+            .pickerStyle(.segmented)
+#else
+            Picker(selection: $learningMode, label: Text("Learning mode")){
+                ForEach(macOSLearningModes, id: \.self) {
+                    Text($0)
+                    
+                }
+                
+            }
+            .padding()
+            .labelsHidden()
+            .pickerStyle(.segmented)
+#endif
+            
+            Spacer()
+            Button(action: {
+                showPrompt.toggle()
+            }, label: {
+                if showPrompt{
+                    Text(fourLines[paragraphStep])
+                        .font(.system(.headline, design: .serif))
+                    
+                        .foregroundColor(Color.primary)
+                        .onChange(of: inputText, perform: { value in
+                            fourLineParse()
+                        })
+                        .onAppear{
+                            fourLineParse()
+                            
+                        }
+                }else{
+                    Text(getFirstAndEndWord(s: fourLines[paragraphStep])[0] + " ... " + getFirstAndEndWord(s: fourLines[paragraphStep])[1])
+                        .font(.system(.largeTitle, design: .serif))
+                    
+                        .foregroundColor(Color.primary)
+                        .onChange(of: inputText, perform: { value in
+                            fourLineParse()
+                        })
+                       
+                }
+                
+                
+                
+                
+            })
+            
+                .buttonStyle(BorderlessButtonStyle())
                 .padding()
-                .labelsHidden()
-                .pickerStyle(.segmented)
-                #endif
-                
-                Spacer()
-                Button(action: {
-                    showPrompt.toggle()
-                }, label: {
-                    if showPrompt{
-                        Text(fourLines[paragraphStep])
-                            .font(.system(.title, design: .serif))
-                        
-                            .foregroundColor(Color.primary)
-                            .onChange(of: inputText, perform: { value in
-                                fourLineParse()
-                            })
-                            .onAppear{
-                                fourLineParse()
-                            }
-                    }else{
-                        Text(getFirstAndEndWord(s: fourLines[paragraphStep])[0] + " ... " + getFirstAndEndWord(s: fourLines[paragraphStep])[1])
-                            .font(.system(.largeTitle, design: .serif))
-                        
-                            .foregroundColor(Color.primary)
-                            .onChange(of: inputText, perform: { value in
-                                fourLineParse()
-                            })
-                            .onAppear{
-                                fourLineParse()
-                            }
-                        
+                .onAppear{
+#if os(iOS)
+                    if learningMode == "Speaking"{
+                        self.speechRec.start()
                     }
-                    
-                    
-                    
-                    
-                })
+#endif
+                }
+            Spacer()
+            switch learningMode{
+            case "Words":
+                Text(userText)
+                    .font(.system(.headline, design: .serif))
                 
-                    .buttonStyle(BorderlessButtonStyle())
-                    .padding()
+                    .foregroundColor(Color.primary)
+                    .animation(.spring(), value: 10)
                     .onAppear{
+                        fourLinesForWordsParse = fourLines[paragraphStep].components(separatedBy: .whitespacesAndNewlines)
+                        fourLinesForWordsParse.shuffle()
+                    }
+                   
+                ScrollView {
+                            LazyVGrid(columns: columns, spacing: 10) {
+                               
+                                ForEach(0..<fourLinesForWordsParse.count){ index in
+                                    if fourLinesForWordsParse.indices.contains(index){
+                                    if fourLinesForWordsParse[index] != ""{
+                    Button(action: {
+                        typedText += fourLinesForWordsParse[index] + " "
+                        fourLinesForWordsParse.remove(at: index)
+                    }, label: {
+                        Text(fourLinesForWordsParse[index])
+                            .frame(width: 100)
+                    })
+                                            .padding(.horizontal)
+                        .buttonStyle(.bordered)
+                        .controlSize(.large)
+                                    }
+                                    }}
+                            }
+                            .padding(.horizontal)
+                    
+                }
+          
+                .animation(.spring(), value: 10)
+                .onChange(of: typedText, perform: { value in
+                    checkAnswer = Check(language: language).compareTypedText(s1: typedText, s2: fourLines[paragraphStep])
+                    statusColor = UIOutput().getColor(checkAnswer)
+                })
+            case "Writing":
+                TextField("Start typing", text: $typedText)
+                    .onChange(of: typedText, perform: { value in
+                        checkAnswer = Check(language: language).compareTypedText(s1: typedText, s2: fourLines[paragraphStep])
+                        statusColor = UIOutput().getColor(checkAnswer)
+                    })
+                    .padding()
+            case "Speaking":
+#if os(iOS)
+                if !userAllowedMicrophone{
+                    Text("Please allow access to microphone in Settings -> Poems 2")
+                        .foregroundColor(.red)
+                }
+#endif
+            default:
+                Spacer()
+            }
+            
+            VStack {
+                
+                HStack{
+                    
+                    Button(action: {
 #if os(iOS)
                         if learningMode == "Speaking"{
+                            self.speechRec.stop()
                             self.speechRec.start()
                         }
 #endif
-                    }
-                Spacer()
-                if learningMode == "Writing"{
-                    TextField("Start typing", text: $typedText)
-                        .onChange(of: typedText, perform: { value in
-                            checkAnswer = Check(language: language).compare(s1: typedText, s2: fourLines[paragraphStep])
-                            statusColor = UIOutput().getColor(checkAnswer)
-                        })
-                        .padding()
-                }else {
-                    if !userAllowedMicrophone{
-                        Text("Please allow access to microphone in Settings -> Poems 2")
-                            .foregroundColor(.red)
-                    }
-                }
-                VStack {
-                    
-                    HStack{
-                        
-                        Button(action: {
-#if os(iOS)
-                            if learningMode == "Speaking"{
-                                self.speechRec.stop()
-                                
-                                userText = " "
-                                typedText = " "
-                                self.speechRec.start()
-                            }
-#endif
-                        }, label: {
-                            ZStack{
-                                
-                                Circle()
-                                
-                                    .foregroundColor(Color.red.opacity(0.3))
-                                    .frame(width: 50, height: 50)
-                                
-                                Image(systemName: "arrow.uturn.backward")
-                                    .foregroundColor(Color.red)
-                                    .imageScale(.large)
-                                
-                                
-                            }
-                        })
-                            .buttonStyle(BorderlessButtonStyle())
-                            .accessibility(label: Text("Заново это четверостишие"))
-                        
+                            userText = " "
+                            typedText = " "
+                        fourLinesForWordsParse = fourLines[paragraphStep].components(separatedBy: .whitespacesAndNewlines)
+
+
+                    }, label: {
                         ZStack{
-                            Circle()
-                                .trim(from: 0.0, to: 0.8)
-                                .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
-                                .foregroundColor(statusColor.opacity(0.3))
-                                .frame(width: 180, height: 180)
                             
-                                .rotationEffect(Angle(degrees: 126))
                             Circle()
-                                .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*0.8)
-                                .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
-                                .foregroundColor(statusColor)
-                                .frame(width: 180, height: 180)
-                                .rotationEffect(Angle(degrees: 126))
-                                .animation(.spring())
                             
-                            switch checkAnswer{
-                            case "Все верно":
-                                Text("Good job!")
-                            case "Слушаю...":
-                                Text("Listening...")
-                            case "Ошибка":
-                                Button(action: {
-#if os(iOS)
-                                    if learningMode == "Speaking"{
-                                        if paragraphStep < fourLines.count-1{
-                                            paragraphStep += 1
-                                            self.speechRec.stop()
-                                            typedText = ""
-                                            userText = " "
-                                            self.speechRec.start()
-                                        }else{
-                                            
-                                            complete = "true"
-                                            
-                                            
-                                        }
-                                    }
-#endif
-                                }, label: {
-                                    Text("Skip")
-                                        .foregroundColor(Color.red)
-                                })
-                                    .buttonStyle(BorderlessButtonStyle())
-                            default:
-                                Text("Wrong key \(checkAnswer)")
-                            }
-                        }
-                        .padding()
-                        
-                        Button(action: {
-#if os(iOS)
-                            if paragraphStep < fourLines.count-1{
-                                paragraphStep += 1
-                                self.speechRec.stop()
-                                typedText = ""
-                                userText = " "
-                                self.speechRec.start()
-                            }else{
-                                help = true
-                                complete = "true"
-                                
-                                
-                                
-                            }
-#endif
-                        }, label: {
-                            ZStack{
-                                
-                                Circle()
-                                
-                                    .foregroundColor(Color.green.opacity(0.3))
-                                    .frame(width: 50, height: 50)
-                                
-                                Image(systemName: "arrow.right")
-                                    .foregroundColor(Color.green)
-                                    .imageScale(.large)
-                                
-                                
-                            }
-                        })
-                        
-                            .buttonStyle(BorderlessButtonStyle())
-                            .accessibility(label: Text("Следующее четверостишие"))
-                        
-                    }
-                    .padding(.bottom, 30)
-                    .contextMenu{
-                        Button(action: {
-                            debug = true
-                        }, label: {
-                            Text("Debug")
+                                .foregroundColor(Color.red.opacity(0.3))
+                                .frame(width: 50, height: 50)
+                            
+                            Image(systemName: "arrow.uturn.backward")
                                 .foregroundColor(Color.red)
-                        })
-                            .buttonStyle(BorderlessButtonStyle())
-                    }
-                    if debug {
+                                .imageScale(.large)
+                            
+                            
+                        }
+                    })
+                        .buttonStyle(BorderlessButtonStyle())
+                        .accessibility(label: Text("Заново это четверостишие"))
+                    
+                    ZStack{
+                        Circle()
+                            .trim(from: 0.0, to: 0.8)
+                            .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                            .foregroundColor(statusColor.opacity(0.3))
+                            .frame(width: 180, height: 180)
                         
-                        Text(c1out)
-                        Text(c2out)
-                        Text(misOut)
-                       
+                            .rotationEffect(Angle(degrees: 126))
+                        Circle()
+                            .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*0.8)
+                            .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                            .foregroundColor(statusColor)
+                            .frame(width: 180, height: 180)
+                            .rotationEffect(Angle(degrees: 126))
+                            .animation(.spring())
+                        
+                        switch checkAnswer{
+                        case "Все верно":
+                            Text("Good job!")
+                        case "Слушаю...":
+                            Text("Listening...")
+                        case "Ошибка":
+                            Button(action: {
 #if os(iOS)
-                        Text(userText)
-                            .onAppear {
-                                self.speechRec.start()
-                            }
-                        
-                            .onChange(of: speechRec.recognizedText, perform: { value in
-                                userText = speechRec.recognizedText
-                                checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
-                                c1out = Check(language: language).simplify(userText)
-                                c2out = Check(language: language).simplify(fourLines[paragraphStep])
-                                misOut = "\(misL(s1: c1out, s2: c2out))"
-                                statusColor = UIOutput().getColor(checkAnswer)
-                                
-                            })
-                            .padding()
+                                if learningMode == "Speaking"{
+                                    if paragraphStep < fourLines.count-1{
+                                        paragraphStep += 1
+                                        self.speechRec.stop()
+                                        typedText = ""
+                                        userText = " "
+                                        self.speechRec.start()
+                                    }else{
+                                        
+                                        complete = "true"
+                                        
+                                        
+                                    }
+                                }
 #endif
+                            }, label: {
+                                Text("Skip")
+                                    .foregroundColor(Color.red)
+                            })
+                                .buttonStyle(BorderlessButtonStyle())
+                        default:
+                            Text("Wrong key \(checkAnswer)")
+                        }
                     }
+                    .padding()
+                    
+                    Button(action: {
+#if os(iOS)
+                        if paragraphStep < fourLines.count-1{
+                            paragraphStep += 1
+                            self.speechRec.stop()
+                            typedText = ""
+                            userText = " "
+                            self.speechRec.start()
+                        }else{
+                            help = true
+                            complete = "true"
+                            
+                            
+                            
+                        }
+#endif
+                    }, label: {
+                        ZStack{
+                            
+                            Circle()
+                            
+                                .foregroundColor(Color.green.opacity(0.3))
+                                .frame(width: 50, height: 50)
+                            
+                            Image(systemName: "arrow.right")
+                                .foregroundColor(Color.green)
+                                .imageScale(.large)
+                            
+                            
+                        }
+                    })
+                    
+                        .buttonStyle(BorderlessButtonStyle())
+                        .accessibility(label: Text("Следующее четверостишие"))
                     
                 }
-                .padding()
-                
-                
-                
-                
+                .padding(.bottom, 30)
+                .contextMenu{
+                    Button(action: {
+                        debug = true
+                    }, label: {
+                        Text("Debug")
+                            .foregroundColor(Color.red)
+                    })
+                        .buttonStyle(BorderlessButtonStyle())
+                }
+                if debug {
+                    
+                    Text(c1out)
+                    Text(c2out)
+                    Text(misOut)
+                    
 #if os(iOS)
-                
-                .onChange(of: speechRec.recognizedText, perform: { value in
-                    userText = speechRec.recognizedText
-                    checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
-                    if checkAnswer == "Все верно"{
-                        paragraphStep += 1
-                        self.speechRec.stop()
-                        typedText = ""
-                        userText = " "
-                        self.speechRec.start()
-                    }
-                    slicedText = UIOutput().slice(s1: userText, s2: fourLines[paragraphStep])
-                    if userText.contains("заново") {
-                        if userText.contains("весь стих"){
-                            paragraphStep = 0
+                    Text(userText)
+                        .onAppear {
+                            self.speechRec.start()
                         }
-                        self.speechRec.stop()
-                        
-                        userText = " "
-                        typedText = " "
-                        self.speechRec.start()
-                    }
-                })
+                    
+                        .onChange(of: speechRec.recognizedText, perform: { value in
+                            userText = speechRec.recognizedText
+                            checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
+                            c1out = Check(language: language).simplify(userText)
+                            c2out = Check(language: language).simplify(fourLines[paragraphStep])
+                            misOut = "\(misL(s1: c1out, s2: c2out))"
+                            statusColor = UIOutput().getColor(checkAnswer)
+                            
+                        })
+                        .padding()
 #endif
-                .onChange(of: typedText, perform: { value in
-                    userText = typedText
-                    checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
-                    if checkAnswer == "Все верно"{
-                        paragraphStep += 1
-                       
-                        typedText = ""
-                        userText = " "
-                      
-                    }
-                    slicedText = UIOutput().slice(s1: userText, s2: fourLines[paragraphStep])
-                    if userText.contains("заново") {
-                        if userText.contains("весь стих"){
-                            paragraphStep = 0
-                        }
-                       
-                        
-                        userText = " "
-                        typedText = " "
-                        
-                    }
-                })
+                }
                 
             }
-            .frame(maxWidth: .infinity)
+            .padding()
             
             
+            
+            
+#if os(iOS)
+            
+            .onChange(of: speechRec.recognizedText, perform: { value in
+                userText = speechRec.recognizedText
+                checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
+                if checkAnswer == "Все верно"{
+                    paragraphStep += 1
+                    self.speechRec.stop()
+                    typedText = ""
+                    userText = " "
+                    self.speechRec.start()
+                }
+                slicedText = UIOutput().slice(s1: userText, s2: fourLines[paragraphStep])
+                if userText.contains("заново") {
+                    if userText.contains("весь стих"){
+                        paragraphStep = 0
+                    }
+                    self.speechRec.stop()
+                    
+                    userText = " "
+                    typedText = " "
+                    self.speechRec.start()
+                }
+            })
+#endif
+            .onChange(of: typedText, perform: { value in
+                userText = typedText
+                checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
+                if checkAnswer == "Все верно"{
+                    paragraphStep += 1
+                    
+                    typedText = ""
+                    userText = " "
+                    
+                }
+                slicedText = UIOutput().slice(s1: userText, s2: fourLines[paragraphStep])
+                if userText.contains("заново") {
+                    if userText.contains("весь стих"){
+                        paragraphStep = 0
+                    }
+                    
+                    
+                    userText = " "
+                    typedText = " "
+                    
+                }
+            })
             
         }
+        
+        .onAppear{
+            fourLineParse()
+            let helperText = fourLines[paragraphStep].replacingOccurrences(of: "\n", with: " ")
+   
+            fourLinesForWordsParse = helperText.components(separatedBy: " ")
+            fourLinesForWordsParse.shuffle()
+        }
+        #if os(macOS)
+        .frame(minWidth: 400, minHeight: 600)
+        
+        #endif
+        
+        
     }
     
     func fourLineParse() {
@@ -496,7 +565,7 @@ struct BarView: View {
 
 struct LearnView_Previews: PreviewProvider {
     static var previews: some View {
-        LearnView(language: "Eng", author: "Shakespear", title: "Title", inputText: "Some cool text\nOnly for you")
+        LearnView(language: "Eng", author: "Shakespear", title: "Title", inputText: "When daisies pied and violets blue\nAnd lady-smocks all silver-white\nAnd cuckoo-buds of yellow hue\nDo paint the meadows with delight,")
         
     }
 }
