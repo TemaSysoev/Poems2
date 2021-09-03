@@ -57,7 +57,7 @@ struct PoemView: View {
     var listOfLinesOnPage = [2, 3, 4]
     
     @State public var offset = CGSize(width: 0, height: 0)
-    @State var transp = false
+    @State var pushBack = false
     @State var drag = false
     @State private var currentPage = 1
     @State private var nextPage = 2
@@ -87,10 +87,11 @@ struct PoemView: View {
                                             .id("\(index)")
                                             .multilineTextAlignment(.center)
                                             .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
-                                        
-                                        
+                                            
+                                            .allowsTightening(true)
                                             .padding()
                                             .foregroundColor(Color.primary)
+                                            
                                             .onChange(of: inputText, perform: { value in
                                                 fourLineParse()
                                             })
@@ -99,15 +100,26 @@ struct PoemView: View {
                                             }
                                         
                                     }
+                                   
+                                }
+                                if currentPage - 1 == fourLines.count / linesOnPage {
+                                    Label("To beginning", systemImage: "arrow.uturn.left")
+                                        .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                                       
+                                        .padding()
+                                        .foregroundColor(Color.primary)
                                 }
                             }
-                            .frame(minWidth: 300, idealWidth: 330, maxWidth: 400, minHeight: 500, idealHeight: 560, maxHeight: 560, alignment: .center)
+                        .frame(width: 380, height: 560, alignment: .center)
+                       
                         .background(Color("BackgroundColor"))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .zIndex(pushBack ? 2 : 1)
                         .padding()
+                
                         .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 2)
                 
-                
+                        .scaleEffect(x: (abs(self.offset.width) + 500)/900, y: (abs(self.offset.width) + 500)/900, anchor: .center)
                         
                         
                             VStack{
@@ -122,7 +134,7 @@ struct PoemView: View {
                                            
                                             .multilineTextAlignment(.center)
                                             .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
-                                        
+                                            .allowsTightening(true)
                                             
                                             .padding()
                                             .foregroundColor(Color.primary)
@@ -137,24 +149,25 @@ struct PoemView: View {
                                 }
                             }
                         
-                            .frame(minWidth: 300, idealWidth: 330, maxWidth: 400, minHeight: 375, idealHeight: 560, maxHeight: 560, alignment: .center)
+                            .frame(width: 380, height: 560, alignment: .center)
                             .background(Color("BackgroundColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding()
                             .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 2)
+                            .zIndex(pushBack ? 1 : 2)
                         .offset(x: self.offset.width, y: 0)
-                        .rotation3DEffect(.degrees(Double((self.offset.height)/3000)), axis: (x: 1, y: 0, z: 0))
-                        .opacity(Double(10000.0/abs(self.offset.width*self.offset.height)))
+                      //  .animation(.spring(), value: self.offset)
                         .rotationEffect(.degrees(Double(90*self.offset.width)/3000))
+                        .scaleEffect(x: 1 - abs(self.offset.width)/500, y: 1 - abs(self.offset.width)/500, anchor: .center)
                         .gesture(
                             DragGesture()
                                 .onChanged { gesture in
                                     self.drag = true
                                     self.offset = gesture.translation
-                                    if (abs(self.offset.height) > 100) || (abs(self.offset.width) > 100){
-                                        self.transp = true
+                                    if (abs(self.offset.height) > 100) || (abs(self.offset.width) > 150){
+                                        self.pushBack = true
                                     }else{
-                                        self.transp = false
+                                        self.pushBack = false
                                     }
                                 }
                             
@@ -166,6 +179,8 @@ struct PoemView: View {
                                         let impactMed = UIImpactFeedbackGenerator(style: .light)
                                         impactMed.impactOccurred()
 #endif
+                                        self.pushBack = false
+                                        self.offset = .zero
                                         if currentPage < fourLines.count / linesOnPage + 1{
                                             currentPage += 1
                                             nextPage += 1
@@ -174,12 +189,11 @@ struct PoemView: View {
                                             nextPage = 2
                                         }
                                         
-                                        self.transp = false
-                                        self.offset = .zero
+                                       
                                         
                                         
                                     } else {
-                                        self.transp = false
+                                        self.pushBack = false
                                         self.offset = .zero
                                     }
                                     

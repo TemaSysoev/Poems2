@@ -38,7 +38,7 @@ func loadBookmarked() -> [String]{
 func saveBookmarked(_ newPoem: String){
     
     var tmpPoems = loadBookmarked()
-    var textForLink = newPoem.replacingOccurrences(of: " ", with: "%20")
+    let textForLink = newPoem.replacingOccurrences(of: " ", with: "%20")
     let endOfLine = textForLink.firstIndex(of: "\n")!
     let firstLine = textForLink[..<endOfLine]
     tmpPoems.append("\(firstLine)")
