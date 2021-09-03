@@ -47,6 +47,7 @@ struct PoemView: View {
     @State var price = String()
     
     @State private var showReadingSettings = false
+    @State private var showingLearnView = false
     public var fontSize: Int
     public var fontName: String
     public var linesOnPage: Int
@@ -76,8 +77,6 @@ struct PoemView: View {
             Spacer()
             ZStack(alignment: .center){
                
-                       
-                           
                             VStack{
                                 ForEach(0..<fourLines.count, id: \.self){ index in
                                     
@@ -194,51 +193,34 @@ struct PoemView: View {
             }
             
             .frame(maxWidth: .infinity)
-            VStack{
-                Button(action: {
-                    showLearnView = true
-                    
-                }, label: {
-                    
-                    Text("Learn")
-                        .frame(maxWidth: 110)
-                    
-                })
-                    .padding(.all, 5)
-                    .buttonStyle(.bordered)
-                    .controlSize(.regular)
-
-                   
-                
-                
-                    .sheet(isPresented: $showLearnView){
-                        VStack{
-                        LearnView(language: language, author: author, title: title, inputText: inputText)
-                            #if os(macOS)
-                            Button(role: .cancel, action: {
-                                showLearnView = false
-                                
-                            }, label: {
-                                Text("Close")
-                                
-                            })
-                                .padding(.bottom)
-                            #endif
-                        }
-
-                    }
+            
             HStack{
-
-               
-
+#if os(iOS)
+                Button(action:{
+                    showingLearnView = true
+                    
+                }, label:{
+                   Image(systemName: "brain.head.profile")
+                        .padding()
+                })
+                    
+                    .background(.thinMaterial)
+                    .clipShape(Circle())
+                    .popover(isPresented: $showingLearnView) {
+                        LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
+                    }
+#endif
+            HStack{
                 Button(action: {
                     currentPage -= 1
                     nextPage -= 1
                 }, label: {
                     Image(systemName: "chevron.left")
-                    
+                        .padding()
                 })
                     .buttonStyle(.borderless)
+                    .background(.thinMaterial)
+                    .clipShape(Circle())
                     .disabled(!(currentPage > 1))
                     .padding(7)
                 Text("Page \(currentPage) of \(fourLines.count / linesOnPage + 1)")
@@ -248,24 +230,24 @@ struct PoemView: View {
                     nextPage += 1
                 }, label: {
                     Image(systemName: "chevron.right")
-                    
+                        .padding()
                 })
                     .buttonStyle(.borderless)
+                    .background(.thinMaterial)
+                    .clipShape(Circle())
                     .disabled(!(currentPage < fourLines.count / linesOnPage + 1))
                     .padding(7)
             }
-            }
-            .background(.thinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
             
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 100))
+        }
             Spacer()
 
         }
         
             
     }
-        
-        
         
         
     }

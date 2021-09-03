@@ -19,6 +19,7 @@ struct ColumnsView: View {
     private let view = ["Discover", "Bookmarks"]
     @State private var currentView = "Discover"
     @State private var showingMenu = false
+    @State private var showingLearnView = false
     @State private var mainColor = Colors().pattern1Color
     
     @AppStorage("fontSize") private var fontSize = 18
@@ -115,6 +116,22 @@ struct ColumnsView: View {
                                             
                                         })
                                     }
+#if os(macOS)
+
+ToolbarItem(){
+    Button(action:{
+        showingLearnView = true
+        
+    }, label:{
+        Label("Learn", systemImage: "brain.head.profile")
+        
+    })
+        .popover(isPresented: $showingLearnView) {
+            LearnView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, fontName: fontName)
+        }
+}
+
+#endif
                                     ToolbarItem(placement: .primaryAction){
                                         
                                         Button(action:{
@@ -232,7 +249,7 @@ struct ColumnsView: View {
                             
                             ForEach(bookmarkedPoems) { poem in
                                 
-                                NavigationLink(destination: PoemView(language: poem.language, author: poem.author, title: poem.text, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, backgroundImageName: backgroundImageName)
+                                NavigationLink(destination: PoemView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, backgroundImageName: backgroundImageName)
                                                #if os(iOS)
                                                 .navigationBarTitleDisplayMode(.large)
                                                #endif
@@ -252,6 +269,8 @@ struct ColumnsView: View {
                                             
                                         })
                                     }
+                                  
+                                   
                                     ToolbarItem(placement: .primaryAction){
                                         
                                         Button(action:{

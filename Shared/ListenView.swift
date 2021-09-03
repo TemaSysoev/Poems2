@@ -27,6 +27,7 @@ struct LearnView: View {
     @State var title: String
     @State var inputText: String
     @State var selectedIndex = Int()
+    @State var fontName: String
     @State var fourLines = ["""
     """]
     @State var fourLinesForWordsParse = [String]()
@@ -100,7 +101,7 @@ struct LearnView: View {
             }, label: {
                 if showPrompt{
                     Text(fourLines[paragraphStep])
-                        .font(.system(.headline, design: .serif))
+                        .font(fontName == "System" ? .system(size: 18, design: .serif):.custom(fontName, size: 18))
                     
                         .foregroundColor(Color.primary)
                         .onChange(of: inputText, perform: { value in
@@ -112,7 +113,7 @@ struct LearnView: View {
                         }
                 }else{
                     Text(getFirstAndEndWord(s: fourLines[paragraphStep])[0] + " ... " + getFirstAndEndWord(s: fourLines[paragraphStep])[1])
-                        .font(.system(.largeTitle, design: .serif))
+                        .font(fontName == "System" ? .system(size: 20, design: .serif):.custom(fontName, size: 20))
                     
                         .foregroundColor(Color.primary)
                         .onChange(of: inputText, perform: { value in
@@ -138,8 +139,9 @@ struct LearnView: View {
             Spacer()
             switch learningMode{
             case "Words":
+                
                 Text(userText)
-                    .font(.system(.headline, design: .serif))
+                    .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
                 
                     .foregroundColor(Color.primary)
                     .animation(.spring(), value: 10)
@@ -159,11 +161,15 @@ struct LearnView: View {
                         fourLinesForWordsParse.remove(at: index)
                     }, label: {
                         Text(fourLinesForWordsParse[index])
-                            .frame(width: 100)
+                            .frame(width: 60)
+                            .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
                     })
                                             .padding(.horizontal)
+                                            
                         .buttonStyle(.bordered)
+                       
                         .controlSize(.large)
+                        .tint(.accentColor)
                                     }
                                     }}
                             }
@@ -176,19 +182,87 @@ struct LearnView: View {
                     checkAnswer = Check(language: language).compareTypedText(s1: typedText, s2: fourLines[paragraphStep])
                     statusColor = UIOutput().getColor(checkAnswer)
                 })
+               
             case "Writing":
+                
+                ZStack(alignment: .leading){
+                    Rectangle()
+                        .foregroundColor(statusColor.opacity(0.3))
+                        .frame(width: 300, height: 6)
+                        .cornerRadius(3)
+                    Rectangle()
+                        .foregroundColor(statusColor)
+                        .frame(width: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*300, height: 6)
+                        .cornerRadius(3)
+                        .animation(.spring(), value:slicedText.count)
+                    
+                }
                 TextField("Start typing", text: $typedText)
+                    .textFieldStyle(.plain)
+                    .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
+                
+                    .foregroundColor(Color.primary)
                     .onChange(of: typedText, perform: { value in
                         checkAnswer = Check(language: language).compareTypedText(s1: typedText, s2: fourLines[paragraphStep])
                         statusColor = UIOutput().getColor(checkAnswer)
                     })
                     .padding()
+                
             case "Speaking":
 #if os(iOS)
                 if !userAllowedMicrophone{
                     Text("Please allow access to microphone in Settings -> Poems 2")
                         .foregroundColor(.red)
                 }
+                ZStack{
+                    Circle()
+                        .trim(from: 0.0, to: 0.8)
+                        .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                        .foregroundColor(statusColor.opacity(0.3))
+                        .frame(width: 120, height: 120)
+                    
+                        .rotationEffect(Angle(degrees: 126))
+                    Circle()
+                        .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*0.8)
+                        .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                        .foregroundColor(statusColor)
+                        .frame(width: 120, height: 120)
+                        .rotationEffect(Angle(degrees: 126))
+                        .animation(.spring(), value: slicedText.count )
+                    
+                    switch checkAnswer{
+                    case "Все верно":
+                        Text("Good job!")
+                    case "Слушаю...":
+                        Text("Listening...")
+                    case "Ошибка":
+                        Button(action: {
+#if os(iOS)
+                            if learningMode == "Speaking"{
+                                if paragraphStep < fourLines.count-1{
+                                    paragraphStep += 1
+                                    self.speechRec.stop()
+                                    typedText = ""
+                                    userText = " "
+                                    self.speechRec.start()
+                                }else{
+                                    
+                                    complete = "true"
+                                    
+                                    
+                                }
+                            }
+#endif
+                        }, label: {
+                            Text("Skip")
+                                .foregroundColor(Color.red)
+                        })
+                            .buttonStyle(BorderlessButtonStyle())
+                    default:
+                        Text("Wrong key \(checkAnswer)")
+                    }
+                }
+                .padding()
 #endif
             default:
                 Spacer()
@@ -228,55 +302,7 @@ struct LearnView: View {
                         .buttonStyle(BorderlessButtonStyle())
                         .accessibility(label: Text("Заново это четверостишие"))
                     
-                    ZStack{
-                        Circle()
-                            .trim(from: 0.0, to: 0.8)
-                            .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
-                            .foregroundColor(statusColor.opacity(0.3))
-                            .frame(width: 180, height: 180)
-                        
-                            .rotationEffect(Angle(degrees: 126))
-                        Circle()
-                            .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*0.8)
-                            .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
-                            .foregroundColor(statusColor)
-                            .frame(width: 180, height: 180)
-                            .rotationEffect(Angle(degrees: 126))
-                            .animation(.spring())
-                        
-                        switch checkAnswer{
-                        case "Все верно":
-                            Text("Good job!")
-                        case "Слушаю...":
-                            Text("Listening...")
-                        case "Ошибка":
-                            Button(action: {
-#if os(iOS)
-                                if learningMode == "Speaking"{
-                                    if paragraphStep < fourLines.count-1{
-                                        paragraphStep += 1
-                                        self.speechRec.stop()
-                                        typedText = ""
-                                        userText = " "
-                                        self.speechRec.start()
-                                    }else{
-                                        
-                                        complete = "true"
-                                        
-                                        
-                                    }
-                                }
-#endif
-                            }, label: {
-                                Text("Skip")
-                                    .foregroundColor(Color.red)
-                            })
-                                .buttonStyle(BorderlessButtonStyle())
-                        default:
-                            Text("Wrong key \(checkAnswer)")
-                        }
-                    }
-                    .padding()
+                   
                     
                     Button(action: {
 #if os(iOS)
@@ -404,7 +430,10 @@ struct LearnView: View {
             })
             
         }
-        
+        .onChange(of: learningMode){ _ in
+            typedText = ""
+            userText = ""
+        }
         .onAppear{
             fourLineParse()
             let helperText = fourLines[paragraphStep].replacingOccurrences(of: "\n", with: " ")
@@ -565,7 +594,8 @@ struct BarView: View {
 
 struct LearnView_Previews: PreviewProvider {
     static var previews: some View {
-        LearnView(language: "Eng", author: "Shakespear", title: "Title", inputText: "When daisies pied and violets blue\nAnd lady-smocks all silver-white\nAnd cuckoo-buds of yellow hue\nDo paint the meadows with delight,")
+        LearnView(language: "Eng", author: "Shakespear", title: "Title", inputText: "When daisies pied and violets blue\nAnd lady-smocks all silver-white\nAnd cuckoo-buds of yellow hue\nDo paint the meadows with delight,", fontName: "System")
+            
         
     }
 }
