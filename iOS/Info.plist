@@ -26,8 +26,14 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>To take photo</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Нам нужно вас слышать</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To add photo in Photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To save photos</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Нам нужно вас понимать</string>
 	<key>UIApplicationSceneManifest</key>

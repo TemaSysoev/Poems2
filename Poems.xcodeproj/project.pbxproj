@@ -32,6 +32,13 @@
 		E0ACEE4926B49280003DF5BB /* pattern9.png in Resources */ = {isa = PBXBuildFile; fileRef = E0ACEE4726B49280003DF5BB /* pattern9.png */; };
 		E0D1050926DA61010037CE6C /* ListenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E081B0F7267B7B63007BBFE2 /* ListenView.swift */; };
 		E0D1050A26DA617A0037CE6C /* CompareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CCC00267B817800E34ECE /* CompareHelper.swift */; };
+		E0F7784126E36488006981D1 /* VideoRecoderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7784026E36484006981D1 /* VideoRecoderView.swift */; };
+		E0F7784426E36CD5006981D1 /* Controller in Resources */ = {isa = PBXBuildFile; fileRef = E0F7784226E36CD5006981D1 /* Controller */; };
+		E0F7784526E36CD5006981D1 /* View in Resources */ = {isa = PBXBuildFile; fileRef = E0F7784326E36CD5006981D1 /* View */; };
+		E0F7784726E36DC3006981D1 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7784626E36DC3006981D1 /* CameraViewController.swift */; };
+		E0F7784926E36DE5006981D1 /* CameraConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7784826E36DE5006981D1 /* CameraConfiguration.swift */; };
+		E0F7784B26E37212006981D1 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7784A26E37212006981D1 /* CustomButton.swift */; };
+		E0F7784D26E37241006981D1 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0F7784C26E37241006981D1 /* CameraViewController.xib */; };
 		E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA99266ABBE2000059CB /* Poems2.xcdatamodeld */; };
 		E0FCDAB0266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA99266ABBE2000059CB /* Poems2.xcdatamodeld */; };
 		E0FCDAB1266ABBE4000059CB /* Poems2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCDA9B266ABBE2000059CB /* Poems2App.swift */; };
@@ -61,6 +68,13 @@
 		E09797CF266F9598005F8C01 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoemView.swift; sourceTree = "<group>"; };
 		E0ACEE4726B49280003DF5BB /* pattern9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pattern9.png; sourceTree = SOURCE_ROOT; };
+		E0F7784026E36484006981D1 /* VideoRecoderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecoderView.swift; sourceTree = "<group>"; };
+		E0F7784226E36CD5006981D1 /* Controller */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Controller; sourceTree = "<group>"; };
+		E0F7784326E36CD5006981D1 /* View */ = {isa = PBXFileReference; lastKnownFileType = folder; path = View; sourceTree = "<group>"; };
+		E0F7784626E36DC3006981D1 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		E0F7784826E36DE5006981D1 /* CameraConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraConfiguration.swift; sourceTree = "<group>"; };
+		E0F7784A26E37212006981D1 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		E0F7784C26E37241006981D1 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		E0FCDA9A266ABBE2000059CB /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		E0FCDA9B266ABBE2000059CB /* Poems2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poems2App.swift; sourceTree = "<group>"; };
 		E0FCDA9D266ABBE2000059CB /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -118,8 +132,13 @@
 				E0FCDA9D266ABBE2000059CB /* Persistence.swift */,
 				E025041C26BACAC200B07936 /* ContentView.swift */,
 				E081B0F7267B7B63007BBFE2 /* ListenView.swift */,
+				E0F7784026E36484006981D1 /* VideoRecoderView.swift */,
 				E081B0F5267B7B1D007BBFE2 /* Microphone.swift */,
 				E00CCC00267B817800E34ECE /* CompareHelper.swift */,
+				E0F7784626E36DC3006981D1 /* CameraViewController.swift */,
+				E0F7784826E36DE5006981D1 /* CameraConfiguration.swift */,
+				E0F7784A26E37212006981D1 /* CustomButton.swift */,
+				E0F7784C26E37241006981D1 /* CameraViewController.xib */,
 				E0FCDA9E266ABBE4000059CB /* Assets.xcassets */,
 				E030BBCE26ACD276009C103D /* pattern1.jpg */,
 				E06F840A26B2E72B00C217F6 /* Pattern 01.jpg */,
@@ -143,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				E0FCDAA6266ABBE4000059CB /* Info.plist */,
+				E0F7784226E36CD5006981D1 /* Controller */,
+				E0F7784326E36CD5006981D1 /* View */,
 				E0048296267CA8AF0074426C /* iOS */,
 			);
 			path = iOS;
@@ -244,12 +265,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0F7784D26E37241006981D1 /* CameraViewController.xib in Resources */,
 				E0048297267CA8AF0074426C /* iOS in Resources */,
 				E0ACEE4826B49280003DF5BB /* pattern9.png in Resources */,
 				E030BBCF26ACD277009C103D /* pattern1.jpg in Resources */,
+				E0F7784426E36CD5006981D1 /* Controller in Resources */,
 				E0FCDAB7266ABBE4000059CB /* Assets.xcassets in Resources */,
 				E06F840B26B2E72B00C217F6 /* Pattern 01.jpg in Resources */,
 				E08DA51D26B5D91900AE9A0C /* ian-schneider-XJfHMPJ0e-g-unsplash.jpg in Resources */,
+				E0F7784526E36CD5006981D1 /* View in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +299,9 @@
 				E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */,
 				E06F840526B2D5EF00C217F6 /* Themes.swift in Sources */,
 				E025041D26BACAC200B07936 /* ContentView.swift in Sources */,
+				E0F7784126E36488006981D1 /* VideoRecoderView.swift in Sources */,
+				E0F7784B26E37212006981D1 /* CustomButton.swift in Sources */,
+				E0F7784926E36DE5006981D1 /* CameraConfiguration.swift in Sources */,
 				E0A0DC2E266ED0FC00F4F4AD /* PoemView.swift in Sources */,
 				E081B0F6267B7B21007BBFE2 /* Microphone.swift in Sources */,
 				E05ED79B266F96D4004FE1F1 /* NavigationView.swift in Sources */,
@@ -282,6 +309,7 @@
 				E0FCDAB1266ABBE4000059CB /* Poems2App.swift in Sources */,
 				E00CCC01267B817800E34ECE /* CompareHelper.swift in Sources */,
 				E081B0F8267B7B63007BBFE2 /* ListenView.swift in Sources */,
+				E0F7784726E36DC3006981D1 /* CameraViewController.swift in Sources */,
 				E0FCDAC2266ABFA0000059CB /* GetPoems.swift in Sources */,
 				E011E5A9269762E6009549C9 /* SettingsView.swift in Sources */,
 			);
@@ -426,7 +454,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -450,7 +478,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;

@@ -48,6 +48,7 @@ struct PoemView: View {
     
     @State private var showReadingSettings = false
     @State private var showingLearnView = false
+    @State private var showingCameraViewController = false
     public var fontSize: Int
     public var fontName: String
     public var linesOnPage: Int
@@ -255,6 +256,21 @@ struct PoemView: View {
             
             .background(.thinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 100))
+#if os(iOS)
+                Button(action:{
+                    showingCameraViewController = true
+                    
+                }, label:{
+                   Image(systemName: "video")
+                        .padding()
+                })
+                    
+                    .background(.thinMaterial)
+                    .clipShape(Circle())
+                    .popover(isPresented: $showingCameraViewController) {
+                        CameraAndTextView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
+                    }
+#endif
         }
             Spacer()
 
