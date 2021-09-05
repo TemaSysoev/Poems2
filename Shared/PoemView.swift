@@ -149,7 +149,7 @@ struct PoemView: View {
                                     }
                                 }
                             }
-                        
+                            
                             .frame(width: 380, height: 560, alignment: .center)
                             .background(Color("BackgroundColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))

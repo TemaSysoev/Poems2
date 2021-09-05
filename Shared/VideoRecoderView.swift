@@ -35,73 +35,72 @@ struct CameraAndTextView: View{
     @State var fourLinesForWordsParse = [String]()
     var body: some View {
         VStack{
-            CameraView()
-                .padding()
-                .clipShape(RoundedRectangle(cornerRadius: 13.0))
-            Text(fourLines[paragraphStep])
-                .font(fontName == "System" ? .system(size: 18, design: .serif):.custom(fontName, size: 18))
             
-                .foregroundColor(Color.primary)
-                .onChange(of: inputText, perform: { value in
-                    fourLineParse()
-                })
-                .onAppear{
-                    fourLineParse()
+         HStack{
+             Button(action: {
+                 if paragraphStep > 0{
+                     paragraphStep -= 1
+                 }
+
+
+             }, label: {
+                
+                     
+                     Image(systemName: "chevron.compact.left")
+                         .foregroundColor(Color.primary)
+                         .imageScale(.large)
+                
+             })
+                 .buttonStyle(BorderlessButtonStyle())
+                 .accessibility(label: Text("Заново это четверостишие"))
+                 .padding()
+             Spacer()
+             Text(fourLines[paragraphStep])
+                 .font(fontName == "System" ? .system(size: 18, design: .serif):.custom(fontName, size: 18))
+                 .padding()
+                 .foregroundColor(Color.primary)
+                 .onChange(of: inputText, perform: { value in
+                     fourLineParse()
+                 })
+                 .onAppear{
+                     fourLineParse()
+                     
+                 }
+                 .frame(height: 250)
+             Spacer()
+             Button(action: {
+
+                 if paragraphStep < fourLines.count-1{
+                     paragraphStep += 1
                     
-                }
-            HStack{
-                Button(action: {
-                    if paragraphStep > 0{
-                        paragraphStep -= 1
-                    }
+                 }
 
-
-                }, label: {
-                    ZStack{
-                        
-                        Circle()
-                        
-                            .foregroundColor(Color.red.opacity(0.3))
-                            .frame(width: 50, height: 50)
-                        
-                        Image(systemName: "arrow.left")
-                            .foregroundColor(Color.red)
-                            .imageScale(.large)
-                        
-                        
-                    }
-                })
-                    .buttonStyle(BorderlessButtonStyle())
-                    .accessibility(label: Text("Заново это четверостишие"))
+             }, label: {
                 
-                Button(action: {
-
-                    if paragraphStep < fourLines.count-1{
-                        paragraphStep += 1
-                       
-                    }
-
-                }, label: {
-                    ZStack{
-                        
-                        Circle()
-                        
-                            .foregroundColor(Color.green.opacity(0.3))
-                            .frame(width: 50, height: 50)
-                        
-                        Image(systemName: "arrow.right")
-                            .foregroundColor(Color.green)
-                            .imageScale(.large)
-                        
-                        
-                    }
-                })
-                
-                    .buttonStyle(BorderlessButtonStyle())
-                    .accessibility(label: Text("Следующее четверостишие"))
-            }
+                     Image(systemName: "chevron.compact.right")
+                         .foregroundColor(Color.primary)
+                         .imageScale(.large)
+                     
+                 
+             })
+             
+                 .buttonStyle(BorderlessButtonStyle())
+                 .accessibility(label: Text("Следующее четверостишие"))
+                 .padding()
+         }
+            
+            CameraView()
+                .cornerRadius(13.0)
+                .padding()
+               
+           
+           
+               
+        
             
         }
+        .frame(minWidth: 300, minHeight: 300)
+        
     }
     
     func fourLineParse() {

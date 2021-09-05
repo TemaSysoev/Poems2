@@ -32,7 +32,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNV-5q-B7d">
-                    <rect key="frame" x="260" y="16" width="44" height="44"/>
+                    <rect key="frame" x="16" y="491" width="44" height="44"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="44" id="fgS-FX-jn9"/>
                         <constraint firstAttribute="height" constant="44" id="tb9-rL-u2P"/>
@@ -44,7 +44,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5hP-Ur-4VR">
-                    <rect key="frame" x="260" y="70" width="44" height="44"/>
+                    <rect key="frame" x="260" y="490.5" width="44" height="44"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" image="camera.rotate.fill" catalog="system"/>
                     <connections>
@@ -55,19 +55,19 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="5hP-Ur-4VR" firstAttribute="firstBaseline" secondItem="2sp-4I-PQh" secondAttribute="firstBaseline" id="7A1-21-ZtZ"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="7xC-jp-wvH"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="8Yd-xW-xcn"/>
+                <constraint firstItem="nzD-PH-VeJ" firstAttribute="leading" secondItem="CNV-5q-B7d" secondAttribute="trailing" constant="-60" id="CpJ-19-9NY"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="EcX-ln-94c"/>
                 <constraint firstItem="5hP-Ur-4VR" firstAttribute="width" secondItem="CNV-5q-B7d" secondAttribute="width" id="ErV-un-ClZ"/>
                 <constraint firstItem="5hP-Ur-4VR" firstAttribute="height" secondItem="CNV-5q-B7d" secondAttribute="height" id="KRh-zH-Ybg"/>
-                <constraint firstItem="5hP-Ur-4VR" firstAttribute="top" secondItem="CNV-5q-B7d" secondAttribute="bottom" constant="10" id="KXO-km-Gsk"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="Kon-Ul-Yh5"/>
                 <constraint firstItem="2sp-4I-PQh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="RmB-PB-SGr"/>
-                <constraint firstItem="5hP-Ur-4VR" firstAttribute="trailing" secondItem="CNV-5q-B7d" secondAttribute="trailing" id="avo-Ap-8vG"/>
-                <constraint firstItem="CNV-5q-B7d" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="b1i-cg-F7G"/>
+                <constraint firstItem="CNV-5q-B7d" firstAttribute="centerY" secondItem="2sp-4I-PQh" secondAttribute="centerY" id="hxp-lc-xzm"/>
                 <constraint firstAttribute="bottom" secondItem="2sp-4I-PQh" secondAttribute="bottom" constant="40" id="lqq-Gf-RFI"/>
-                <constraint firstAttribute="trailing" secondItem="CNV-5q-B7d" secondAttribute="trailing" constant="16" id="n4i-dE-ybN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nzD-PH-VeJ" secondAttribute="trailing" id="onF-Q2-3cw"/>
+                <constraint firstItem="5hP-Ur-4VR" firstAttribute="leading" secondItem="nzD-PH-VeJ" secondAttribute="trailing" constant="-60" id="uW4-mJ-Wym"/>
             </constraints>
             <point key="canvasLocation" x="88.125" y="156.33802816901408"/>
         </view>

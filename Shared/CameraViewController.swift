@@ -122,10 +122,10 @@ class CameraViewController: UIViewController {
             self.toggleFlashButton.setImage(UIImage(systemName: "bolt.slash"), for: .normal)
         } else if cameraConfig.flashMode == .off {
             cameraConfig.flashMode = .on
-            self.toggleFlashButton.setImage(#imageLiteral(resourceName: "bolt"), for: .normal)
+            self.toggleFlashButton.setImage(UIImage(systemName: "bolt.fill"), for: .normal)
         } else {
             cameraConfig.flashMode = .auto
-            self.toggleFlashButton.setImage(#imageLiteral(resourceName: "bolt.badge.a"), for: .normal)
+            self.toggleFlashButton.setImage(UIImage(systemName: "bolt.badge.a"), for: .normal)
         }
     }
     

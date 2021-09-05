@@ -59,7 +59,7 @@ extension CameraConfiguration {
         }
         
         func configureCaptureDevices() throws {
-            let session = AVCaptureDevice.DiscoverySession.init(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.unspecified)
+            let session = AVCaptureDevice.DiscoverySession.init(deviceTypes: [.builtInTrueDepthCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.unspecified)
             
             let cameras = (session.devices.compactMap{$0})
 
