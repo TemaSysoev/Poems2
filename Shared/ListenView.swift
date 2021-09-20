@@ -63,7 +63,7 @@ struct LearnView: View {
     @State var learningMode = "Writing"
     let columns = [
         GridItem(.adaptive(minimum: 100))
-        ]
+    ]
     
     var body: some View {
         
@@ -107,11 +107,13 @@ struct LearnView: View {
                             self.speechRec.start()
                         }
 #endif
-                            userText = " "
-                            typedText = " "
+                        userText = " "
+                        typedText = " "
                         fourLinesForWordsParse = fourLines[paragraphStep].components(separatedBy: .whitespacesAndNewlines)
-
-
+                        if paragraphStep > 0{
+                            paragraphStep -= 1
+                        }
+                        
                     }, label: {
                         Image(systemName: "chevron.compact.left")
                             .foregroundColor(Color.primary)
@@ -143,7 +145,7 @@ struct LearnView: View {
                                 .onChange(of: inputText, perform: { value in
                                     fourLineParse()
                                 })
-                               
+                            
                         }
                         
                         
@@ -154,11 +156,11 @@ struct LearnView: View {
                         .buttonStyle(BorderlessButtonStyle())
                         .padding()
                         .onAppear{
-        #if os(iOS)
+#if os(iOS)
                             if learningMode == "Speaking"{
                                 self.speechRec.start()
                             }
-        #endif
+#endif
                         }
                     Spacer()
                     Button(action: {
@@ -275,7 +277,7 @@ struct LearnView: View {
                     
                 }
             })
-                
+            
             
             
             Spacer()
@@ -291,43 +293,44 @@ struct LearnView: View {
                         fourLinesForWordsParse = fourLines[paragraphStep].components(separatedBy: .whitespacesAndNewlines)
                         fourLinesForWordsParse.shuffle()
                     }
-               
+                
                 ScrollView {
-                            LazyVGrid(columns: columns, spacing: 10) {
-                               
-                                ForEach(0..<fourLinesForWordsParse.count){ index in
-                                    if fourLinesForWordsParse.indices.contains(index){
-                                    if fourLinesForWordsParse[index] != ""{
-                    Button(action: {
-                        typedText += fourLinesForWordsParse[index] + " "
-                        fourLinesForWordsParse.remove(at: index)
-                    }, label: {
-                        Text(fourLinesForWordsParse[index])
-                            .frame(width: 60)
-                            .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
-                    })
-                                            .padding(.horizontal)
-                                            .animation(.spring(), value: typedText)
-                      
-                       
-                       
-                       
-                                    }
-                                    }}
-                            }
-                            .padding(.horizontal)
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        
+                        ForEach(0..<fourLinesForWordsParse.count){ index in
+                            if fourLinesForWordsParse.indices.contains(index){
+                                if fourLinesForWordsParse[index] != ""{
+                                    Button(action: {
+                                        typedText += fourLinesForWordsParse[index] + " "
+                                        fourLinesForWordsParse.remove(at: index)
+                                    }, label: {
+                                        Text(fourLinesForWordsParse[index])
+                                            .frame(width: 80)
+                                            .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
+                                    })
+                                        .buttonStyle(BorderedButtonStyle())
+                                        .padding(.horizontal)
+                                        .animation(.spring(), value: typedText)
+                                    
+                                    
+                                    
+                                    
+                                }
+                            }}
+                    }
+                    .padding(.horizontal)
                     
                 }
-          
+                
                 
                 .onChange(of: typedText, perform: { value in
                     checkAnswer = Check(language: language).compareTypedText(s1: typedText, s2: fourLines[paragraphStep])
                     statusColor = UIOutput().getColor(checkAnswer)
                 })
-               
+                
             case "Writing":
                 
-               
+                
                 TextField("Start typing", text: $typedText)
                     .textFieldStyle(.plain)
                     .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
@@ -411,7 +414,7 @@ struct LearnView: View {
                 Spacer()
             }
             
-           
+            
             
         }
         .onChange(of: learningMode){ _ in
@@ -421,14 +424,14 @@ struct LearnView: View {
         .onAppear{
             fourLineParse()
             let helperText = fourLines[paragraphStep].replacingOccurrences(of: "\n", with: " ")
-   
+            
             fourLinesForWordsParse = helperText.components(separatedBy: " ")
             fourLinesForWordsParse.shuffle()
         }
-        #if os(macOS)
+#if os(macOS)
         .frame(minWidth: 400, minHeight: 600)
         
-        #endif
+#endif
         
         
     }
@@ -579,7 +582,7 @@ struct BarView: View {
 struct LearnView_Previews: PreviewProvider {
     static var previews: some View {
         LearnView(language: "Eng", author: "Shakespear", title: "Title", inputText: "When daisies pied and violets blue\nAnd lady-smocks all silver-white\nAnd cuckoo-buds of yellow hue\nDo paint the meadows with delight,", fontName: "System")
-            
+        
         
     }
 }

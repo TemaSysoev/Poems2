@@ -233,8 +233,8 @@ struct PoemView: View {
                     .clipShape(Circle())
                     .disabled(!(currentPage > 1))
                     .padding(7)
-                Text("Page \(currentPage) of \(fourLines.count / linesOnPage + 1)")
-                   
+                Text("\(currentPage) of \(fourLines.count / linesOnPage + 1)")
+                    .padding()
                 Button(action: {
                     currentPage += 1
                     nextPage += 1
