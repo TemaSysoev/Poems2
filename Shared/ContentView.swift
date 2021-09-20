@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct WebPoem: Identifiable, Encodable, Equatable{
+struct WebPoem: Identifiable, Encodable, Equatable, Decodable{
     var id: String
     
     let author: String
@@ -45,6 +45,7 @@ func saveBookmarked(_ newPoem: String){
     
     
     defaults.set(tmpPoems, forKey: "booked")
+    
 }
 
 

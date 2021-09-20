@@ -30,7 +30,7 @@ struct ColumnsView: View {
     
     var fonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
     var fontSizes = [12, 18, 24]
-    var backgroundImages = ["pattern1", "pattern2", "pattern3", "pattern4", "pattern5"]
+    var colors = ["pattern1Color", "pattern2Color", "pattern3Color", "pattern4Color", "pattern5Color"]
     
     
     var searchResults: [WebPoem] {
@@ -182,24 +182,21 @@ ToolbarItem(){
                                                     .frame(height: 20)
                                                     
                                                     Divider()
-                                                    Text("Background")
+                                                    Text("Controls color")
                                                         .bold()
-                                                    ScrollView(.vertical){
-                                                        VStack(){
-                                                            ForEach(backgroundImages, id: \.self) { name in
+                                                    ScrollView(.horizontal){
+                                                        HStack(){
+                                                            ForEach(colors, id: \.self) { name in
                                                                 Button(action:{backgroundImageName = name
-                                                                    mainColor = Color("\(name)Color")
+                                                                    mainColor = Color("\(name)")
                                                                 }, label:{HStack{
-                                                                    Image("\(name)")
-                                                                        .resizable()
-                                                                        .aspectRatio(contentMode: .fill)
-                                                                        .frame(height: 90, alignment: .center)
-                                                                        .cornerRadius(5.0)
-                                                                    
+                                                                   Circle()
+                                                                        .frame(width: 50, height: 50)
+                                                                        .foregroundColor(Color("\(name)"))
                                                                     
                                                                 }})
                                                                     .buttonStyle(.borderless)
-                                                                    .contrast(colorScheme == .dark ? -1.0 : 1.0)
+                                                                    
                                                                 
                                                             }
                                                             
@@ -242,6 +239,12 @@ ToolbarItem(){
                                     }
                                 
                                 
+                            }
+                            HStack{
+                                Spacer()
+                                ProgressView()
+                                    .padding()
+                                Spacer()
                             }
                         }
                     case "Bookmarks":
@@ -321,24 +324,21 @@ ToolbarItem(){
                                                     .frame(height: 20)
                                                     
                                                     Divider()
-                                                    Text("Background")
+                                                    Text("Controls color")
                                                         .bold()
-                                                    ScrollView(.vertical){
-                                                        VStack(){
-                                                            ForEach(backgroundImages, id: \.self) { name in
+                                                    ScrollView(.horizontal){
+                                                        HStack(){
+                                                            ForEach(colors, id: \.self) { name in
                                                                 Button(action:{backgroundImageName = name
-                                                                    mainColor = Color("\(name)Color")
+                                                                    mainColor = Color("\(name)")
                                                                 }, label:{HStack{
-                                                                    Image("\(name)")
-                                                                        .resizable()
-                                                                        .aspectRatio(contentMode: .fill)
-                                                                        .frame(height: 90, alignment: .center)
-                                                                        .cornerRadius(5.0)
-                                                                    
+                                                                   Circle()
+                                                                        .frame(width: 50, height: 50)
+                                                                        .foregroundColor(Color("\(name)"))
                                                                     
                                                                 }})
                                                                     .buttonStyle(.borderless)
-                                                                    .contrast(colorScheme == .dark ? -1.0 : 1.0)
+                                                                    
                                                                 
                                                             }
                                                             
@@ -371,35 +371,18 @@ ToolbarItem(){
                                 })
                                 
                             }
+                            HStack{
+                                Spacer()
+                                ProgressView()
+                                    .padding()
+                                Spacer()
+                            }
                         }
                     default:
                         Text("Error")
                     }
                     
-                    if state == .loading{
-                        ForEach(0..<10){ _ in
-                            VStack(alignment: .leading){
-                                
-                                Text("Loading title")
-                                    .bold()
-                                    .multilineTextAlignment(.leading)
-                                //.foregroundColor(Color.primary)
-                                Text("Loading author")
-                                    .font(.footnote)
-                                    .multilineTextAlignment(.leading)
-                                //.foregroundStyle(Color.secondary)
-                                
-                            }
-                            .animation(.spring(), value: 1)
-                            .redacted(reason: .placeholder)
-                        }
-                        HStack{
-                            Spacer()
-                            ProgressView()
-                                .padding()
-                            Spacer()
-                        }
-                    }
+                   
                     
                     if state == .error{
                         Image(systemName: "bolt.horizontal.circle")

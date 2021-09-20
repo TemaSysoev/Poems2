@@ -22,7 +22,26 @@ struct CameraView: UIViewControllerRepresentable {
         
     }
 }
+struct DeviceRotationViewModifier: ViewModifier {
+    let action: (UIDeviceOrientation) -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear()
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+                action(UIDevice.current.orientation)
+            }
+    }
+}
+
+extension View {
+    func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+        self.modifier(DeviceRotationViewModifier(action: action))
+    }
+}
 struct CameraAndTextView: View{
+    @State private var orientation = UIDeviceOrientation.unknown
+    
     @State var language: String
     @State var author: String
     @State var title: String
@@ -88,10 +107,25 @@ struct CameraAndTextView: View{
                  .accessibility(label: Text("Следующее четверостишие"))
                  .padding()
          }
-            
-            CameraView()
-                .cornerRadius(13.0)
-                .padding()
+            if orientation.isPortrait {
+                CameraView()
+                    .cornerRadius(13.0)
+                    .padding()
+            } else{
+                ZStack{
+                    CameraView()
+                        .cornerRadius(13.0)
+                        .padding()
+                    Rectangle()
+                        .cornerRadius(13.0)
+                        .padding()
+                        .background(.thickMaterial)
+                    Label("Please rotate your device", systemImage: "arrow.turn.up.forward.iphone")
+                        
+                }
+               
+            }
+           
                
            
            
@@ -99,7 +133,13 @@ struct CameraAndTextView: View{
         
             
         }
-        .frame(minWidth: 300, minHeight: 300)
+        .frame(minWidth: 300, minHeight: 500)
+        .onRotate { newOrientation in
+                   orientation = newOrientation
+               }
+        .onAppear(){
+            orientation = UIDevice.current.orientation
+        }
         
     }
     

@@ -66,12 +66,7 @@ struct PoemView: View {
     
     var body: some View {
         ZStack(alignment: .center){
-            Image(backgroundImageName)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .edgesIgnoringSafeArea(.bottom)
-               // .brightness(colorScheme == .dark ? -0.2 : 1.0)
-                .contrast(colorScheme == .dark ? -1.0 : 1.0)
+           
            
         VStack(alignment: .center){
             
@@ -112,15 +107,15 @@ struct PoemView: View {
                                 }
                             }
                         .frame(width: 380, height: 560, alignment: .center)
-                       
+                        .offset(x: 0, y: -(10-self.offset.width/10))
                         .background(Color("BackgroundColor"))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .zIndex(pushBack ? 2 : 1)
                         .padding()
                 
-                        .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 2)
+                        .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 0)
                 
-                        .scaleEffect(x: (abs(self.offset.width) + 500)/900, y: (abs(self.offset.width) + 500)/900, anchor: .center)
+                        .scaleEffect(x: (abs(self.offset.width) + 800)/1000, y: (abs(self.offset.width) + 800)/1000, anchor: .center)
                         
                         
                             VStack{
@@ -149,17 +144,17 @@ struct PoemView: View {
                                     }
                                 }
                             }
-                            
+                           
                             .frame(width: 380, height: 560, alignment: .center)
                             .background(Color("BackgroundColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding()
-                            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 2)
+                            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 0)
                             .zIndex(pushBack ? 1 : 2)
-                        .offset(x: self.offset.width, y: 0)
+                            .offset(x: self.offset.width<150 ? self.offset.width*2: (150-(self.offset.width-150))*2, y: 0)
                       //  .animation(.spring(), value: self.offset)
                         .rotationEffect(.degrees(Double(90*self.offset.width)/3000))
-                        .scaleEffect(x: 1 - abs(self.offset.width)/500, y: 1 - abs(self.offset.width)/500, anchor: .center)
+                        .scaleEffect(x: 1 - abs(self.offset.width)/1800, y: 1 - abs(self.offset.width)/1800, anchor: .center)
                         .gesture(
                             DragGesture()
                                 .onChanged { gesture in
@@ -208,7 +203,7 @@ struct PoemView: View {
             }
             
             .frame(maxWidth: .infinity)
-            
+            Spacer()
             HStack{
 #if os(iOS)
                 Button(action:{
@@ -221,7 +216,7 @@ struct PoemView: View {
                     
                     .background(.thinMaterial)
                     .clipShape(Circle())
-                    .popover(isPresented: $showingLearnView) {
+                    .sheet(isPresented: $showingLearnView) {
                         LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
                     }
 #endif
@@ -267,12 +262,12 @@ struct PoemView: View {
                     
                     .background(.thinMaterial)
                     .clipShape(Circle())
-                    .popover(isPresented: $showingCameraViewController) {
+                    .sheet(isPresented: $showingCameraViewController) {
                         CameraAndTextView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
                     }
 #endif
         }
-            Spacer()
+            .padding()
 
         }
         

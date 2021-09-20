@@ -19,7 +19,8 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var cameraSelectionButton: UIButton!
     @IBOutlet weak var videoCameraButton: UIButton!
     @IBOutlet weak var toggleFlashButton: UIButton!
-    
+    let app = UIApplication.shared
+    let previewLayer = AVCaptureVideoPreviewLayer()
     var cameraConfig: CameraConfiguration!
     let imagePickerController = UIImagePickerController()
     
@@ -102,7 +103,18 @@ class CameraViewController: UIViewController {
         }
         self.cameraButton.setImage(UIImage(systemName: "video.fill"), for: .normal)
         self.cameraButton.tintColor = UIColor.white
-       
+        switch app.statusBarOrientation {
+        case .portrait:
+            previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.portrait;
+        case .portraitUpsideDown:
+            previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.portraitUpsideDown;
+        case .landscapeLeft:
+            previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeLeft;
+        case .landscapeRight:
+            previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeRight;
+        default:
+            previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeRight;
+        }
         registerNotification()
     }
     
