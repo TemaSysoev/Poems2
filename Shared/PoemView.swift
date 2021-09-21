@@ -52,7 +52,7 @@ struct PoemView: View {
     public var fontSize: Int
     public var fontName: String
     public var linesOnPage: Int
-    public var backgroundImageName: String
+    public var customAccentColor: String
     var listOfFonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
     var listOfFontSizes = [12, 18, 24]
     var listOfLinesOnPage = [2, 3, 4]
@@ -373,6 +373,6 @@ struct PoemView: View {
 
 struct PoemView_Previews: PreviewProvider {
     static var previews: some View {
-        PoemView(language: "RUS", author: "Пушкин А.С.", title: "Письмо Татьяны к Онегину", inputText: "Я к вам пишу – чего же боле?\nЧто я могу еще сказать?\nТеперь, я знаю, в вашей воле\nМеня ", complete:false, fontSize: 18, fontName: "System", linesOnPage: 3, backgroundImageName: "pattern1")
+        PoemView(language: "RUS", author: "Пушкин А.С.", title: "Письмо Татьяны к Онегину", inputText: "Я к вам пишу – чего же боле?\nЧто я могу еще сказать?\nТеперь, я знаю, в вашей воле\nМеня ", complete:false, fontSize: 18, fontName: "System", linesOnPage: 3, customAccentColor: "pattern1Color")
     }
 }

@@ -408,6 +408,18 @@ struct LearnView: View {
                         Text("Wrong key \(checkAnswer)")
                     }
                 }
+                .onAppear {
+                    self.speechRec.start()
+                }
+                .onChange(of: speechRec.recognizedText, perform: { value in
+                    userText = speechRec.recognizedText
+                    checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
+                    c1out = Check(language: language).simplify(userText)
+                    c2out = Check(language: language).simplify(fourLines[paragraphStep])
+                    misOut = "\(misL(s1: c1out, s2: c2out))"
+                    statusColor = UIOutput().getColor(checkAnswer)
+                    
+                })
                 .padding()
 #endif
             default:

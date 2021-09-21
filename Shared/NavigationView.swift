@@ -25,7 +25,7 @@ struct ColumnsView: View {
     @AppStorage("fontSize") private var fontSize = 18
     @AppStorage("fontName") private var fontName = "System"
     @AppStorage("linesOnPage") private var linesOnPage = 3
-    @AppStorage("backgroundImageName") private var backgroundImageName = "pattern1"
+    @AppStorage("userAccentColor") private var userAccentColor = "pattern1Color"
     @State var categories = ["Bookmarks", "Random"]
     
     var fonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
@@ -97,7 +97,7 @@ struct ColumnsView: View {
                         Section(header: Text("Discover")){
                             ForEach(searchResults) { poem in
                                 NavigationLink(destination:
-                                                PoemView(language: poem.language, author: poem.author, title: poem.text, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, backgroundImageName: backgroundImageName)
+                                                PoemView(language: poem.language, author: poem.author, title: poem.text, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, customAccentColor: userAccentColor)
                                                #if os(iOS)
                                                 .navigationBarTitle(Text("\(poem.title)"))
                                                 .navigationBarTitleDisplayMode(.inline)
@@ -187,7 +187,7 @@ ToolbarItem(){
                                                     ScrollView(.horizontal){
                                                         HStack(){
                                                             ForEach(colors, id: \.self) { name in
-                                                                Button(action:{backgroundImageName = name
+                                                                Button(action:{userAccentColor = name
                                                                     mainColor = Color("\(name)")
                                                                 }, label:{HStack{
                                                                    Circle()
@@ -252,7 +252,7 @@ ToolbarItem(){
                             
                             ForEach(bookmarkedPoems) { poem in
                                 
-                                NavigationLink(destination: PoemView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, backgroundImageName: backgroundImageName)
+                                NavigationLink(destination: PoemView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, customAccentColor: userAccentColor)
                                                #if os(iOS)
                                                 .navigationBarTitleDisplayMode(.large)
                                                #endif
@@ -329,7 +329,7 @@ ToolbarItem(){
                                                     ScrollView(.horizontal){
                                                         HStack(){
                                                             ForEach(colors, id: \.self) { name in
-                                                                Button(action:{backgroundImageName = name
+                                                                Button(action:{userAccentColor = name
                                                                     mainColor = Color("\(name)")
                                                                 }, label:{HStack{
                                                                    Circle()
@@ -442,11 +442,7 @@ ToolbarItem(){
                 }
             }
             ZStack(alignment: .center){
-                Image(backgroundImageName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .edgesIgnoringSafeArea(.bottom)
-                    .contrast(colorScheme == .dark ? -1.0 : 1.0)
+              
                 VStack{
                     Spacer()
                     
