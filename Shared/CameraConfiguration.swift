@@ -84,22 +84,22 @@ extension CameraConfiguration {
             guard let captureSession = self.captureSession else {
                 throw CameraControllerError.captureSessionIsMissing
             }
-            
-            if let rearCamera = self.rearCamera {
-                self.rearCameraInput = try AVCaptureDeviceInput(device: rearCamera)
-                if captureSession.canAddInput(self.rearCameraInput!) {
-                    captureSession.addInput(self.rearCameraInput!)
-                    self.currentCameraPosition = .rear
-                } else {
-                    throw CameraControllerError.inputsAreInvalid
-                }
-            }
-                
-            else if let frontCamera = self.frontCamera {
+            if let frontCamera = self.frontCamera {
                 self.frontCameraInput = try AVCaptureDeviceInput(device: frontCamera)
                 if captureSession.canAddInput(self.frontCameraInput!) {
                     captureSession.addInput(self.frontCameraInput!)
                     self.currentCameraPosition = .front
+                } else {
+                    throw CameraControllerError.inputsAreInvalid
+                }
+            }
+            
+                
+            else if let rearCamera = self.rearCamera {
+                self.rearCameraInput = try AVCaptureDeviceInput(device: rearCamera)
+                if captureSession.canAddInput(self.rearCameraInput!) {
+                    captureSession.addInput(self.rearCameraInput!)
+                    self.currentCameraPosition = .rear
                 } else {
                     throw CameraControllerError.inputsAreInvalid
                 }

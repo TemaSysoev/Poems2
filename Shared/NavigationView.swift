@@ -30,7 +30,7 @@ struct ColumnsView: View {
     
     var fonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
     var fontSizes = [12, 18, 24]
-    var colors = ["pattern1Color", "pattern2Color", "pattern3Color", "pattern4Color", "pattern5Color"]
+    var colors = ["pattern1Color", "pattern2Color", "pattern3Color", "pattern4Color", "pattern5Color", "pattern6Color"]
     
     
     var searchResults: [WebPoem] {
@@ -47,26 +47,27 @@ struct ColumnsView: View {
         NavigationView {
             
             VStack {
-
-                List{
-                    VStack(alignment: .center){
-                        Picker(selection: $currentView, label: Text("")) {
-                            ForEach(view, id: \.self) {
-                                Text($0)
-                            }
-                            
+                VStack(alignment: .center){
+                    Picker(selection: $currentView, label: Text("")) {
+                        ForEach(view, id: \.self) {
+                            Text($0)
                         }
-                        .pickerStyle(.segmented)
-                        if searchText != ""{
-                            Button(role: .destructive, action:{
-                                searchText = ""
-                                searchOnlinePoems(search: searchText)
-                            }, label:{
-                                Text("Clear search")
-                            })
-                            
-                        }
+                        
                     }
+                    .pickerStyle(.segmented)
+                    if searchText != ""{
+                        Button(role: .destructive, action:{
+                            searchText = ""
+                            searchOnlinePoems(search: searchText)
+                        }, label:{
+                            Text("Clear search")
+                        })
+                        
+                    }
+                }
+                .padding(.horizontal, 23)
+                List{
+                    
                     switch currentView{
                         
                     case "Discover":
@@ -187,7 +188,8 @@ ToolbarItem(){
                                                     ScrollView(.horizontal){
                                                         HStack(){
                                                             ForEach(colors, id: \.self) { name in
-                                                                Button(action:{userAccentColor = name
+                                                                Button(action:{
+                                                                    userAccentColor = name
                                                                     mainColor = Color("\(name)")
                                                                 }, label:{HStack{
                                                                    Circle()
@@ -204,12 +206,13 @@ ToolbarItem(){
                                                         
                                                     }
                                                     
-                                                    
+                                                  Spacer()
                                                     
                                                 }.padding()
                                                     .frame(minWidth: 300)
                                             }
                                     }
+                                
                                 }
                                                
                                                , label: {
@@ -345,7 +348,7 @@ ToolbarItem(){
                                                         }
                                                         
                                                     }
-                                                    
+                                                    Spacer()
                                                     
                                                     
                                                 }.padding()
@@ -546,7 +549,7 @@ ToolbarItem(){
             
         }
         
-        .accentColor(mainColor)
+        .accentColor(Color(userAccentColor))
         .navigationViewStyle(.columns)
         .task{
             async{

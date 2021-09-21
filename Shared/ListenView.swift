@@ -13,7 +13,7 @@ struct LearnView: View {
     
 #if os(iOS)
     @ObservedObject var speechRec = SpeechRec()
-    @ObservedObject private var mic = MicrophoneMonitor(numberOfSamples: 100)
+    @ObservedObject private var mic = MicrophoneMonitor(numberOfSamples: 7)
 #endif
     @Environment(\.presentationMode) var presentationMode
     
@@ -61,6 +61,7 @@ struct LearnView: View {
     let iOSLearningModes = [ "Writing", "Words", "Speaking"]
     let macOSLearningModes = [ "Writing", "Words"]
     @State var learningMode = "Writing"
+    @AppStorage("userAccentColor") private var userAccentColor = "pattern1Color"
     let columns = [
         GridItem(.adaptive(minimum: 100))
     ]
@@ -283,7 +284,7 @@ struct LearnView: View {
             Spacer()
             switch learningMode{
             case "Words":
-                
+                Spacer()
                 Text(userText)
                     .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
                 
@@ -292,8 +293,9 @@ struct LearnView: View {
                     .onAppear{
                         fourLinesForWordsParse = fourLines[paragraphStep].components(separatedBy: .whitespacesAndNewlines)
                         fourLinesForWordsParse.shuffle()
+                        self.speechRec.stop()
                     }
-                
+                    
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         
@@ -309,7 +311,9 @@ struct LearnView: View {
                                             .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
                                     })
                                         .buttonStyle(BorderedButtonStyle())
+                                        .tint(Color(userAccentColor))
                                         .padding(.horizontal)
+                                        
                                         .animation(.spring(), value: typedText)
                                     
                                     
@@ -333,7 +337,7 @@ struct LearnView: View {
                 
                 TextField("Start typing", text: $typedText)
                     .textFieldStyle(.plain)
-                    .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
+                    .font(fontName == "System" ? .system(size: 20, design: .serif):.custom(fontName, size: 20))
                 
                     .foregroundColor(Color.primary)
                     .onChange(of: typedText, perform: { value in
@@ -353,6 +357,9 @@ struct LearnView: View {
                         .animation(.spring(), value:slicedText.count)
                     
                 }
+                .onAppear{
+                    self.speechRec.stop()
+                }
                 .padding()
             case "Speaking":
 #if os(iOS)
@@ -365,17 +372,24 @@ struct LearnView: View {
                         .trim(from: 0.0, to: 0.8)
                         .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
                         .foregroundColor(statusColor.opacity(0.3))
-                        .frame(width: 120, height: 120)
+                        .frame(width: 240, height: 240)
                     
                         .rotationEffect(Angle(degrees: 126))
                     Circle()
                         .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*0.8)
                         .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
                         .foregroundColor(statusColor)
-                        .frame(width: 120, height: 120)
+                        .frame(width: 240, height: 240)
                         .rotationEffect(Angle(degrees: 126))
                         .animation(.spring(), value: slicedText.count )
-                    
+                    VStack{
+                   /* HStack() {
+                        ForEach(mic.soundSamples, id: \.self) { level in
+                            BarView(value: self.normalizeSoundLevel(level: level), color: statusColor)
+                                .frame(height: 30)
+                            
+                        }
+                    }*/
                     switch checkAnswer{
                     case "Все верно":
                         Text("Good job!")
@@ -406,6 +420,7 @@ struct LearnView: View {
                             .buttonStyle(BorderlessButtonStyle())
                     default:
                         Text("Wrong key \(checkAnswer)")
+                    }
                     }
                 }
                 .onAppear {
@@ -577,15 +592,14 @@ class SpeechRec: ObservableObject {
 struct BarView: View {
     var value: CGFloat
     var color: Color
+    @AppStorage("userAccentColor") private var userAccentColor = "pattern1Color"
     var body: some View {
         
-        Circle()
-            .fill(RadialGradient(gradient: Gradient(colors: [color.opacity(1.0), color.opacity(1.0)]), center: .center, startRadius: 0, endRadius: 300))
-            .frame(width: value*7, height: value*7)
-        //.rotationEffect(.degrees(Double(arc4random_uniform(UInt32(180)))))
-            .offset(x: CGFloat(arc4random_uniform(UInt32(100))) - 50, y: CGFloat(arc4random_uniform(UInt32(100)))-50)
-        // .blur(radius: 3.0)
-        //.animation(.spring())
+        RoundedRectangle(cornerRadius: 5)
+            .fill(Color(userAccentColor))
+                       .frame(width: 3, height: 3 + value)
+      
+        .animation(.spring())
         
         
     }

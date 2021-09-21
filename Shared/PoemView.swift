@@ -218,6 +218,7 @@ struct PoemView: View {
                     .clipShape(Circle())
                     .sheet(isPresented: $showingLearnView) {
                         LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
+                            .accentColor(Color(customAccentColor))
                     }
 #endif
             HStack{
@@ -264,6 +265,7 @@ struct PoemView: View {
                     .clipShape(Circle())
                     .sheet(isPresented: $showingCameraViewController) {
                         CameraAndTextView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
+                            .accentColor(Color(customAccentColor))
                     }
 #endif
         }
