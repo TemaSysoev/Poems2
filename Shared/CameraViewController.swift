@@ -59,6 +59,8 @@ class CameraViewController: UIViewController {
             print("User has denied the permission.")
         case .limited:
             print("")
+        @unknown default:
+            print("Critical error with the permission")
         }
     }
     

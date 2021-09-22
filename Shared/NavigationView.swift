@@ -26,6 +26,8 @@ struct ColumnsView: View {
     @AppStorage("fontName") private var fontName = "System"
     @AppStorage("linesOnPage") private var linesOnPage = 3
     @AppStorage("userAccentColor") private var userAccentColor = "pattern1Color"
+    @AppStorage("JSONLibrary") private var JSONLibrary = """
+"""
     @State var categories = ["Bookmarks", "Random"]
     
     var fonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
@@ -47,14 +49,8 @@ struct ColumnsView: View {
         NavigationView {
             
             VStack {
-                VStack(alignment: .center){
-                    Picker(selection: $currentView, label: Text("")) {
-                        ForEach(view, id: \.self) {
-                            Text($0)
-                        }
-                        
-                    }
-                    .pickerStyle(.segmented)
+                
+                List{
                     if searchText != ""{
                         Button(role: .destructive, action:{
                             searchText = ""
@@ -64,38 +60,167 @@ struct ColumnsView: View {
                         })
                         
                     }
-                }
-                .padding(.horizontal, 23)
-                List{
-                    
-                    switch currentView{
+                   
                         
-                    case "Discover":
-                        if searchText == ""{
-                            Section(header: Text("Featured")){
-                                Button(action: {
-                                    searchText = "Shakespeare"
-                                    searchOnlinePoems(search: searchText)
-                                }, label:{
+                        Section(header: Text("My library")){
+                            
+                            ForEach(bookmarkedPoems) { poem in
+                                
+                                NavigationLink(destination: PoemView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, customAccentColor: userAccentColor)
+                                               #if os(iOS)
+                                                .navigationBarTitleDisplayMode(.large)
+                                               #endif
+                                                .toolbar{
+                                    ToolbarItem(){
+                                        Button(action:{
+                                            for index in 0..<bookmarkedPoems.count{
+                                                if poem.title == bookmarkedPoems[index].title{
+                                                    bookmarkedPoems.remove(at: index)
+                                                    break
+                                                }
+                                            }
+                                           
+                                           
+                                            do {
+                                                let jsonData = try JSONEncoder().encode(bookmarkedPoems)
+                                                let jsonString = String(data: jsonData, encoding: .utf8)!
+                                               
+                                                
+                                              
+                                               JSONLibrary = jsonString
+                                            } catch {
+                                                print(error)
+                                                
+                                            }
+                                            
+                                        }, label:{
+                                            Label("Bookmark", systemImage: "bookmark.slash")
+                                            
+                                        })
+                                    }
                                     
-                                    Label("William Shakespeare", systemImage: "person.crop.circle")
                                     
+                                    ToolbarItem(placement: .primaryAction){
+                                        
+                                        Button(action:{
+                                            showingMenu = true
+                                        }, label: {
+                                            Image(systemName:"eyeglasses")
+                                            
+                                            
+                                        })
+                                        
+                                            .popover(isPresented: $showingMenu) {
+                                                VStack{
+                                                    Text("Reading")
+                                                        .bold()
+                                                    
+                                                    HStack{
+#if os(iOS)
+                                                        Text("Font:")
+                                                        
+                                                        
+                                                        Spacer()
+#endif
+                                                        
+                                                        Picker(selection: $fontName, label: Text("Typeface")) {
+                                                            ForEach(fonts, id: \.self) {
+                                                                Text($0)
+                                                                    .font($0 == "System" ? .system(size: 14, design: .serif):.custom($0, size: 14))
+                                                                
+                                                            }
+                                                            
+                                                        }
+                                                        
+                                                        
+                                                        .pickerStyle(.menu)
+                                                        
+                                                        Divider()
+                                                        Picker(selection: $fontSize, label: Text("Size")) {
+                                                            ForEach(fontSizes, id: \.self) { size in
+                                                                Text("\(size)")
+                                                                
+                                                            }
+                                                            
+                                                            
+                                                        }
+                                                        .pickerStyle(.menu)
+                                                        
+                                                    }
+                                                    .frame(height: 20)
+                                                    
+                                                    Divider()
+                                                    Text("Controls color")
+                                                        .bold()
+                                                    ScrollView(.horizontal){
+                                                        HStack(){
+                                                            ForEach(colors, id: \.self) { name in
+                                                                Button(action:{userAccentColor = name
+                                                                    mainColor = Color("\(name)")
+                                                                }, label:{HStack{
+                                                                    Circle()
+                                                                        .frame(width: 50, height: 50)
+                                                                        .foregroundColor(Color("\(name)"))
+                                                                    
+                                                                }})
+                                                                    .buttonStyle(.borderless)
+                                                                
+                                                                
+                                                            }
+                                                            
+                                                        }
+                                                        
+                                                    }
+                                                    Spacer()
+                                                    
+                                                    
+                                                }.padding()
+                                                    .frame(minWidth: 300)
+                                            }
+                                    }
+                                }, label: {
+                                    HStack{
+                                        VStack{
+                                            Text(poem.text.prefix(60))
+                                                .font(fontName == "System" ? .system(size: 5.0, design: .serif):.custom(fontName, size: 5.0))
+                                                .foregroundColor(Color.primary)
+                                                .multilineTextAlignment(.leading)
+                                                .padding(.all, 5)
+                                                .mask(
+                                                    LinearGradient(gradient: Gradient(colors: [Color("BackgroundColor").opacity(1.0), Color("BackgroundColor").opacity(0.0)]), startPoint: .top, endPoint: .bottom)
+                                                )
+                                        }
+                                        .frame(width: 40, height: 53, alignment: .center)
+                                        .background(Color("BackgroundColor"))
+                                        
+                                        .cornerRadius(3.0)
+                                        .shadow(color: Color.black.opacity(0.2), radius: 1.0, x: 0, y: 0.5)
+                                        
+                                        VStack(alignment: .leading){
+                                            
+                                            Text(poem.title)
+                                                .bold()
+                                                .multilineTextAlignment(.leading)
+                                            //.foregroundColor(Color.primary)
+                                            Text(poem.author)
+                                                .font(.footnote)
+                                                .multilineTextAlignment(.leading)
+                                            //.foregroundStyle(Color.secondary)
+                                            
+                                        }
+                                    }
                                     
                                 })
-                                    .buttonStyle(.borderless)
-                                Button(action: {
-                                    searchText = "Dickinson"
-                                    searchOnlinePoems(search: searchText)
-                                }, label:{
                                     
-                                    Label("Emily Dickinson", systemImage: "person.crop.circle")
-                                    
-                                    
-                                })
-                                    .buttonStyle(.borderless)
+                                
                             }
+                            
+                        }
+                        .task{
+                            getBookmarkedPoems()
                         }
                         Section(header: Text("Discover")){
+                            
                             ForEach(searchResults) { poem in
                                 NavigationLink(destination:
                                                 PoemView(language: poem.language, author: poem.author, title: poem.text, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, customAccentColor: userAccentColor)
@@ -109,29 +234,41 @@ struct ColumnsView: View {
                                                 .toolbar{
                                     ToolbarItem(){
                                         Button(action:{
-                                            saveBookmarked(poem.text)
-                                            getBookmarkedPoems()
-                                            print(loadBookmarked())
+                                            bookmarkedPoems.append(poem)
+                                           
+                                            do {
+                                                let jsonData = try JSONEncoder().encode(bookmarkedPoems)
+                                                let jsonString = String(data: jsonData, encoding: .utf8)!
+                                               
+                                                
+                                              
+                                               JSONLibrary = jsonString
+                                            } catch {
+                                                print(error)
+                                                
+                                            }
+                                            
+                                            
                                         }, label:{
                                             Label("Bookmark", systemImage: "bookmark")
                                             
                                         })
                                     }
 #if os(macOS)
-
-ToolbarItem(){
-    Button(action:{
-        showingLearnView = true
-        
-    }, label:{
-        Label("Learn", systemImage: "brain.head.profile")
-        
-    })
-        .popover(isPresented: $showingLearnView) {
-            LearnView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, fontName: fontName)
-        }
-}
-
+                                    
+                                    ToolbarItem(){
+                                        Button(action:{
+                                            showingLearnView = true
+                                            
+                                        }, label:{
+                                            Label("Learn", systemImage: "brain.head.profile")
+                                            
+                                        })
+                                            .popover(isPresented: $showingLearnView) {
+                                                LearnView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, fontName: fontName)
+                                            }
+                                    }
+                                    
 #endif
                                     ToolbarItem(placement: .primaryAction){
                                         
@@ -192,13 +329,13 @@ ToolbarItem(){
                                                                     userAccentColor = name
                                                                     mainColor = Color("\(name)")
                                                                 }, label:{HStack{
-                                                                   Circle()
+                                                                    Circle()
                                                                         .frame(width: 50, height: 50)
                                                                         .foregroundColor(Color("\(name)"))
                                                                     
                                                                 }})
                                                                     .buttonStyle(.borderless)
-                                                                    
+                                                                
                                                                 
                                                             }
                                                             
@@ -206,32 +343,50 @@ ToolbarItem(){
                                                         
                                                     }
                                                     
-                                                  Spacer()
+                                                    Spacer()
                                                     
                                                 }.padding()
                                                     .frame(minWidth: 300)
                                             }
                                     }
-                                
+                                    
                                 }
                                                
                                                , label: {
-                                    
-                                    
-                                    VStack(alignment: .leading){
+                                    HStack{
                                         
-                                        Text(poem.title)
-                                            .bold()
-                                            .multilineTextAlignment(.leading)
+                                        VStack{
+                                            Text(poem.text.prefix(60))
+                                                .font(fontName == "System" ? .system(size: 5.0, design: .serif):.custom(fontName, size: 5.0))
+                                                .foregroundColor(Color.primary)
+                                                .multilineTextAlignment(.leading)
+                                                .padding(.all, 5)
+                                                .mask(
+                                                    LinearGradient(gradient: Gradient(colors: [Color("BackgroundColor").opacity(1.0), Color("BackgroundColor").opacity(0.0)]), startPoint: .top, endPoint: .bottom)
+                                                )
+                                        }
+                                        .frame(width: 40, height: 53, alignment: .center)
+                                        .background(Color("BackgroundColor"))
                                         
-                                        Text(poem.author)
-                                            .font(.footnote)
-                                            .multilineTextAlignment(.leading)
+                                        .cornerRadius(3.0)
+                                        .shadow(color: Color.black.opacity(0.2), radius: 1.0, x: 0, y: 0.5)
                                         
+                                        
+                                        
+                                        VStack(alignment: .leading){
+                                            
+                                            Text(poem.title)
+                                                .bold()
+                                                .multilineTextAlignment(.leading)
+                                            
+                                            Text(poem.author)
+                                                .font(.footnote)
+                                                .multilineTextAlignment(.leading)
+                                            
+                                            
+                                        }
                                         
                                     }
-                                    
-                                    
                                     
                                     
                                 })
@@ -250,149 +405,15 @@ ToolbarItem(){
                                 Spacer()
                             }
                         }
-                    case "Bookmarks":
-                        Section(header: Text("Bookmarks")){
-                            
-                            ForEach(bookmarkedPoems) { poem in
-                                
-                                NavigationLink(destination: PoemView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, customAccentColor: userAccentColor)
-                                               #if os(iOS)
-                                                .navigationBarTitleDisplayMode(.large)
-                                               #endif
-                                                .toolbar{
-                                    ToolbarItem(){
-                                        Button(action:{
-                                            for index in 0..<bookmarkedPoems.count{
-                                                if poem.title == bookmarkedPoems[index].title{
-                                                    bookmarkedPoems.remove(at: index)
-                                                    break
-                                                }
-                                            }
-                                            defaults.set(bookmarkedPoems, forKey: "booked")
-                                            
-                                        }, label:{
-                                            Label("Bookmark", systemImage: "bookmark.slash")
-                                            
-                                        })
-                                    }
-                                  
-                                   
-                                    ToolbarItem(placement: .primaryAction){
-                                        
-                                        Button(action:{
-                                            showingMenu = true
-                                        }, label: {
-                                            Image(systemName:"eyeglasses")
-                                            
-                                            
-                                        })
-                                        
-                                            .popover(isPresented: $showingMenu) {
-                                                VStack{
-                                                    Text("Reading")
-                                                        .bold()
-                                                    
-                                                    HStack{
-#if os(iOS)
-                                                        Text("Font:")
-                                                        
-                                                        
-                                                        Spacer()
-#endif
-                                                        
-                                                        Picker(selection: $fontName, label: Text("Typeface")) {
-                                                            ForEach(fonts, id: \.self) {
-                                                                Text($0)
-                                                                    .font($0 == "System" ? .system(size: 14, design: .serif):.custom($0, size: 14))
-                                                                
-                                                            }
-                                                            
-                                                        }
-                                                        
-                                                        
-                                                        .pickerStyle(.menu)
-                                                        
-                                                        Divider()
-                                                        Picker(selection: $fontSize, label: Text("Size")) {
-                                                            ForEach(fontSizes, id: \.self) { size in
-                                                                Text("\(size)")
-                                                                
-                                                            }
-                                                            
-                                                            
-                                                        }
-                                                        .pickerStyle(.menu)
-                                                        
-                                                    }
-                                                    .frame(height: 20)
-                                                    
-                                                    Divider()
-                                                    Text("Controls color")
-                                                        .bold()
-                                                    ScrollView(.horizontal){
-                                                        HStack(){
-                                                            ForEach(colors, id: \.self) { name in
-                                                                Button(action:{userAccentColor = name
-                                                                    mainColor = Color("\(name)")
-                                                                }, label:{HStack{
-                                                                   Circle()
-                                                                        .frame(width: 50, height: 50)
-                                                                        .foregroundColor(Color("\(name)"))
-                                                                    
-                                                                }})
-                                                                    .buttonStyle(.borderless)
-                                                                    
-                                                                
-                                                            }
-                                                            
-                                                        }
-                                                        
-                                                    }
-                                                    Spacer()
-                                                    
-                                                    
-                                                }.padding()
-                                                    .frame(minWidth: 300)
-                                            }
-                                    }
-                                }, label: {
-                                    
-                                    
-                                    VStack(alignment: .leading){
-                                        
-                                        Text(poem.title)
-                                            .bold()
-                                            .multilineTextAlignment(.leading)
-                                        //.foregroundColor(Color.primary)
-                                        Text(poem.author)
-                                            .font(.footnote)
-                                            .multilineTextAlignment(.leading)
-                                        //.foregroundStyle(Color.secondary)
-                                        
-                                    }
-                                    
-                                })
-                                
-                            }
-                            HStack{
-                                Spacer()
-                                ProgressView()
-                                    .padding()
-                                Spacer()
-                            }
-                        }
-                    default:
-                        Text("Error")
-                    }
                     
-                   
+                    
                     
                     if state == .error{
                         Image(systemName: "bolt.horizontal.circle")
                     }
                 }
 #if os(macOS)
-.frame(minWidth: 200)
+                .frame(minWidth: 200)
 #endif
                 
 #if os(iOS)
@@ -402,9 +423,10 @@ ToolbarItem(){
 #endif
                 .listStyle(.sidebar)
                 
-                // .listRowSeparator(.hidden)
+                
                 .searchable(text: $searchText){
-                   
+                    Text("William Shakespeare").searchCompletion("William Shakespeare")
+                    Text("Emily Dickinson").searchCompletion("Emily Dickinson")
                 }
                 .onSubmit(of: .search) {
                     let searchTextForURL = searchText.replacingOccurrences(of: " ", with: "%20")
@@ -445,7 +467,7 @@ ToolbarItem(){
                 }
             }
             ZStack(alignment: .center){
-              
+                
                 VStack{
                     Spacer()
                     
@@ -609,48 +631,25 @@ ToolbarItem(){
             do {
                 state = LoadingStats.loading
                 bookmarkedPoems = [WebPoem]()
-                var loadedPoems = [WebPoem]()
-                var bookmarkedPoemsLines = loadBookmarked()
-                
-                for index in 0..<bookmarkedPoemsLines.count{
-                    state = LoadingStats.loading
+               
+                print(JSONLibrary)
+                do {
                     
-                    let url = URL(string: "https://poetrydb.org/lines/\(bookmarkedPoemsLines[index])")
                     
-                    let (data, _) = try await URLSession.shared.data(from: url!)
-                    
-                    let poems = try JSONDecoder().decode([PoetryDB].self, from: data)
-                    
-                    print(poems.count)
-                    guard poems.count > 0 else {
-                        throw gettingPoemsError.emptyPoemsList
+                                let jsonData = try JSONLibrary.data(using: .utf8)
+                       
+                    let poems = try JSONDecoder().decode([WebPoem].self, from: jsonData!)
+                        bookmarkedPoems = poems
                         
-                    }
+                  
                     
-                    for i in 0..<poems.count{
-                        var text = ""
-                        for line in poems[i].lines{
-                            text += line + "\n"
-                        }
-                        
-                        let poem = WebPoem(id: poems[i].title, author: poems[i].author, title: poems[i].title, text: text, language: "English", source: "poerty")
-                        var firstLine = bookmarkedPoemsLines[index].replacingOccurrences(of: "%20", with: " ")
-                        print(firstLine)
-                        if poems[i].lines[0].contains(firstLine) || firstLine.contains(poems[i].lines[0]){
-                            loadedPoems.append(poem)
-                        }
-                        state = LoadingStats.loading
-                        
-                    }
-                    
-                    bookmarkedPoems.append(loadedPoems[0])
-                    
-                    state = LoadingStats.loaded
-                    loadedPoems = [WebPoem]()
+                   
+                } catch {
+                    print(error)
                 }
                 
             } catch {
-                print("error")
+                print(error)
                 state = LoadingStats.error
             }
         }

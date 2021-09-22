@@ -149,7 +149,7 @@ struct PoemView: View {
                             .background(Color("BackgroundColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding()
-                            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 0)
+                            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 1)
                             .zIndex(pushBack ? 1 : 2)
                             .offset(x: self.offset.width<150 ? self.offset.width*2: (150-(self.offset.width-150))*2, y: 0)
                       //  .animation(.spring(), value: self.offset)

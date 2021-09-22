@@ -313,9 +313,11 @@ struct LearnView: View {
                                         .buttonStyle(BorderedButtonStyle())
                                         .tint(Color(userAccentColor))
                                         .padding(.horizontal)
-                                        
-                                        .animation(.spring(), value: typedText)
                                     
+                                      
+                                       
+                                        .animation(.spring(), value: typedText)
+                                        
                                     
                                     
                                     
