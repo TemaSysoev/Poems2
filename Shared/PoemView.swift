@@ -53,6 +53,7 @@ struct PoemView: View {
     public var fontName: String
     public var linesOnPage: Int
     public var customAccentColor: String
+    
     var listOfFonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
     var listOfFontSizes = [12, 18, 24]
     var listOfLinesOnPage = [2, 3, 4]
@@ -63,7 +64,8 @@ struct PoemView: View {
     @State private var currentPage = 1
     @State private var nextPage = 2
    
-    
+    @AppStorage("subscribed") private var subscribed = false
+    @State private var showingSubscribeView = false
     var body: some View {
         ZStack(alignment: .center){
            
@@ -72,7 +74,50 @@ struct PoemView: View {
             
             Spacer()
             ZStack(alignment: .center){
+                VStack{
+                    ForEach(0..<fourLines.count, id: \.self){ index in
+                        
+                        if (index / linesOnPage < (currentPage + 1)) && (index/linesOnPage >= currentPage) {
+                            
+                            Text(fourLines[index])
+                                
+                                .id("\(index)")
+                                .multilineTextAlignment(.center)
+                                .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                                
+                                .allowsTightening(true)
+                                .padding()
+                                .foregroundColor(Color.primary)
+                                
+                                .onChange(of: inputText, perform: { value in
+                                    fourLineParse()
+                                })
+                                .onAppear{
+                                    fourLineParse()
+                                }
+                            
+                        }
+                       
+                    }
+                    if currentPage - 1 == fourLines.count / linesOnPage {
+                        Label("To beginning", systemImage: "arrow.uturn.left")
+                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                           
+                            .padding()
+                            .foregroundColor(Color.primary)
+                    }
+                }
                
+            .frame(width: 380, height: 560, alignment: .center)
+            
+            .background(Color("BackgroundColor"))
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .zIndex(pushBack ? 2 : 1)
+            .padding()
+    
+            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 0)
+            .offset(x: 0, y: -26.5 + (self.offset.width)/15)
+            .scaleEffect(x: (abs(self.offset.width)/7.5 + 940)/1000, y: (abs(self.offset.width)/7.5 + 940)/1000, anchor: .center)
                             VStack{
                                 ForEach(0..<fourLines.count, id: \.self){ index in
                                     
@@ -106,16 +151,17 @@ struct PoemView: View {
                                         .foregroundColor(Color.primary)
                                 }
                             }
+                           
                         .frame(width: 380, height: 560, alignment: .center)
-                        .offset(x: 0, y: -(10-self.offset.width/10))
+                        
                         .background(Color("BackgroundColor"))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .zIndex(pushBack ? 2 : 1)
+                        .zIndex(pushBack ? 3 : 2)
                         .padding()
                 
                         .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 0)
-                
-                        .scaleEffect(x: (abs(self.offset.width) + 800)/1000, y: (abs(self.offset.width) + 800)/1000, anchor: .center)
+                        .offset(x: 0, y: -10 + (self.offset.width)/15)
+                        .scaleEffect(x: (abs(self.offset.width)/7.5 + 980)/1000, y: (abs(self.offset.width)/7.5 + 980)/1000, anchor: .center)
                         
                         
                             VStack{
@@ -150,8 +196,8 @@ struct PoemView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding()
                             .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 1)
-                            .zIndex(pushBack ? 1 : 2)
-                            .offset(x: self.offset.width<150 ? self.offset.width*2: (150-(self.offset.width-150))*2, y: 0)
+                            .zIndex(pushBack ? 1 : 3)
+                            .offset(x: self.offset.width<150 ? self.offset.width*2: (150-(self.offset.width-150))*2, y: self.offset.height)
                       //  .animation(.spring(), value: self.offset)
                         .rotationEffect(.degrees(Double(90*self.offset.width)/3000))
                         .scaleEffect(x: 1 - abs(self.offset.width)/1800, y: 1 - abs(self.offset.width)/1800, anchor: .center)
@@ -160,7 +206,7 @@ struct PoemView: View {
                                 .onChanged { gesture in
                                     self.drag = true
                                     self.offset = gesture.translation
-                                    if (abs(self.offset.height) > 100) || (abs(self.offset.width) > 150){
+                                    if (abs(self.offset.width) > 150){
                                         self.pushBack = true
                                     }else{
                                         self.pushBack = false
@@ -169,7 +215,7 @@ struct PoemView: View {
                             
                                 .onEnded { _ in
                                     self.drag = false
-                                    if (abs(self.offset.height) > 100) || (abs(self.offset.width) > 100){
+                                    if (abs(self.offset.width) > 150){
                                         
 #if os(iOS)
                                         let impactMed = UIImpactFeedbackGenerator(style: .light)
@@ -207,14 +253,17 @@ struct PoemView: View {
             HStack{
 #if os(iOS)
                 Button(action:{
-                    showingLearnView = true
-                    
+                    if subscribed {
+                        showingLearnView = true
+                    } else {
+                        showingSubscribeView = true
+                    }
                 }, label:{
                    Image(systemName: "brain.head.profile")
                         .padding()
                 })
                     
-                    .background(.thinMaterial)
+                    .background(Color("BackgroundColor"))
                     .clipShape(Circle())
                     .sheet(isPresented: $showingLearnView) {
                         LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
@@ -230,7 +279,7 @@ struct PoemView: View {
                         .padding()
                 })
                     .buttonStyle(.borderless)
-                    .background(.thinMaterial)
+                    .background(Color(customAccentColor).opacity(0.05))
                     .clipShape(Circle())
                     .disabled(!(currentPage > 1))
                     .padding(7)
@@ -244,24 +293,27 @@ struct PoemView: View {
                         .padding()
                 })
                     .buttonStyle(.borderless)
-                    .background(.thinMaterial)
+                    .background(Color(customAccentColor).opacity(0.05))
                     .clipShape(Circle())
                     .disabled(!(currentPage < fourLines.count / linesOnPage + 1))
                     .padding(7)
             }
             
-            .background(.thinMaterial)
+            .background(Color("BackgroundColor"))
             .clipShape(RoundedRectangle(cornerRadius: 100))
 #if os(iOS)
                 Button(action:{
+                    if subscribed {
                     showingCameraViewController = true
-                    
+                    } else {
+                        showingSubscribeView = true
+                    }
                 }, label:{
                    Image(systemName: "video")
                         .padding()
                 })
                     
-                    .background(.thinMaterial)
+                    .background(Color("BackgroundColor"))
                     .clipShape(Circle())
                     .sheet(isPresented: $showingCameraViewController) {
                         CameraAndTextView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
@@ -275,8 +327,10 @@ struct PoemView: View {
         
             
     }
-        
-        
+        .background(Color(customAccentColor).opacity(0.05))
+        .sheet(isPresented: $showingSubscribeView){
+            SubscribeView(userAccentColor: customAccentColor)
+        }
     }
     
     static func stringify(json: Any, prettyPrinted: Bool = false) -> String {

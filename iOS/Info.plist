@@ -29,13 +29,13 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To take photo</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Нам нужно вас слышать</string>
+	<string>To hear you</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>To add photo in Photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To save photos</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Нам нужно вас понимать</string>
+	<string>To understand you</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

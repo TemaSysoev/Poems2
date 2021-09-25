@@ -107,24 +107,22 @@ struct CameraAndTextView: View{
                  .accessibility(label: Text("Следующее четверостишие"))
                  .padding()
          }
-            if orientation.isPortrait {
+            ZStack {
                 CameraView()
                     .cornerRadius(13.0)
                     .padding()
-            } else{
-                ZStack{
-                    CameraView()
-                        .cornerRadius(13.0)
-                        .padding()
+                
+            if orientation.isLandscape{
                     Rectangle()
                         .cornerRadius(13.0)
                         .padding()
                         .background(.thickMaterial)
                     Label("Please rotate your device", systemImage: "arrow.turn.up.forward.iphone")
                         
-                }
+                
                
             }
+        }
            
                
            

@@ -11,8 +11,19 @@
 		E00CCC01267B817800E34ECE /* CompareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CCC00267B817800E34ECE /* CompareHelper.swift */; };
 		E011E5A9269762E6009549C9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011E5A8269762E6009549C9 /* SettingsView.swift */; };
 		E011E5AA269762E6009549C9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011E5A8269762E6009549C9 /* SettingsView.swift */; };
+		E01699C826FF24200059336A /* Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = E01699C726FF24200059336A /* Configuration.storekit */; };
+		E01699C926FF24200059336A /* Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = E01699C726FF24200059336A /* Configuration.storekit */; };
+		E01699CB26FF26F80059336A /* SubsribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01699CA26FF26F80059336A /* SubsribeView.swift */; };
+		E01699CC26FF26FC0059336A /* SubsribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01699CA26FF26F80059336A /* SubsribeView.swift */; };
+		E01699CE26FF28460059336A /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01699CD26FF28450059336A /* ListCellView.swift */; };
+		E01699D026FF286F0059336A /* StatusInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01699CF26FF286F0059336A /* StatusInfoView.swift */; };
+		E01699D226FF28970059336A /* BuyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01699D126FF28970059336A /* BuyButtonStyle.swift */; };
+		E01699D426FF2BE00059336A /* Products.plist in Resources */ = {isa = PBXBuildFile; fileRef = E01699D326FF2BE00059336A /* Products.plist */; };
+		E01699D626FF2CCB0059336A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01699D526FF2CCB0059336A /* Store.swift */; };
+		E01699D726FF2CE00059336A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01699D526FF2CCB0059336A /* Store.swift */; };
 		E025041D26BACAC200B07936 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E025041C26BACAC200B07936 /* ContentView.swift */; };
 		E025041E26BACAC200B07936 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E025041C26BACAC200B07936 /* ContentView.swift */; };
+		E0491C9B26FE379000DFA79F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0491C9A26FE379000DFA79F /* StoreKit.framework */; };
 		E049963A26D8CD86009443C9 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E049963926D8CD86009443C9 /* GameKit.framework */; };
 		E05ED79B266F96D4004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
 		E05ED79C266F96D5004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
@@ -51,7 +62,15 @@
 		E0048296267CA8AF0074426C /* iOS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iOS; sourceTree = "<group>"; };
 		E00CCC00267B817800E34ECE /* CompareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareHelper.swift; sourceTree = "<group>"; };
 		E011E5A8269762E6009549C9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E01699C726FF24200059336A /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
+		E01699CA26FF26F80059336A /* SubsribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubsribeView.swift; sourceTree = "<group>"; };
+		E01699CD26FF28450059336A /* ListCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCellView.swift; sourceTree = "<group>"; };
+		E01699CF26FF286F0059336A /* StatusInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusInfoView.swift; sourceTree = "<group>"; };
+		E01699D126FF28970059336A /* BuyButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyButtonStyle.swift; sourceTree = "<group>"; };
+		E01699D326FF2BE00059336A /* Products.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Products.plist; sourceTree = "<group>"; };
+		E01699D526FF2CCB0059336A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		E025041C26BACAC200B07936 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E0491C9A26FE379000DFA79F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		E049963926D8CD86009443C9 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		E06D944526EE001D000E93EF /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		E06F840426B2D5EF00C217F6 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
@@ -85,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0FCDACA266AD48A000059CB /* NetworkExtension.framework in Frameworks */,
+				E0491C9B26FE379000DFA79F /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +122,13 @@
 		E0FCDA93266ABBE1000059CB = {
 			isa = PBXGroup;
 			children = (
+				E01699CA26FF26F80059336A /* SubsribeView.swift */,
+				E01699CF26FF286F0059336A /* StatusInfoView.swift */,
+				E01699D526FF2CCB0059336A /* Store.swift */,
+				E01699CD26FF28450059336A /* ListCellView.swift */,
+				E01699D126FF28970059336A /* BuyButtonStyle.swift */,
+				E01699D326FF2BE00059336A /* Products.plist */,
+				E01699C726FF24200059336A /* Configuration.storekit */,
 				E0FCDAC7266AD48A000059CB /* Poems2.entitlements */,
 				E0FCDA98266ABBE2000059CB /* Shared */,
 				E0FCDAA5266ABBE4000059CB /* iOS */,
@@ -169,6 +196,7 @@
 		E0FCDAC8266AD48A000059CB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0491C9A26FE379000DFA79F /* StoreKit.framework */,
 				E049963926D8CD86009443C9 /* GameKit.framework */,
 				E0FCDAC9266AD48A000059CB /* NetworkExtension.framework */,
 			);
@@ -253,9 +281,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E01699C826FF24200059336A /* Configuration.storekit in Resources */,
 				E0F7784D26E37241006981D1 /* CameraViewController.xib in Resources */,
 				E0048297267CA8AF0074426C /* iOS in Resources */,
 				E06D944626EE001D000E93EF /* data.json in Resources */,
+				E01699D426FF2BE00059336A /* Products.plist in Resources */,
 				E0F7784426E36CD5006981D1 /* Controller in Resources */,
 				E0FCDAB7266ABBE4000059CB /* Assets.xcassets in Resources */,
 				E0F7784526E36CD5006981D1 /* View in Resources */,
@@ -267,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E06D944726EE001D000E93EF /* data.json in Resources */,
+				E01699C926FF24200059336A /* Configuration.storekit in Resources */,
 				E0FCDAB8266ABBE4000059CB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,14 +309,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E01699D626FF2CCB0059336A /* Store.swift in Sources */,
+				E01699D226FF28970059336A /* BuyButtonStyle.swift in Sources */,
 				E0FCDAAF266ABBE4000059CB /* Poems2.xcdatamodeld in Sources */,
 				E06F840526B2D5EF00C217F6 /* Themes.swift in Sources */,
 				E025041D26BACAC200B07936 /* ContentView.swift in Sources */,
+				E01699D026FF286F0059336A /* StatusInfoView.swift in Sources */,
 				E0F7784126E36488006981D1 /* VideoRecoderView.swift in Sources */,
 				E0F7784B26E37212006981D1 /* CustomButton.swift in Sources */,
 				E0F7784926E36DE5006981D1 /* CameraConfiguration.swift in Sources */,
 				E0A0DC2E266ED0FC00F4F4AD /* PoemView.swift in Sources */,
 				E081B0F6267B7B21007BBFE2 /* Microphone.swift in Sources */,
+				E01699CE26FF28460059336A /* ListCellView.swift in Sources */,
+				E01699CB26FF26F80059336A /* SubsribeView.swift in Sources */,
 				E05ED79B266F96D4004FE1F1 /* NavigationView.swift in Sources */,
 				E0FCDAB5266ABBE4000059CB /* Persistence.swift in Sources */,
 				E0FCDAB1266ABBE4000059CB /* Poems2App.swift in Sources */,
@@ -308,6 +344,8 @@
 				E06F840626B2D5EF00C217F6 /* Themes.swift in Sources */,
 				E025041E26BACAC200B07936 /* ContentView.swift in Sources */,
 				E0FCDAB6266ABBE4000059CB /* Persistence.swift in Sources */,
+				E01699D726FF2CE00059336A /* Store.swift in Sources */,
+				E01699CC26FF26FC0059336A /* SubsribeView.swift in Sources */,
 				E0D1050A26DA617A0037CE6C /* CompareHelper.swift in Sources */,
 				E0D1050926DA61010037CE6C /* ListenView.swift in Sources */,
 				E0FCDAB2266ABBE4000059CB /* Poems2App.swift in Sources */,
@@ -436,7 +474,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -460,7 +498,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;

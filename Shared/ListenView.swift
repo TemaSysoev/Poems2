@@ -354,7 +354,7 @@ struct LearnView: View {
                         .cornerRadius(3)
                     Rectangle()
                         .foregroundColor(statusColor)
-                        .frame(width: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*300, height: 6)
+                        .frame(width: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count + 1)*300, height: 6)
                         .cornerRadius(3)
                         .animation(.spring(), value:slicedText.count)
                     
@@ -378,7 +378,7 @@ struct LearnView: View {
                     
                         .rotationEffect(Angle(degrees: 126))
                     Circle()
-                        .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count)*0.8)
+                        .trim(from: 0.0, to: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count + 1)*0.8)
                         .stroke(style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
                         .foregroundColor(statusColor)
                         .frame(width: 240, height: 240)
@@ -600,8 +600,7 @@ struct BarView: View {
         RoundedRectangle(cornerRadius: 5)
             .fill(Color(userAccentColor))
                        .frame(width: 3, height: 3 + value)
-      
-        .animation(.spring())
+                       .animation(.spring(), value: value)
         
         
     }

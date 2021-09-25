@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19158" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19141"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,7 +12,6 @@
                 <outlet property="cameraButton" destination="2sp-4I-PQh" id="1Hp-zj-fCU"/>
                 <outlet property="previewImageView" destination="nzD-PH-VeJ" id="pFf-XF-ufv"/>
                 <outlet property="toggleCameraButton" destination="5hP-Ur-4VR" id="JeR-9f-7fx"/>
-                <outlet property="toggleFlashButton" destination="CNV-5q-B7d" id="nyx-xT-iQz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -31,22 +30,10 @@
                         <action selector="didTapOnTakePhotoButton:" destination="-1" eventType="touchUpInside" id="ckn-S9-XSe"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNV-5q-B7d">
-                    <rect key="frame" x="16" y="491" width="44" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="44" id="fgS-FX-jn9"/>
-                        <constraint firstAttribute="height" constant="44" id="tb9-rL-u2P"/>
-                    </constraints>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" image="flashlight.off.fill" catalog="system"/>
-                    <connections>
-                        <action selector="toggleFlash:" destination="-1" eventType="touchUpInside" id="4Qr-aV-xR7"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5hP-Ur-4VR">
-                    <rect key="frame" x="260" y="490.5" width="44" height="44"/>
+                    <rect key="frame" x="260" y="501.5" width="24.5" height="22"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" image="camera.rotate.fill" catalog="system"/>
+                    <state key="normal" image="arrow.triangle.2.circlepath.camera.fill" catalog="system"/>
                     <connections>
                         <action selector="toggleCamera:" destination="-1" eventType="touchUpInside" id="eqN-hi-yWT"/>
                     </connections>
@@ -58,13 +45,9 @@
                 <constraint firstItem="5hP-Ur-4VR" firstAttribute="firstBaseline" secondItem="2sp-4I-PQh" secondAttribute="firstBaseline" id="7A1-21-ZtZ"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="7xC-jp-wvH"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="8Yd-xW-xcn"/>
-                <constraint firstItem="nzD-PH-VeJ" firstAttribute="leading" secondItem="CNV-5q-B7d" secondAttribute="trailing" constant="-60" id="CpJ-19-9NY"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="EcX-ln-94c"/>
-                <constraint firstItem="5hP-Ur-4VR" firstAttribute="width" secondItem="CNV-5q-B7d" secondAttribute="width" id="ErV-un-ClZ"/>
-                <constraint firstItem="5hP-Ur-4VR" firstAttribute="height" secondItem="CNV-5q-B7d" secondAttribute="height" id="KRh-zH-Ybg"/>
                 <constraint firstItem="nzD-PH-VeJ" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="Kon-Ul-Yh5"/>
                 <constraint firstItem="2sp-4I-PQh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="RmB-PB-SGr"/>
-                <constraint firstItem="CNV-5q-B7d" firstAttribute="centerY" secondItem="2sp-4I-PQh" secondAttribute="centerY" id="hxp-lc-xzm"/>
                 <constraint firstAttribute="bottom" secondItem="2sp-4I-PQh" secondAttribute="bottom" constant="40" id="lqq-Gf-RFI"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nzD-PH-VeJ" secondAttribute="trailing" id="onF-Q2-3cw"/>
                 <constraint firstItem="5hP-Ur-4VR" firstAttribute="leading" secondItem="nzD-PH-VeJ" secondAttribute="trailing" constant="-60" id="uW4-mJ-Wym"/>
@@ -73,7 +56,6 @@
         </view>
     </objects>
     <resources>
-        <image name="camera.rotate.fill" catalog="system" width="128" height="94"/>
-        <image name="flashlight.off.fill" catalog="system" width="76" height="128"/>
+        <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="94"/>
     </resources>
 </document>

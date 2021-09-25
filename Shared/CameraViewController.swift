@@ -115,7 +115,7 @@ class CameraViewController: UIViewController {
         case .landscapeRight:
             previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeRight;
         default:
-            previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeRight;
+            previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.portrait;
         }
         registerNotification()
     }
