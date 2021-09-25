@@ -247,7 +247,7 @@ struct PoemView: View {
                         
                     
             }
-            
+            .offset(x: 0, y: 20)
             .frame(maxWidth: .infinity)
             Spacer()
             HStack{

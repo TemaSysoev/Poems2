@@ -50,10 +50,21 @@ struct SubscribeView: View {
             Section(header: Text("")) {
                 ForEach(availableSubscriptions, id: \.id) { product in
                     ListCellView(product: product)
-                        .padding()
+                        .padding(.horizontal)
                 }
+                ForEach(store.onTimePurchase, id: \.id) { v in
+                    ListCellView(product: v)
+                        .padding(.horizontal)
+                }
+               Button(action: {
+                   subscribed.toggle()
+               }, label: {
+                   Label("Toggle fake purchase for testers", systemImage: "hammer")
+               })
+                   .tint(Color.red)
             }
             .listStyle(GroupedListStyle())
+          
         }
         .onAppear {
             Task {

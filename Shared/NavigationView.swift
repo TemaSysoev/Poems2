@@ -94,7 +94,7 @@ struct ColumnsView: View {
                                             .toolbar{
                                 ToolbarItem(){
                                     Button(action:{
-                                        
+                                        if bookmarkedPoems.contains(poem){
                                         for index in 0..<bookmarkedPoems.count{
                                             if poem.title == bookmarkedPoems[index].title{
                                                 bookmarkedPoems.remove(at: index)
@@ -114,9 +114,28 @@ struct ColumnsView: View {
                                             print(error)
                                             
                                         }
+                                        }else {
+                                            bookmarkedPoems.append(poem)
+                                            
+                                            do {
+                                                let jsonData = try JSONEncoder().encode(bookmarkedPoems)
+                                                let jsonString = String(data: jsonData, encoding: .utf8)!
+                                                
+                                                
+                                                
+                                                JSONLibrary = jsonString
+                                            } catch {
+                                                print(error)
+                                                
+                                            }
+                                        }
                                         
                                     }, label:{
+                                        if bookmarkedPoems.contains(poem){
                                         Label("Bookmark", systemImage: "bookmark.slash")
+                                        }else{
+                                            Label("Bookmark", systemImage: "bookmark")
+                                        }
                                         
                                     })
                                 }
@@ -361,9 +380,31 @@ struct ColumnsView: View {
                                             .toolbar{
                                 ToolbarItem(){
                                     Button(action:{
+                                    
                                         if !subscribed {
                                             showingSubscribeView = true
                                         }
+                                        if bookmarkedPoems.contains(poem){
+                                            for index in 0..<bookmarkedPoems.count{
+                                                if poem.title == bookmarkedPoems[index].title{
+                                                    bookmarkedPoems.remove(at: index)
+                                                    break
+                                                }
+                                            }
+                                            
+                                            
+                                            do {
+                                                let jsonData = try JSONEncoder().encode(bookmarkedPoems)
+                                                let jsonString = String(data: jsonData, encoding: .utf8)!
+                                                
+                                                
+                                                
+                                                JSONLibrary = jsonString
+                                            } catch {
+                                                print(error)
+                                                
+                                            }
+                                        }else{
                                         bookmarkedPoems.append(poem)
                                         
                                         do {
@@ -377,11 +418,14 @@ struct ColumnsView: View {
                                             print(error)
                                             
                                         }
-                                        
+                                        }
                                         
                                     }, label:{
-                                        Label("Bookmark", systemImage: "bookmark")
-                                        
+                                        if bookmarkedPoems.contains(poem){
+                                        Label("Bookmark", systemImage: "bookmark.slash")
+                                        }else{
+                                            Label("Bookmark", systemImage: "bookmark")
+                                        }
                                     })
                                 }
 #if os(macOS)
@@ -481,10 +525,26 @@ struct ColumnsView: View {
                                                 }
                                                 
                                                 Spacer()
+                                                if showingSubscribeView{
+                                                    SubscribeView(userAccentColor: userAccentColor)
+                                                }
+                                                Button(action:{
+                                                   
+                                                   
+                                                    showingSubscribeView.toggle()
+                                                    
+                                                }, label: {
+                                                    Text("Manage your account")
+                                                        .font(.footnote)
+                                                        .foregroundColor(Color.secondary)
+                                                    
+                                                })
                                                 
-                                            }.padding()
+                                            }
+                                            .padding()
                                                 .frame(minWidth: 300)
                                                 .background(.thinMaterial)
+                                                .animation(.spring(), value: showingSubscribeView)
                                         }
                                 }
                                 
