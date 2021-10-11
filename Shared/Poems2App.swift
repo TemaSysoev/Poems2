@@ -17,7 +17,7 @@ struct Poems2App: App {
        
         WindowGroup {
             ColumnsView()
-                
+               
                 
                 //.environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

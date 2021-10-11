@@ -52,9 +52,22 @@ struct CameraAndTextView: View{
     """]
     @State var paragraphStep = 0
     @State var fourLinesForWordsParse = [String]()
+    @State var modes = ["Share", "Video"]
+    @State var currentMode = "Share"
     var body: some View {
+        
         VStack{
-            
+            Picker(selection: $currentMode, label: Text("Mode")) {
+                ForEach(modes, id: \.self) {
+                    Text($0)
+                        
+                    
+                }
+                
+            }
+            .pickerStyle(.segmented)
+            .padding()
+            Spacer()
          HStack{
              Button(action: {
                  if paragraphStep > 0{
@@ -78,9 +91,14 @@ struct CameraAndTextView: View{
                  .font(fontName == "System" ? .system(size: 18, design: .serif):.custom(fontName, size: 18))
                  .padding()
                  .foregroundColor(Color.primary)
+                 .textSelection(.enabled)
+                 .onDrag{
+                     return NSItemProvider(object: NSString(string: fourLines[paragraphStep]))
+                 }
                  .onChange(of: inputText, perform: { value in
                      fourLineParse()
                  })
+             
                  .onAppear{
                      fourLineParse()
                      
@@ -107,22 +125,31 @@ struct CameraAndTextView: View{
                  .accessibility(label: Text("Следующее четверостишие"))
                  .padding()
          }
-            ZStack {
-                CameraView()
-                    .cornerRadius(13.0)
-                    .padding()
+            Spacer()
+            switch currentMode{
+            case "Share":
+                Text("")
+            case "Video":
                 
-            if orientation.isLandscape{
-                    Rectangle()
+                ZStack {
+                    CameraView()
                         .cornerRadius(13.0)
                         .padding()
-                        .background(.thickMaterial)
-                    Label("Please rotate your device", systemImage: "arrow.turn.up.forward.iphone")
-                        
-                
-               
+                    
+                if orientation.isLandscape{
+                        Rectangle()
+                            .cornerRadius(13.0)
+                            .padding()
+                            .background(.thickMaterial)
+                        Label("Please rotate your device vertically", systemImage: "arrow.turn.up.forward.iphone")
+                            
+                    
+                   
+                }
             }
-        }
+            default:
+                Text("")
+            }
            
                
            
@@ -131,6 +158,7 @@ struct CameraAndTextView: View{
         
             
         }
+        .animation(.spring(), value: currentMode)
         .frame(minWidth: 300, minHeight: 500)
         .onRotate { newOrientation in
                    orientation = newOrientation

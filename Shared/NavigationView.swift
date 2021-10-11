@@ -10,6 +10,7 @@ import SwiftUI
 struct ColumnsView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var store: Store = Store()
+   
     @State private var searchText = ""
     
     @State public var onlinePoems = [WebPoem]()
@@ -24,7 +25,7 @@ struct ColumnsView: View {
     
     @AppStorage("fontSize") private var fontSize = 18
     @AppStorage("fontName") private var fontName = "System"
-    @AppStorage("linesOnPage") private var linesOnPage = 3
+    @AppStorage("linesOnPage") private var linesOnPage = 2
     @AppStorage("userAccentColor") private var userAccentColor = "pattern5Color"
     @AppStorage("JSONLibrary") private var JSONLibrary = """
 
@@ -138,6 +139,7 @@ struct ColumnsView: View {
                                         }
                                         
                                     })
+                                        .keyboardShortcut("b", modifiers: .command)
                                 }
                                 
                                 
@@ -155,7 +157,7 @@ struct ColumnsView: View {
                                         
                                         
                                     })
-                                    
+                                        .keyboardShortcut("m", modifiers: .command)
                                         .popover(isPresented: $showingMenu) {
                                             VStack{
                                                 Text("Reading")
@@ -198,19 +200,34 @@ struct ColumnsView: View {
                                                 Divider()
                                                 Text("Controls color")
                                                     .bold()
-                                                ScrollView(.horizontal){
-                                                    HStack(){
+                                                ScrollView(.vertical){
+                                                    VStack(){
                                                         ForEach(colors, id: \.self) { name in
                                                             Button(action:{userAccentColor = name
                                                                 mainColor = Color("\(name)")
-                                                            }, label:{HStack{
-                                                                Circle()
-                                                                    .frame(width: 50, height: 50)
-                                                                    .foregroundColor(Color("\(name)"))
+                                                            }, label:{
+                                                                ZStack{
+                                                                    HStack{
+                                                                      Text("Spring When daises")
+                                                                            .redacted(reason: .placeholder)
+                                                                            .padding()
+                                                                        Spacer()
+                                                                        Image(systemName: "bookmark")
+                                                                            .foregroundColor(Color(name))
+                                                                            .padding(.vertical)
+                                                                        Image(systemName: "eyeglasses")
+                                                                            .foregroundColor(Color(name))
+                                                                            .padding()
+                                                                    }
+                                                                }
+                                                               
+                                                                .background(Color(name).opacity(0.05))
                                                                 
-                                                            }})
+                                                                
+                                                            })
+                                                                .cornerRadius(13.0)
                                                                 .buttonStyle(.borderless)
-                                                            
+                                                                .padding(5)
                                                             
                                                         }
                                                         
@@ -288,7 +305,9 @@ struct ColumnsView: View {
                                     
                                 }
                             }
-                        }).sheet(isPresented: $showingAddNewPoemView) {
+                            
+                        }).keyboardShortcut("n", modifiers: .command)
+                                .sheet(isPresented: $showingAddNewPoemView) {
                             VStack{
                                 HStack{
                                     Button(role: .cancel, action: {
@@ -321,6 +340,7 @@ struct ColumnsView: View {
                                     }, label: {
                                         Text("Done")
                                     })
+                                        .keyboardShortcut("s", modifiers: .command)
                                         .buttonStyle(.bordered)
                                         .tint(Color(userAccentColor))
                                 
@@ -427,6 +447,7 @@ struct ColumnsView: View {
                                             Label("Bookmark", systemImage: "bookmark")
                                         }
                                     })
+                                        .keyboardShortcut("b", modifiers: .command)
                                 }
 #if os(macOS)
                                 
@@ -460,7 +481,7 @@ struct ColumnsView: View {
                                         
                                         
                                     })
-                                    
+                                        .keyboardShortcut("r", modifiers: .command)
                                         .popover(isPresented: $showingMenu) {
                                             VStack{
                                                 Text("Reading")
@@ -503,19 +524,34 @@ struct ColumnsView: View {
                                                 Divider()
                                                 Text("Controls color")
                                                     .bold()
-                                                ScrollView(.horizontal){
-                                                    HStack(){
+                                                ScrollView(.vertical){
+                                                    VStack(){
                                                         ForEach(colors, id: \.self) { name in
-                                                            Button(action:{
-                                                                userAccentColor = name
+                                                            Button(action:{userAccentColor = name
                                                                 mainColor = Color("\(name)")
-                                                            }, label:{HStack{
-                                                                Circle()
-                                                                    .frame(width: 50, height: 50)
-                                                                    .foregroundColor(Color("\(name)"))
+                                                            }, label:{
+                                                                ZStack{
+                                                                    HStack{
+                                                                      Text("Spring When daises")
+                                                                            .redacted(reason: .placeholder)
+                                                                            .padding()
+                                                                        Spacer()
+                                                                        Image(systemName: "bookmark")
+                                                                            .foregroundColor(Color(name))
+                                                                            .padding(.vertical)
+                                                                        Image(systemName: "eyeglasses")
+                                                                            .foregroundColor(Color(name))
+                                                                            .padding()
+                                                                    }
+                                                                }
+                                                               
+                                                                .background(Color(name).opacity(0.05))
                                                                 
-                                                            }})
+                                                                
+                                                            })
+                                                                .cornerRadius(13.0)
                                                                 .buttonStyle(.borderless)
+                                                                .padding(5)
                                                             
                                                             
                                                         }
@@ -525,6 +561,7 @@ struct ColumnsView: View {
                                                 }
                                                 
                                                 Spacer()
+                                                    /*
                                                 if showingSubscribeView{
                                                     SubscribeView(userAccentColor: userAccentColor)
                                                 }
@@ -538,7 +575,7 @@ struct ColumnsView: View {
                                                         .font(.footnote)
                                                         .foregroundColor(Color.secondary)
                                                     
-                                                })
+                                                })*/
                                                 
                                             }
                                             .padding()
@@ -664,107 +701,28 @@ struct ColumnsView: View {
                 default: linesOnPage = 2
                 }
             }
-            ZStack(alignment: .center){
-                
-                VStack{
-                    Spacer()
-                    
-                    
-                    VStack{
-                        
-                        Text("""
-                 When daisies pied and violets blue
-                 And lady-smocks all silver-white
-                 And cuckoo-buds of yellow hue
-                 Do paint the meadows with delight
-                 """)
-                        
-                            .multilineTextAlignment(.center)
-                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
-                        
-                        
-                            .padding()
-                            .foregroundColor(Color.primary)
-                        Text("""
-                     The cuckoo then, on every tree,
-                     Mocks married men; for thus sings he:
-                                                                         “Cuckoo;
-                     Cuckoo, cuckoo!” O, word of fear,
-                     Unpleasing to a married ear!
-                     """)
-                            .multilineTextAlignment(.center)
-                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
-                        
-                        
-                            .padding()
-                            .foregroundColor(Color.primary)
-                        Text("""
-                     When shepherds pipe on oaten straws,
-                           And merry larks are ploughmen's clocks,
-                     When turtles tread, and rooks, and daws,
-                           And maidens bleach their summer smocks,
-                     """)
-                            .multilineTextAlignment(.center)
-                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
-                        
-                        
-                            .padding()
-                            .foregroundColor(Color.primary)
-                        
-                    }
-                    .redacted(reason: .placeholder)
-                    .frame(minWidth: 300, idealWidth: 330, maxWidth: 400, minHeight: 500, idealHeight: 560, maxHeight: 560, alignment: .center)
-                    .background(Color("BackgroundColor"))
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .padding()
-                    .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 2)
-                    HStack{
-#if os(iOS)
-                        Button(action: {
-                            
-                            
-                        }, label: {
-                            Image(systemName: "mic.fill")
-                            
-                            
-                        })
-                            .padding()
-                            .tint(Color.accentColor)
-                        
-                        
-                        
-                        
-#endif
-                        Button(action: {
-                            
-                        }, label: {
-                            Image(systemName: "chevron.left")
-                            
-                        })
-                            .buttonStyle(.borderless)
-                            .disabled(true)
-                            .padding(7)
-                        Text("Page 1 of 3")
-                        
-                        Button(action: {
-                            
-                        }, label: {
-                            Image(systemName: "chevron.right")
-                            
-                        })
-                            .buttonStyle(.borderless)
-                            .disabled(true)
-                            .padding(7)
-                    }
-                    .redacted(reason: .placeholder)
-                    .background(.thinMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                    .padding()
-                    Spacer()
-                }
-                
-                
-            }
+            PoemView(language: "", author: "", title: "", inputText: """
+When daisies pied and violets blue
+                     And lady-smocks all silver-white
+               And cuckoo-buds of yellow hue
+                     Do paint the meadows with delight,
+               The cuckoo then, on every tree,
+               Mocks married men; for thus sings he:
+                                                                   “Cuckoo;
+               Cuckoo, cuckoo!” O, word of fear,
+               Unpleasing to a married ear!
+
+               When shepherds pipe on oaten straws,
+                     And merry larks are ploughmen's clocks,
+               When turtles tread, and rooks, and daws,
+                     And maidens bleach their summer smocks,
+               The cuckoo then, on every tree,
+               Mocks married men; for thus sings he,
+                                                                   “Cuckoo;
+               Cuckoo, cuckoo!” O, word of fear,
+               Unpleasing to a married ear!
+""", complete: false, fontSize: 12, fontName: "System", linesOnPage: 3, customAccentColor: userAccentColor).redacted(reason: .placeholder)
+               
             
             
         } .environmentObject(store)

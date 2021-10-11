@@ -307,14 +307,14 @@ struct LearnView: View {
                                         fourLinesForWordsParse.remove(at: index)
                                     }, label: {
                                         Text(fourLinesForWordsParse[index])
-                                            .frame(width: 80)
+                                            .frame(width: 80, height: 50)
                                             .font(fontName == "System" ? .system(size: 14, design: .serif):.custom(fontName, size: 14))
                                     })
                                         .buttonStyle(BorderedButtonStyle())
                                         .tint(Color(userAccentColor))
                                         .padding(.horizontal)
                                     
-                                      
+                                        .hoverEffect(.lift)
                                        
                                         .animation(.spring(), value: typedText)
                                         
@@ -324,7 +324,7 @@ struct LearnView: View {
                                 }
                             }}
                     }
-                    .padding(.horizontal)
+                    .padding()
                     
                 }
                 

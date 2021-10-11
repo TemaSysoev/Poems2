@@ -69,6 +69,7 @@ struct PoemView: View {
     var body: some View {
         ZStack(alignment: .center){
            
+            
            
         VStack(alignment: .center){
             
@@ -105,10 +106,15 @@ struct PoemView: View {
                            
                             .padding()
                             .foregroundColor(Color.primary)
+                       Text("source: PoetryDB")
+                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                           
+                            .padding()
+                            .foregroundColor(Color.secondary)
                     }
                 }
                
-            .frame(width: 380, height: 560, alignment: .center)
+            .frame(width: 380, height: 540, alignment: .center)
             
             .background(Color("BackgroundColor"))
             .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -149,10 +155,15 @@ struct PoemView: View {
                                        
                                         .padding()
                                         .foregroundColor(Color.primary)
+                                    Text("source: PoetryDB")
+                                         .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                                        
+                                         .padding()
+                                         .foregroundColor(Color.secondary)
                                 }
                             }
                            
-                        .frame(width: 380, height: 560, alignment: .center)
+                        .frame(width: 380, height: 540, alignment: .center)
                         
                         .background(Color("BackgroundColor"))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -191,7 +202,7 @@ struct PoemView: View {
                                 }
                             }
                            
-                            .frame(width: 380, height: 560, alignment: .center)
+                            .frame(width: 380, height: 540, alignment: .center)
                             .background(Color("BackgroundColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding()
@@ -200,7 +211,7 @@ struct PoemView: View {
                             .offset(x: self.offset.width<150 ? self.offset.width*2: (150-(self.offset.width-150))*2, y: self.offset.height)
                       //  .animation(.spring(), value: self.offset)
                         .rotationEffect(.degrees(Double(90*self.offset.width)/3000))
-                        .scaleEffect(x: 1 - abs(self.offset.width)/1800, y: 1 - abs(self.offset.width)/1800, anchor: .center)
+                        .scaleEffect(x: 1 - abs(self.offset.width)/3600, y: 1 - abs(self.offset.width)/3600, anchor: .center)
                         .gesture(
                             DragGesture()
                                 .onChanged { gesture in
@@ -247,84 +258,93 @@ struct PoemView: View {
                         
                     
             }
-            .offset(x: 0, y: 20)
+            .offset(x: 0, y: -20)
             .frame(maxWidth: .infinity)
             Spacer()
-            HStack{
-#if os(iOS)
-                Button(action:{
-                    if subscribed {
-                        showingLearnView = true
-                    } else {
-                        showingSubscribeView = true
-                    }
-                }, label:{
-                   Image(systemName: "brain.head.profile")
-                        .padding()
-                })
-                    
-                    .background(Color("BackgroundColor"))
-                    .clipShape(Circle())
-                    .sheet(isPresented: $showingLearnView) {
-                        LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
-                            .accentColor(Color(customAccentColor))
-                    }
-#endif
-            HStack{
-                Button(action: {
-                    currentPage -= 1
-                    nextPage -= 1
-                }, label: {
-                    Image(systemName: "chevron.left")
-                        .padding()
-                })
-                    .buttonStyle(.borderless)
-                    .background(Color(customAccentColor).opacity(0.05))
-                    .clipShape(Circle())
-                    .disabled(!(currentPage > 1))
-                    .padding(7)
-                Text("\(currentPage) of \(fourLines.count / linesOnPage + 1)")
-                    .padding()
-                Button(action: {
-                    currentPage += 1
-                    nextPage += 1
-                }, label: {
-                    Image(systemName: "chevron.right")
-                        .padding()
-                })
-                    .buttonStyle(.borderless)
-                    .background(Color(customAccentColor).opacity(0.05))
-                    .clipShape(Circle())
-                    .disabled(!(currentPage < fourLines.count / linesOnPage + 1))
-                    .padding(7)
-            }
             
-            .background(Color("BackgroundColor"))
-            .clipShape(RoundedRectangle(cornerRadius: 100))
-#if os(iOS)
-                Button(action:{
-                    if subscribed {
-                    showingCameraViewController = true
-                    } else {
-                        showingSubscribeView = true
-                    }
-                }, label:{
-                   Image(systemName: "video")
-                        .padding()
-                })
-                    
-                    .background(Color("BackgroundColor"))
-                    .clipShape(Circle())
-                    .sheet(isPresented: $showingCameraViewController) {
-                        CameraAndTextView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
-                            .accentColor(Color(customAccentColor))
-                    }
-#endif
-        }
-            .padding()
 
         }
-        
+            VStack{
+                Spacer()
+                HStack{
+    #if os(iOS)
+                    Button(action:{
+                        if subscribed {
+                            showingLearnView = true
+                        } else {
+                            showingSubscribeView = true
+                        }
+                    }, label:{
+                       Image(systemName: "brain.head.profile")
+                            .padding()
+                    })
+                        
+                        .background(Color("BackgroundColor"))
+                        .clipShape(Circle())
+                        .keyboardShortcut("l", modifiers: .command)
+                        .sheet(isPresented: $showingLearnView) {
+                            LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
+                                .accentColor(Color(customAccentColor))
+                        }
+    #endif
+                HStack{
+                    Button(action: {
+                        currentPage -= 1
+                        nextPage -= 1
+                    }, label: {
+                        Image(systemName: "chevron.left")
+                            .padding()
+                    })
+                        .buttonStyle(.borderless)
+                       
+                        .background(Color(customAccentColor).opacity(0.05))
+                        .clipShape(Circle())
+                        .disabled(!(currentPage > 1))
+                        .padding(7)
+                       
+                       
+                    Text("\(currentPage) of \(fourLines.count / linesOnPage + 1)")
+                        
+                    Button(action: {
+                        currentPage += 1
+                        nextPage += 1
+                    }, label: {
+                        Image(systemName: "chevron.right")
+                            .padding()
+                    })
+                        .buttonStyle(.borderless)
+                        .background(Color(customAccentColor).opacity(0.05))
+                        .clipShape(Circle())
+                        .disabled(!(currentPage < fourLines.count / linesOnPage + 1))
+                        .padding(7)
+                        .keyboardShortcut(" ", modifiers: .shift)
+                }
+                
+                .background(Color("BackgroundColor"))
+                .clipShape(RoundedRectangle(cornerRadius: 100))
+    #if os(iOS)
+                    Button(action:{
+                        if subscribed {
+                        showingCameraViewController = true
+                        } else {
+                            showingSubscribeView = true
+                        }
+                    }, label:{
+                       Image(systemName: "quote.bubble")
+                            .padding()
+                    })
+                        
+                        .background(Color("BackgroundColor"))
+                        .clipShape(Circle())
+                        .keyboardShortcut("s", modifiers: .command)
+                        .sheet(isPresented: $showingCameraViewController) {
+                            CameraAndTextView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
+                                .accentColor(Color(customAccentColor))
+                        }
+    #endif
+            }
+                .padding(.bottom, 10)
+            }
             
     }
         .background(Color(customAccentColor).opacity(0.05))
