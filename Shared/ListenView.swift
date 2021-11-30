@@ -202,9 +202,9 @@ struct LearnView: View {
                 }
                 if debug {
                     
-                    Text(c1out)
-                    Text(c2out)
-                    Text(misOut)
+                    //Text(c1out)
+                   // Text(c2out)
+//Text(misOut)
                     
 #if os(iOS)
                     Text(userText)
@@ -237,7 +237,11 @@ struct LearnView: View {
                 userText = speechRec.recognizedText
                 checkAnswer = Check(language: language).compare(s1: userText, s2: fourLines[paragraphStep])
                 if checkAnswer == "Все верно"{
-                    paragraphStep += 1
+                    if paragraphStep < fourLines.count - 1{
+                        paragraphStep += 1
+                    } else {
+                        paragraphStep = 0
+                    }
                     self.speechRec.stop()
                     typedText = ""
                     userText = " "
@@ -293,7 +297,9 @@ struct LearnView: View {
                     .onAppear{
                         fourLinesForWordsParse = fourLines[paragraphStep].components(separatedBy: .whitespacesAndNewlines)
                         fourLinesForWordsParse.shuffle()
+                        #if os(iOS)
                         self.speechRec.stop()
+                        #endif
                     }
                     
                 ScrollView {
@@ -313,9 +319,9 @@ struct LearnView: View {
                                         .buttonStyle(BorderedButtonStyle())
                                         .tint(Color(userAccentColor))
                                         .padding(.horizontal)
-                                    
-                                        .hoverEffect(.lift)
-                                       
+#if os(iOS)
+                                        .hoverEffect(.highlight)
+                                    #endif
                                         .animation(.spring(), value: typedText)
                                         
                                     
@@ -333,7 +339,24 @@ struct LearnView: View {
                     checkAnswer = Check(language: language).compareTypedText(s1: typedText, s2: fourLines[paragraphStep])
                     statusColor = UIOutput().getColor(checkAnswer)
                 })
-                
+                ZStack(alignment: .leading){
+                    Rectangle()
+                        .foregroundColor(statusColor.opacity(0.3))
+                        .frame(width: 300, height: 6)
+                        .cornerRadius(3)
+                    Rectangle()
+                        .foregroundColor(statusColor)
+                        .frame(width: CGFloat(slicedText.count)/CGFloat(fourLines[paragraphStep].count + 1)*300, height: 6)
+                        .cornerRadius(3)
+                        .animation(.spring(), value:slicedText.count)
+                    
+                }
+                #if os(iOS)
+                .onAppear{
+                    self.speechRec.stop()
+                }
+                #endif
+                .padding()
             case "Writing":
                 
                 
@@ -359,12 +382,16 @@ struct LearnView: View {
                         .animation(.spring(), value:slicedText.count)
                     
                 }
+#if os(iOS)
                 .onAppear{
+                    
                     self.speechRec.stop()
                 }
+                #endif
                 .padding()
-            case "Speaking":
 #if os(iOS)
+            case "Speaking":
+
                 if !userAllowedMicrophone{
                     Text("Please allow access to microphone in Settings -> Poems 2")
                         .foregroundColor(.red)

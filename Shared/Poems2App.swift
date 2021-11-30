@@ -11,15 +11,16 @@ import SwiftUI
 struct Poems2App: App {
     
     let persistenceController = PersistenceController.shared
-    
+    @AppStorage("userAccentColor") private var userAccentColor = "pattern5Color"
     
     var body: some Scene {
        
         WindowGroup {
             ColumnsView()
-               
+              
                 
                 //.environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
+       
     }
 }

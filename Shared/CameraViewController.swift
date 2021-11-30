@@ -152,7 +152,7 @@ class CameraViewController: UIViewController {
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
-        if let error = error {
+        if let _ = error {
             // we got back an error!
             print("Not saved")
         } else {
@@ -162,7 +162,7 @@ class CameraViewController: UIViewController {
     }
     
     @objc func video(_ video: String, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
-        if let error = error {
+        if let _ = error {
             // we got back an error!
             
             print("Not saved")

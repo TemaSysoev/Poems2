@@ -15,7 +15,6 @@ struct PoemView: View {
     @State var inputText: String
     @State var complete: Bool
     
-    @State var selectedIndex = Int()
     @State var fourLines = ["""
     """]
     @State var checkAnswer = "Слушаю..."
@@ -56,7 +55,7 @@ struct PoemView: View {
     
     var listOfFonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
     var listOfFontSizes = [12, 18, 24]
-    var listOfLinesOnPage = [2, 3, 4]
+    var listOfLinesOnPage = [3, 4, 5]
     
     @State public var offset = CGSize(width: 0, height: 0)
     @State var pushBack = false
@@ -66,6 +65,8 @@ struct PoemView: View {
    
     @AppStorage("subscribed") private var subscribed = false
     @State private var showingSubscribeView = false
+    
+    @State private var readerView = false
     var body: some View {
         ZStack(alignment: .center){
            
@@ -101,13 +102,13 @@ struct PoemView: View {
                        
                     }
                     if currentPage - 1 == fourLines.count / linesOnPage {
-                        Label("To beginning", systemImage: "arrow.uturn.left")
+                        Label("The end. Back to beginning", systemImage: "arrow.uturn.left")
                             .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
                            
                             .padding()
                             .foregroundColor(Color.primary)
                        Text("source: PoetryDB")
-                            .font(fontName == "System" ? .system(size: CGFloat(fontSize), design: .serif):.custom(fontName, size: CGFloat(fontSize)))
+                            .font(.footnote)
                            
                             .padding()
                             .foregroundColor(Color.secondary)
@@ -121,9 +122,9 @@ struct PoemView: View {
             .zIndex(pushBack ? 2 : 1)
             .padding()
     
-            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 0)
-            .offset(x: 0, y: -26.5 + (self.offset.width)/15)
-            .scaleEffect(x: (abs(self.offset.width)/7.5 + 940)/1000, y: (abs(self.offset.width)/7.5 + 940)/1000, anchor: .center)
+            .shadow(color: Color.black.opacity(readerView ? 0.0: 0.2), radius: 3.0, x: 0, y: 0)
+            .offset(x: 0, y: -20 + (self.offset.width)/15)
+            .scaleEffect(x: (abs(self.offset.width)/7.5 + 960)/1000, y: (abs(self.offset.width)/7.5 + 960)/1000, anchor: .center)
                             VStack{
                                 ForEach(0..<fourLines.count, id: \.self){ index in
                                     
@@ -170,7 +171,7 @@ struct PoemView: View {
                         .zIndex(pushBack ? 3 : 2)
                         .padding()
                 
-                        .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 0)
+                        .shadow(color: Color.black.opacity(readerView ?  0.0 : 0.2), radius: 3.0, x: 0, y: 0)
                         .offset(x: 0, y: -10 + (self.offset.width)/15)
                         .scaleEffect(x: (abs(self.offset.width)/7.5 + 980)/1000, y: (abs(self.offset.width)/7.5 + 980)/1000, anchor: .center)
                         
@@ -206,12 +207,13 @@ struct PoemView: View {
                             .background(Color("BackgroundColor"))
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .padding()
-                            .shadow(color: Color.black.opacity(0.2), radius: 3.0, x: 0, y: 1)
+                            .shadow(color: Color.black.opacity(readerView ? 0.0:0.2), radius: 3.0, x: 0, y: 1)
                             .zIndex(pushBack ? 1 : 3)
                             .offset(x: self.offset.width<150 ? self.offset.width*2: (150-(self.offset.width-150))*2, y: self.offset.height)
                       //  .animation(.spring(), value: self.offset)
                         .rotationEffect(.degrees(Double(90*self.offset.width)/3000))
                         .scaleEffect(x: 1 - abs(self.offset.width)/3600, y: 1 - abs(self.offset.width)/3600, anchor: .center)
+                
                         .gesture(
                             DragGesture()
                                 .onChanged { gesture in
@@ -279,13 +281,18 @@ struct PoemView: View {
                             .padding()
                     })
                         
-                        .background(Color("BackgroundColor"))
+                        .buttonStyle(.borderless)
+                       
+                        .background(Color(customAccentColor).opacity(0.05))
                         .clipShape(Circle())
+                        .opacity(readerView ? 0.0:1.0)
+                        .animation(.spring(), value: readerView)
                         .keyboardShortcut("l", modifiers: .command)
                         .sheet(isPresented: $showingLearnView) {
                             LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
                                 .accentColor(Color(customAccentColor))
                         }
+                        
     #endif
                 HStack{
                     Button(action: {
@@ -296,14 +303,15 @@ struct PoemView: View {
                             .padding()
                     })
                         .buttonStyle(.borderless)
-                       
-                        .background(Color(customAccentColor).opacity(0.05))
+                        .background(Color(customAccentColor).opacity(readerView ? 0.0 : 0.05))
+                        .foregroundColor(readerView ? Color.gray : Color(customAccentColor))
                         .clipShape(Circle())
                         .disabled(!(currentPage > 1))
                         .padding(7)
                        
                        
                     Text("\(currentPage) of \(fourLines.count / linesOnPage + 1)")
+                        .foregroundColor(readerView ? Color.secondary : Color.primary)
                         
                     Button(action: {
                         currentPage += 1
@@ -313,7 +321,8 @@ struct PoemView: View {
                             .padding()
                     })
                         .buttonStyle(.borderless)
-                        .background(Color(customAccentColor).opacity(0.05))
+                        .background(Color(customAccentColor).opacity(readerView ? 0.0 : 0.05))
+                        .foregroundColor(readerView ? Color.gray : Color(customAccentColor))
                         .clipShape(Circle())
                         .disabled(!(currentPage < fourLines.count / linesOnPage + 1))
                         .padding(7)
@@ -322,6 +331,7 @@ struct PoemView: View {
                 
                 .background(Color("BackgroundColor"))
                 .clipShape(RoundedRectangle(cornerRadius: 100))
+               
     #if os(iOS)
                     Button(action:{
                         if subscribed {
@@ -334,9 +344,13 @@ struct PoemView: View {
                             .padding()
                     })
                         
-                        .background(Color("BackgroundColor"))
+                        .buttonStyle(.borderless)
+                       
+                        .background(Color(customAccentColor).opacity(0.05))
                         .clipShape(Circle())
                         .keyboardShortcut("s", modifiers: .command)
+                        .opacity(readerView ? 0.0:1.0)
+                        .animation(.spring(), value: readerView)
                         .sheet(isPresented: $showingCameraViewController) {
                             CameraAndTextView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
                                 .accentColor(Color(customAccentColor))
@@ -345,12 +359,47 @@ struct PoemView: View {
             }
                 .padding(.bottom, 10)
             }
-            
+
     }
-        .background(Color(customAccentColor).opacity(0.05))
+       
+        .onTapGesture(perform: {readerView.toggle()})
+        #if os(iOS)
+        .background(Color(customAccentColor).opacity(readerView ? 0.0 : 0.05))
+        #else
+        .background(Color("BackgroundColor"))
+        #endif
+        .animation(.spring(), value: readerView)
         .sheet(isPresented: $showingSubscribeView){
+            
             SubscribeView(userAccentColor: customAccentColor)
+            #if os(macOS)
+            Button(action: {showingSubscribeView = false}, label:{Text("Close")})
+                .padding(.bottom)
+            #endif
         }
+#if os(macOS)
+            .toolbar{
+
+                                
+                                ToolbarItem(){
+                                    Button(action:{
+                                        if subscribed{
+                                        showingLearnView = true
+                                        }else{
+                                            showingSubscribeView = true
+                                        }
+                                    }, label:{
+                                        Label("Learn", systemImage: "brain.head.profile")
+                                        
+                                    })
+                                        .popover(isPresented: $showingLearnView) {
+                                            LearnView(language: language, author: author, title: title, inputText: inputText, fontName: fontName)
+                                        }
+                                }
+                                
+
+            }
+#endif
     }
     
     static func stringify(json: Any, prettyPrinted: Bool = false) -> String {

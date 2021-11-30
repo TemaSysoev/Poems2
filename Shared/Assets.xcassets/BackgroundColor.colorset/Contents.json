@@ -20,8 +20,8 @@
         }
       ],
       "color" : {
-        "platform" : "osx",
-        "reference" : "controlBackgroundColor"
+        "platform" : "ios",
+        "reference" : "darkTextColor"
       },
       "idiom" : "universal"
     }

@@ -21,18 +21,18 @@ struct SubscribeView: View {
     }
 
     var body: some View {
-        NavigationView{
-        VStack(alignment: .center){
+                VStack(alignment: .center){
           
         Image("SubscribeImage")
             .resizable()
             .scaledToFit()
+            .padding()
           Spacer()
            
         Text("Thanks for using Poems 2!")
             .bold()
             .padding()
-        Text("If you wish, you can unlock an offline library, themes, ability to add yours poems, 3 learning modes and video recording with subscription or single purchase shared across your devices")
+        Text("If you wish, you can unlock an offline library, themes, ability to add yours poems, 3 learning modes and video recording with one-time in-app purchase shared across your devices")
             .multilineTextAlignment(.center)
             .padding(.horizontal)
         Group {
@@ -45,32 +45,24 @@ struct SubscribeView: View {
                                         status: status)
                     }
                 }
+                #if os(iOS)
                 .listStyle(GroupedListStyle())
+                #endif
             }
 
             Section(header: Text("")) {
-                ForEach(availableSubscriptions, id: \.id) { product in
-                    ListCellView(product: product)
-                        .padding(.horizontal, 20)
-                }
+               
                 ForEach(store.onTimePurchase, id: \.id) { v in
+                   
                     ListCellView(product: v)
                         .padding(.all, 5)
                 }
-                /*
-               Button(action: {
-                subscribed.toggle()
-               }, label: {
-                   Label("Toggle fake purchase for testers", systemImage: "hammer")
-               })
-                   .tint(Color.red)*/
+               
+               
             }
+#if os(iOS)
             .listStyle(GroupedListStyle())
-            HStack{
-                NavigationLink(destination: PPAndTU(), label: {
-                    Text("Privacy policy/Terms of use")
-                })
-                Spacer()
+            #endif
             Button(action: {
                 if (SKPaymentQueue.canMakePayments()) {
                   SKPaymentQueue.default().restoreCompletedTransactions()
@@ -78,7 +70,7 @@ struct SubscribeView: View {
                 func paymentQueue(_ queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!)    {
                   print("Received Payment Transaction Response from Apple");
                   for transaction in transactions {
-                    switch transaction.transactionState {
+                   switch transaction.transactionState {
                     case .purchased, .restored:
                       print("Purchased purchase/restored")
                         SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
@@ -99,9 +91,9 @@ struct SubscribeView: View {
                 Text("Restore")
             })
                 
-            }
             
-            .padding(.horizontal)
+            
+               
         }
         .onAppear {
             Task {
@@ -116,7 +108,11 @@ struct SubscribeView: View {
             }
         }
         }
-        }
+        
+#if os(macOS)
+                .frame(minWidth: 400, maxWidth: 400, minHeight: 400, maxHeight: 400)
+        
+#endif
     }
 
     @MainActor

@@ -25,15 +25,16 @@ struct ColumnsView: View {
     
     @AppStorage("fontSize") private var fontSize = 18
     @AppStorage("fontName") private var fontName = "System"
-    @AppStorage("linesOnPage") private var linesOnPage = 2
+    @AppStorage("linesOnPage") private var linesOnPage = 3
     @AppStorage("userAccentColor") private var userAccentColor = "pattern5Color"
     @AppStorage("JSONLibrary") private var JSONLibrary = """
 
 """
     @AppStorage("subscribed") private var subscribed = false
-  
+    @AppStorage("language") private var language = "English"
     var fonts = ["System", "Helvetica Neue", "Athelas", "Charter", "Georgia", "Iowan", "Palatino", "New York", "Seravek", "Times New Roman"]
-    var fontSizes = [12, 18, 24]
+    var fontSizes = [14, 15, 16, 17, 18, 19, 20, 21, 22]
+    @State private var value = 0
     var colors = ["pattern1Color", "pattern2Color", "pattern3Color", "pattern4Color", "pattern5Color", "pattern6Color"]
    
   
@@ -61,29 +62,56 @@ struct ColumnsView: View {
             VStack {
                 
                 List{
+                  
+                    Button(action: {
+                     subscribed.toggle()
+                    }, label: {
+                        Label("Toggle fake purchase for testers", systemImage: "hammer")
+                    })
+                        .tint(Color.red)
+                    Picker("Language", selection: $language) {
+                        ForEach(["English", "Russian"], id: \.self) { l in
+                            Text(l)
+                        }
+                    }
+                    .onChange(of: language){ _ in
+                        getOnlinePoems()
+                    }
+                
                     if searchText != ""{
+                    HStack{
+                   Spacer()
                         Button(role: .destructive, action:{
                             searchText = ""
                             searchOnlinePoems(search: searchText)
                         }, label:{
                             Text("Clear search")
                         })
+                            .buttonStyle(.borderless)
+                        Spacer()
                         
                     }
-                    
+                    }
                     Section(header: Text("My library")){
                         if !subscribed {
                             Button(action:{
                                 showingSubscribeView = true
                             }, label:{
-                                Text("Create my library")
+                                Label("Unlock my shelf", systemImage: "books.vertical")
                             })
+                                .buttonStyle(.borderless)
                                 .sheet(isPresented: $showingSubscribeView){
+                                    
                                     SubscribeView(userAccentColor: userAccentColor)
+                                    #if os(macOS)
+                                    Button(action: {showingSubscribeView = false}, label:{Text("Close")})
+                                        .padding(.bottom)
+                                    #endif
                                 }
                         } else {
-                        ForEach(bookmarkedPoems) { poem in
                             
+                        ForEach(bookmarkedPoems) { poem in
+                          
                             NavigationLink(destination: PoemView(language: poem.language, author: poem.author, title: poem.title, inputText: poem.text, complete: false, fontSize: fontSize, fontName: fontName, linesOnPage: linesOnPage, customAccentColor: userAccentColor)
                                            #if os(iOS)
                                             .navigationBarTitle(Text("\(poem.title)"))
@@ -93,6 +121,8 @@ struct ColumnsView: View {
                                             .navigationSubtitle("\(poem.author)")
                                            #endif
                                             .toolbar{
+
+                                
                                 ToolbarItem(){
                                     Button(action:{
                                         if bookmarkedPoems.contains(poem){
@@ -141,8 +171,9 @@ struct ColumnsView: View {
                                     })
                                         .keyboardShortcut("b", modifiers: .command)
                                 }
+
                                 
-                                
+
                                 ToolbarItem(placement: .primaryAction){
                                     
                                     Button(action:{
@@ -179,24 +210,21 @@ struct ColumnsView: View {
                                                         }
                                                         
                                                     }
-                                                    
+                                                 
                                                     
                                                     .pickerStyle(.menu)
-                                                    
+                                                 
                                                     Divider()
-                                                    Picker(selection: $fontSize, label: Text("Size")) {
-                                                        ForEach(fontSizes, id: \.self) { size in
-                                                            Text("\(size)")
-                                                            
-                                                        }
-                                                        
-                                                        
-                                                    }
-                                                    .pickerStyle(.menu)
+                                                    Stepper(value: $fontSize,
+                                                            in: 8...30,
+                                                                   step: 1) {
+                                                               Text("Size: \(fontSize)")
+                                                           }
+                                                    
                                                     
                                                 }
                                                 .frame(height: 20)
-                                                
+                                                #if os(iOS)
                                                 Divider()
                                                 Text("Controls color")
                                                     .bold()
@@ -225,17 +253,21 @@ struct ColumnsView: View {
                                                                 
                                                                 
                                                             })
+                                                                .tint(Color.black)
+                                                               
                                                                 .cornerRadius(13.0)
                                                                 .buttonStyle(.borderless)
                                                                 .padding(5)
+                                                               
                                                             
                                                         }
                                                         
                                                     }
                                                     
+                                                    
                                                 }
                                                 Spacer()
-                                                
+                                                #endif
                                                 
                                             }.padding()
                                                 .frame(minWidth: 300)
@@ -245,14 +277,23 @@ struct ColumnsView: View {
                             }, label: {
                                 HStack{
                                     VStack{
+                                     
                                         Text(poem.text.prefix(60))
                                             .font(fontName == "System" ? .system(size: 5.0, design: .serif):.custom(fontName, size: 5.0))
+                                        
+                                        #if os(iOS)
                                             .foregroundColor(Color.primary)
-                                            .multilineTextAlignment(.leading)
-                                            .padding(.all, 5)
                                             .mask(
                                                 LinearGradient(gradient: Gradient(colors: [Color("BackgroundColor").opacity(1.0), Color("BackgroundColor").opacity(0.0)]), startPoint: .top, endPoint: .bottom)
                                             )
+                                        #else
+                                            .foregroundColor(Color.gray)
+                                        #endif
+                                            .multilineTextAlignment(.leading)
+                                            .padding(.all, 5)
+                                        
+                                           
+                                     
                                     }
                                     .frame(width: 40, height: 53, alignment: .center)
                                     .background(Color("BackgroundColor"))
@@ -275,6 +316,7 @@ struct ColumnsView: View {
                                 }
                                 
                             })
+                           
                             
                             
                         }
@@ -306,7 +348,9 @@ struct ColumnsView: View {
                                 }
                             }
                             
-                        }).keyboardShortcut("n", modifiers: .command)
+                        })
+                                .buttonStyle(BorderlessButtonStyle())
+                                .keyboardShortcut("n", modifiers: .command)
                                 .sheet(isPresented: $showingAddNewPoemView) {
                             VStack{
                                 HStack{
@@ -378,6 +422,10 @@ struct ColumnsView: View {
                                     .padding(.bottom, 5)
                                     
                             }
+#if os(macOS)
+               
+                            .frame(minWidth: 400, minHeight: 500)
+#endif
                            
                         }
                     }
@@ -506,21 +554,18 @@ struct ColumnsView: View {
                                                     
                                                     
                                                     .pickerStyle(.menu)
-                                                    
+                                                 
                                                     Divider()
-                                                    Picker(selection: $fontSize, label: Text("Size")) {
-                                                        ForEach(fontSizes, id: \.self) { size in
-                                                            Text("\(size)")
-                                                            
-                                                        }
-                                                        
-                                                        
-                                                    }
-                                                    .pickerStyle(.menu)
+                                                    Stepper(value: $fontSize,
+                                                            in: 8...30,
+                                                                   step: 1) {
+                                                               Text("Size: \(fontSize)")
+                                                           }
+                                                    
                                                     
                                                 }
                                                 .frame(height: 20)
-                                                
+                                                #if os(iOS)
                                                 Divider()
                                                 Text("Controls color")
                                                     .bold()
@@ -549,33 +594,20 @@ struct ColumnsView: View {
                                                                 
                                                                 
                                                             })
+                                                                .tint(Color.black)
                                                                 .cornerRadius(13.0)
                                                                 .buttonStyle(.borderless)
                                                                 .padding(5)
-                                                            
+                                                               
                                                             
                                                         }
                                                         
                                                     }
                                                     
+                                                    
                                                 }
-                                                
                                                 Spacer()
-                                                    /*
-                                                if showingSubscribeView{
-                                                    SubscribeView(userAccentColor: userAccentColor)
-                                                }
-                                                Button(action:{
-                                                   
-                                                   
-                                                    showingSubscribeView.toggle()
-                                                    
-                                                }, label: {
-                                                    Text("Manage your account")
-                                                        .font(.footnote)
-                                                        .foregroundColor(Color.secondary)
-                                                    
-                                                })*/
+                                                #endif
                                                 
                                             }
                                             .padding()
@@ -593,12 +625,17 @@ struct ColumnsView: View {
                                     VStack{
                                         Text(poem.text.prefix(60))
                                             .font(fontName == "System" ? .system(size: 5.0, design: .serif):.custom(fontName, size: 5.0))
+                                        
+                                        #if os(iOS)
                                             .foregroundColor(Color.primary)
-                                            .multilineTextAlignment(.leading)
-                                            .padding(.all, 5)
                                             .mask(
                                                 LinearGradient(gradient: Gradient(colors: [Color("BackgroundColor").opacity(1.0), Color("BackgroundColor").opacity(0.0)]), startPoint: .top, endPoint: .bottom)
                                             )
+                                        #else
+                                            .foregroundColor(Color.gray)
+                                        #endif
+                                            .multilineTextAlignment(.leading)
+                                            .padding(.all, 5)
                                     }
                                     .frame(width: 40, height: 53, alignment: .center)
                                     .background(Color("BackgroundColor"))
@@ -625,6 +662,7 @@ struct ColumnsView: View {
                                 
                                 
                             })
+                                
                                 .task{
                                     if poem == searchResults.last{
                                         getOnlinePoems()
@@ -642,12 +680,19 @@ struct ColumnsView: View {
                     }
                     
                     
-                    
+                    /*
                     if state == .error{
                         Image(systemName: "bolt.horizontal.circle")
-                    }
+                    }*/
                 }
+               
 #if os(macOS)
+                .listStyle(.sidebar)
+                    #endif
+                
+                .accentColor(Color(userAccentColor))
+#if os(macOS)
+               
                 .frame(minWidth: 200)
 #endif
                 
@@ -694,12 +739,20 @@ struct ColumnsView: View {
             
             
             .onChange(of: fontSize){value in
-                switch fontSize{
-                case 12: linesOnPage = 3
-                case 18: linesOnPage = 2
-                case 24: linesOnPage = 1
-                default: linesOnPage = 2
+                if fontSize < 16{
+                    linesOnPage = 4
+                } else {
+                    if fontSize < 19{
+                        linesOnPage = 3
+                    } else {
+                        if fontSize < 23{
+                            linesOnPage = 2
+                        } else {
+                            linesOnPage = 1
+                        }
+                    }
                 }
+                
             }
             PoemView(language: "", author: "", title: "", inputText: """
 When daisies pied and violets blue
@@ -726,9 +779,19 @@ When daisies pied and violets blue
             
             
         } .environmentObject(store)
-        
+           
         .accentColor(Color(userAccentColor))
         .navigationViewStyle(.columns)
+        #if os(macOS)
+        .toolbar {
+            
+                    ToolbarItem(placement: .navigation) {
+                        Button(action: toggleSidebar, label: { // 1
+                            Image(systemName: "sidebar.leading")
+                        })
+                    }
+                }
+        #endif
         .task{
             async{
                 getOnlinePoems()
@@ -739,10 +802,51 @@ When daisies pied and violets blue
         }
         
     }
+    func incrementStep() {
+            value += 1
+            if value >= fontSizes.count { value = 0 }
+        }
+
+        func decrementStep() {
+            value -= 1
+            if value < 0 { value = fontSizes.count - 1 }
+        }
+    private func toggleSidebar() { // 2
+            #if os(iOS)
+            #else
+            NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+            #endif
+        }
     func getOnlinePoems(){
         
         async{
-            
+            if language == "Russian"{
+                onlinePoems = [WebPoem]()
+            do{
+                if let bundlePath = Bundle.main.path(forResource: "Russian poems",
+                                                             ofType: "json"),
+                            let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
+                 
+                    
+                    let poems = try JSONDecoder().decode([LocalPoems].self, from: jsonData)
+                    for index in 0..<poems.count{
+                       
+                       
+                        
+                        let poem = WebPoem(id: poems[index].title, author: poems[index].author, title: poems[index].title, text: poems[index].text, language: "Russian", source: "Local")
+                        
+                        onlinePoems.append(poem)
+                        
+                        state = LoadingStats.loading
+                    }
+                        }
+            } catch {
+                
+            }
+                onlinePoems.shuffle()
+            }
+            if language == "English"{
+                onlinePoems = [WebPoem]()
             do {
                 state = LoadingStats.loading
                 
@@ -776,7 +880,10 @@ When daisies pied and violets blue
                 print(error)
                 state = LoadingStats.error
             }
+            }
         }
+      
+        
         
     }
     

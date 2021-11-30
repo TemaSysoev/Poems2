@@ -28,6 +28,11 @@ struct LocalPoems: Codable {
     let author: String
     let language: String
 }
+struct TestRussianPoems: Codable {
+    let poet_id: String
+    let title: String
+    let content: String
+}
 struct Poet: Codable{
     let name: String
     let url:String
