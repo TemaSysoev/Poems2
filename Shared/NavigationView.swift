@@ -63,20 +63,7 @@ struct ColumnsView: View {
                 
                 List{
                   
-                    Button(action: {
-                     subscribed.toggle()
-                    }, label: {
-                        Label("Toggle fake purchase for testers", systemImage: "hammer")
-                    })
-                        .tint(Color.red)
-                    Picker("Language", selection: $language) {
-                        ForEach(["English", "Russian"], id: \.self) { l in
-                            Text(l)
-                        }
-                    }
-                    .onChange(of: language){ _ in
-                        getOnlinePoems()
-                    }
+                    
                 
                     if searchText != ""{
                     HStack{
@@ -736,7 +723,32 @@ struct ColumnsView: View {
                 
                 
             }
-            
+            .toolbar{
+                Menu{
+                    Button(action: {
+                     subscribed.toggle()
+                    }, label: {
+                        if subscribed {
+                            Label("Free functionality", systemImage: "hammer")
+                        } else {
+                            Label("Unlock full version", systemImage: "hammer")
+                        }
+                       
+                    })
+                        .tint(Color.red)
+                    
+                Picker("Language", selection: $language) {
+                    ForEach(["English", "Russian"], id: \.self) { l in
+                        Text(l)
+                    }
+                }
+                .onChange(of: language){ _ in
+                    getOnlinePoems()
+                }
+                } label: {
+                    Image(systemName: "globe")
+                }
+            }
             
             .onChange(of: fontSize){value in
                 if fontSize < 16{
@@ -909,7 +921,7 @@ When daisies pied and violets blue
     }
     
     func searchOnlinePoems(search: String){
-        if search != ""{
+        if search != "" && language != "Russian"{
             onlinePoems = [WebPoem]()
             async{
                 
@@ -917,7 +929,9 @@ When daisies pied and violets blue
                     state = LoadingStats.loading
                     
                     var loadedPoems = [WebPoem]()
+                    
                     let url = URL(string: "https://poetrydb.org/author/\(search)")
+                    if url != nil{
                     let (data, _) = try await URLSession.shared.data(from: url!)
                     
                     
@@ -941,10 +955,10 @@ When daisies pied and violets blue
                         
                     }
                     onlinePoems += loadedPoems
-                    
+                    }
                     
                     state = LoadingStats.loaded
-                    
+                   
                 } catch {
                     print("author error")
                     
@@ -954,6 +968,7 @@ When daisies pied and violets blue
                     
                     var loadedPoems = [WebPoem]()
                     let url = URL(string: "https://poetrydb.org/title/\(search)")
+                    if url != nil{
                     let (data, _) = try await URLSession.shared.data(from: url!)
                     
                     
@@ -977,7 +992,7 @@ When daisies pied and violets blue
                     }
                     onlinePoems += loadedPoems
                     
-                    
+                    }
                     state = LoadingStats.loaded
                     
                 } catch {
@@ -989,6 +1004,7 @@ When daisies pied and violets blue
                     
                     var loadedPoems = [WebPoem]()
                     let url = URL(string: "https://poetrydb.org/lines/\(search)")
+                    if url != nil{
                     let (data, _) = try await URLSession.shared.data(from: url!)
                     
                     
@@ -1011,7 +1027,7 @@ When daisies pied and violets blue
                         
                     }
                     onlinePoems += loadedPoems
-                    
+                    }
                     
                     state = LoadingStats.loaded
                     

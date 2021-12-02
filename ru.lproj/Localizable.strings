@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  Poems
+
+  Created by Tema Sysoev on 02.12.2021.
+  
+*/
+"English" = "Английский";
+"Russian" = "Русский";
+"My library" = "Моя библиотека";
+"Discover" = "Подборка";
+"Poems" = "Стихи";
+"Add new" = "Добавить";
+"Font:" = "Шрифт:";
+"Size: %@" = "Размер: %@";
+"Reading" = "Чтение";
+"Controls color" = "Тема";
+"Writing" = "Печатать";
+"Words" = "Слова";
+"Listening" = "Вслух";
+"Start typing" = "Начните вводить";

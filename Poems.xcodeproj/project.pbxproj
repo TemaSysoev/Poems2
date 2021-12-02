@@ -32,6 +32,8 @@
 		E049963A26D8CD86009443C9 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E049963926D8CD86009443C9 /* GameKit.framework */; };
 		E05ED79B266F96D4004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
 		E05ED79C266F96D5004FE1F1 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09797CF266F9598005F8C01 /* NavigationView.swift */; };
+		E06ACA5A27589F390058AA49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E06ACA5D27589F390058AA49 /* Localizable.strings */; };
+		E06ACA5B27589F390058AA49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E06ACA5D27589F390058AA49 /* Localizable.strings */; };
 		E06D944626EE001D000E93EF /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = E06D944526EE001D000E93EF /* data.json */; };
 		E06D944726EE001D000E93EF /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = E06D944526EE001D000E93EF /* data.json */; };
 		E06F840526B2D5EF00C217F6 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06F840426B2D5EF00C217F6 /* Themes.swift */; };
@@ -82,6 +84,8 @@
 		E025041C26BACAC200B07936 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E0491C9A26FE379000DFA79F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		E049963926D8CD86009443C9 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		E06ACA5C27589F390058AA49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E06ACA5E27589F3B0058AA49 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E06D944526EE001D000E93EF /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		E06F840426B2D5EF00C217F6 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		E07B30C427102085003E4A0C /* PPAndTU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPAndTU.swift; sourceTree = "<group>"; };
@@ -90,7 +94,6 @@
 		E09797CF266F9598005F8C01 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoemView.swift; sourceTree = "<group>"; };
 		E0E0A34B2754D5B800A8CEE8 /* Russian poems.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "Russian poems.json"; path = "Russian Poems/Russian poems.json"; sourceTree = SOURCE_ROOT; };
-		E0E0A34E2754E83100A8CEE8 /* classic_poems.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = classic_poems.json; path = "Russian Poems/classic_poems.json"; sourceTree = SOURCE_ROOT; };
 		E0F7784026E36484006981D1 /* VideoRecoderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecoderView.swift; sourceTree = "<group>"; };
 		E0F7784226E36CD5006981D1 /* Controller */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Controller; sourceTree = "<group>"; };
 		E0F7784326E36CD5006981D1 /* View */ = {isa = PBXFileReference; lastKnownFileType = folder; path = View; sourceTree = "<group>"; };
@@ -136,6 +139,7 @@
 		E0FCDA93266ABBE1000059CB = {
 			isa = PBXGroup;
 			children = (
+				E06ACA5D27589F390058AA49 /* Localizable.strings */,
 				E01699CA26FF26F80059336A /* SubsribeView.swift */,
 				E07B30C427102085003E4A0C /* PPAndTU.swift */,
 				E01699CF26FF286F0059336A /* StatusInfoView.swift */,
@@ -159,7 +163,6 @@
 				E09797CF266F9598005F8C01 /* NavigationView.swift */,
 				E06D944526EE001D000E93EF /* data.json */,
 				E0E0A34B2754D5B800A8CEE8 /* Russian poems.json */,
-				E0E0A34E2754E83100A8CEE8 /* classic_poems.json */,
 				E0FCDA9B266ABBE2000059CB /* Poems2App.swift */,
 				E011E5A8269762E6009549C9 /* SettingsView.swift */,
 				E0A0DC2D266ED0FC00F4F4AD /* PoemView.swift */,
@@ -282,6 +285,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = E0FCDA93266ABBE1000059CB;
 			productRefGroup = E0FCDAA4266ABBE4000059CB /* Products */;
@@ -304,6 +308,7 @@
 				E0048297267CA8AF0074426C /* iOS in Resources */,
 				E06D944626EE001D000E93EF /* data.json in Resources */,
 				E01699D426FF2BE00059336A /* Products.plist in Resources */,
+				E06ACA5A27589F390058AA49 /* Localizable.strings in Resources */,
 				E0E0A34C2754D5B800A8CEE8 /* Russian poems.json in Resources */,
 				E0F7784426E36CD5006981D1 /* Controller in Resources */,
 				E0FCDAB7266ABBE4000059CB /* Assets.xcassets in Resources */,
@@ -316,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E02425812732A3EF001DDC47 /* Products.plist in Resources */,
+				E06ACA5B27589F390058AA49 /* Localizable.strings in Resources */,
 				E06D944726EE001D000E93EF /* data.json in Resources */,
 				E01699C926FF24200059336A /* Configuration.storekit in Resources */,
 				E0FCDAB8266ABBE4000059CB /* Assets.xcassets in Resources */,
@@ -380,6 +386,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E06ACA5D27589F390058AA49 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E06ACA5C27589F390058AA49 /* en */,
+				E06ACA5E27589F3B0058AA49 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E0FCDAB9266ABBE4000059CB /* Debug */ = {
@@ -500,7 +518,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 45;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -509,7 +527,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems;
 				SDKROOT = iphoneos;
@@ -525,7 +543,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 45;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -534,7 +552,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems;
 				SDKROOT = iphoneos;
@@ -553,7 +571,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -563,7 +581,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems;
 				SDKROOT = macosx;
@@ -580,7 +598,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -590,7 +608,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems;
 				SDKROOT = macosx;
