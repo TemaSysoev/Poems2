@@ -8,46 +8,19 @@
 import SwiftUI
 import CoreData
 
-struct WebPoem: Identifiable, Encodable, Equatable, Decodable{
-    var id: String
-    
-    let author: String
-    let title: String
-    let text: String
-    let language: String
-    
-    let source: String
-    
-}
+
 enum LoadingStats{
     case loading
     case loaded
     case error
     case notFound
 }
-let defaults = UserDefaults.standard
-
-func loadBookmarked() -> [String]{
-    if defaults.object(forKey: "booked") != nil {
-        return defaults.object(forKey: "booked")! as! [String]
-    }else{
-        return [""]
-    }
-    
+enum Event{
+    case didLoad
+    case didFail
+    case fetchNext
+    case languageSwithed
 }
-func saveBookmarked(_ newPoem: String){
-    
-    var tmpPoems = loadBookmarked()
-    let textForLink = newPoem.replacingOccurrences(of: " ", with: "%20")
-    let endOfLine = textForLink.firstIndex(of: "\n")!
-    let firstLine = textForLink[..<endOfLine]
-    tmpPoems.append("\(firstLine)")
-    
-    
-    defaults.set(tmpPoems, forKey: "booked")
-    
-}
-
 
 
 private let itemFormatter: DateFormatter = {
