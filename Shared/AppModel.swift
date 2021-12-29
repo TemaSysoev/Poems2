@@ -11,6 +11,7 @@ import CoreData
 
 enum LoadingStats{
     case loading
+    case searching
     case loaded
     case error
     case notFound
@@ -19,7 +20,7 @@ enum Event{
     case didLoad
     case didFail
     case fetchNext
-    case languageSwithed
+    case languageSwitched
 }
 
 
@@ -29,9 +30,3 @@ private let itemFormatter: DateFormatter = {
     formatter.timeStyle = .medium
     return formatter
 }()
-/*
- struct ContentView_Previews: PreviewProvider {
- static var previews: some View {
- PoemsListView(source: "online", onlinePoems: onlinePoems)
- }
- }*/
