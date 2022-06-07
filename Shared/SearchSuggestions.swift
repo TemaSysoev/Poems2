@@ -18,8 +18,8 @@ public struct SearchSuggestionsSet: Codable {
 }
 public struct Suggestion{
     var language = "English"
-    var authors = [""]
-    var keyWords = [""]
+    var authors = ["Loading..."]
+    var keyWords = ["Loading..."]
 }
 enum SearchErrors: Error{
     case noSuggestionsForLanguage

@@ -10,6 +10,8 @@
 		E02425802732A369001DDC47 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E024257F2732A369001DDC47 /* StoreKit.framework */; };
 		E0491C9B26FE379000DFA79F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0491C9A26FE379000DFA79F /* StoreKit.framework */; };
 		E049963A26D8CD86009443C9 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E049963926D8CD86009443C9 /* GameKit.framework */; };
+		E04B4197278B2CAF007AABD7 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04B4196278B2CAF007AABD7 /* Page.swift */; };
+		E04B4198278B2CAF007AABD7 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04B4196278B2CAF007AABD7 /* Page.swift */; };
 		E054CBB527761B9300C3B7D5 /* SearchSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E054CBB427761B9300C3B7D5 /* SearchSuggestions.swift */; };
 		E054CBB627761B9300C3B7D5 /* SearchSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E054CBB427761B9300C3B7D5 /* SearchSuggestions.swift */; };
 		E06ACA5A27589F390058AA49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E06ACA5D27589F390058AA49 /* Localizable.strings */; };
@@ -102,6 +104,7 @@
 		E024257F2732A369001DDC47 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E0491C9A26FE379000DFA79F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		E049963926D8CD86009443C9 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		E04B4196278B2CAF007AABD7 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		E054CBB427761B9300C3B7D5 /* SearchSuggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchSuggestions.swift; path = Shared/SearchSuggestions.swift; sourceTree = SOURCE_ROOT; };
 		E06ACA5C27589F390058AA49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E06ACA5E27589F3B0058AA49 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -238,6 +241,7 @@
 		E0CDD375276E894D00435836 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E04B4196278B2CAF007AABD7 /* Page.swift */,
 				E0CDD376276E894D00435836 /* SettingsView.swift */,
 				E0CDD377276E894D00435836 /* SubsribeView.swift */,
 				E0CDD378276E894D00435836 /* PoemView.swift */,
@@ -501,6 +505,7 @@
 				E0CDD3F8276E8A2E00435836 /* RecoderView.swift in Sources */,
 				E0CDD3A8276E894D00435836 /* AppModel.swift in Sources */,
 				E0CDD388276E894D00435836 /* Poems2App.swift in Sources */,
+				E04B4197278B2CAF007AABD7 /* Page.swift in Sources */,
 				E0CDD3CE276E8A2E00435836 /* CameraViewController.swift in Sources */,
 				E0CDD396276E894D00435836 /* ListCellView.swift in Sources */,
 				E0CDD39E276E894D00435836 /* SettingsView.swift in Sources */,
@@ -525,6 +530,7 @@
 				E0CDD399276E894D00435836 /* GetPoems.swift in Sources */,
 				E0CDD3A7276E894D00435836 /* ListenView.swift in Sources */,
 				E0CDD3A9276E894D00435836 /* AppModel.swift in Sources */,
+				E04B4198278B2CAF007AABD7 /* Page.swift in Sources */,
 				E0CDD389276E894D00435836 /* Poems2App.swift in Sources */,
 				E0CDD397276E894D00435836 /* ListCellView.swift in Sources */,
 				E0CDD39F276E894D00435836 /* SettingsView.swift in Sources */,
@@ -666,7 +672,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -691,7 +697,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Poems2.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -719,7 +725,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -729,7 +735,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems;
 				SDKROOT = macosx;
@@ -746,7 +752,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = K52EJNPD2V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -756,7 +762,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "t-software.Poems2";
 				PRODUCT_NAME = Poems;
 				SDKROOT = macosx;

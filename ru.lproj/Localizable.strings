@@ -38,6 +38,10 @@
 "Unlock full version" = "Полная версия (тест)";
 "Free functionality" = "Бесплатный функционал (тест)";
 "The end\nBack to beginning" = "Конец\nВернуться в начало";
-"Author:" = "Автор";
+"Author:" = "Автор:";
 "Poems about:" = "Стихи о:";
 "Nothing found" = "Ничего не найдено";
+"Search suggestions" = "Найти";
+"Authors" = "Авторы";
+"Poems about" = "Стихи о";
+"Loading..." = "Загрузка...";
